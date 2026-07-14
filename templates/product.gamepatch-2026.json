@@ -1,0 +1,671 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "media_presentation": "grid",
+            "media_columns": "two",
+            "image_gap": 4,
+            "large_first_image": true,
+            "icons_style": "none",
+            "slideshow_controls_style": "counter",
+            "slideshow_mobile_controls_style": "dots",
+            "thumbnail_position": "right",
+            "thumbnail_width": 44,
+            "thumbnail_radius": 0,
+            "aspect_ratio": "1",
+            "constrain_to_viewport": true,
+            "media_fit": "contain",
+            "media_radius": 0,
+            "extend_media": false,
+            "zoom": true,
+            "video_loop": false,
+            "hide_variants": true,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "details_position": "flex-start",
+            "gap": 18,
+            "sticky_details_desktop": true,
+            "inherit_color_scheme": true,
+            "color_scheme": "scheme-1",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 24,
+            "padding-block-end": 24,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "na_breadcrumb": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{% render 'na-pdp-extras', part: 'breadcrumb', product: closest.product %}",
+                "width": "100%",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "group_header": {
+              "type": "group",
+              "name": "Header",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 8,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "na_badges": {
+                  "type": "custom-liquid",
+                  "settings": {
+                    "custom_liquid": "{% render 'na-pdp-extras', part: 'badges', product: closest.product %}",
+                    "width": "100%",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "na_eyebrow": {
+                  "type": "custom-liquid",
+                  "settings": {
+                    "custom_liquid": "{% render 'na-pdp-extras', part: 'eyebrow', product: closest.product %}",
+                    "width": "100%",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "na_title": {
+                  "type": "text",
+                  "name": "Product title",
+                  "settings": {
+                    "text": "<h1>{{ closest.product.title }}</h1>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h3",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "na_rating": {
+                  "type": "custom-liquid",
+                  "settings": {
+                    "custom_liquid": "{% render 'na-pdp-extras', part: 'rating', product: closest.product, rating: '4,9/5', count: '1.200+ anmeldelser' %}",
+                    "width": "100%",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "na_badges",
+                "na_eyebrow",
+                "na_title",
+                "na_rating"
+              ]
+            },
+            "group_price": {
+              "type": "group",
+              "name": "Pris",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": false,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": true,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "na_price": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": false,
+                    "type_preset": "custom",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "1.5rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "color": "var(--color-foreground)",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "na_freeshipping": {
+                  "type": "custom-liquid",
+                  "settings": {
+                    "custom_liquid": "{% render 'na-pdp-extras', part: 'freeshipping', product: closest.product %}",
+                    "width": "100%",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "na_price",
+                "na_freeshipping"
+              ]
+            },
+            "na_desc": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{% render 'na-pdp-extras', part: 'desc', product: closest.product %}",
+                "width": "100%",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "na_sizeheader": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{% render 'na-pdp-extras', part: 'sizeheader', product: closest.product %}",
+                "width": "100%",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "variant_picker": {
+              "type": "variant-picker",
+              "settings": {
+                "variant_style": "buttons",
+                "show_swatches": false,
+                "alignment": "left",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "na_fit": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{% render 'na-pdp-extras', part: 'fit', product: closest.product %}",
+                "width": "100%",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "na_delivery": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{% render 'na-pdp-extras', part: 'delivery', product: closest.product, cutoff: '14.00' %}",
+                "width": "100%",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "buy_buttons": {
+              "type": "buy-buttons",
+              "settings": {
+                "stacking": false,
+                "show_pickup_availability": false,
+                "gift_card_form": true,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "disabled": true,
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
+            },
+            "na_payment": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{% render 'na-pdp-extras', part: 'payment', product: closest.product %}",
+                "width": "100%",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "na_breadcrumb",
+            "group_header",
+            "group_price",
+            "na_desc",
+            "na_sizeheader",
+            "variant_picker",
+            "na_fit",
+            "na_delivery",
+            "buy_buttons",
+            "na_payment"
+          ]
+        }
+      },
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": true,
+        "limit_details_width": false,
+        "gap": 48,
+        "enable_sticky_add_to_cart": true,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "skin": {
+      "type": "na-pdp-skin",
+      "settings": {}
+    },
+    "technology": {
+      "type": "na-pdp-technology",
+      "settings": {
+        "eyebrow": "Body Adjust Technology",
+        "heading": "Beskyttelsen bliver, hvor kampen rammer",
+        "text": "Tightsene tilpasser sig din kropstemperatur og former sig naturligt efter kroppen. Pasformen føles intuitiv og tætsiddende uden at stramme — så du kan fokusere fuldt ud på dit spil, ikke på dit udstyr.",
+        "stat_number": "20%",
+        "stat_text": "mere effektiv stødabsorbering — håndlavet i Europa i premium kvalitet."
+      },
+      "blocks": {
+        "zone1": {
+          "type": "zone",
+          "settings": {
+            "title": "Integreret hoftebeskyttelse",
+            "text": "dækket på de vitale punkter ved fald og sammenstød.",
+            "dot_x": 32,
+            "dot_y": 26
+          }
+        },
+        "zone2": {
+          "type": "zone",
+          "settings": {
+            "title": "Stabil kompression",
+            "text": "støtter musklerne under pres og reducerer træthed ved intensiv træning.",
+            "dot_x": 60,
+            "dot_y": 50
+          }
+        },
+        "zone3": {
+          "type": "zone",
+          "settings": {
+            "title": "Knæbeskyttelse",
+            "text": "stødabsorberende teknologi der hurtigt vender tilbage til sin oprindelige form.",
+            "dot_x": 40,
+            "dot_y": 76
+          }
+        }
+      },
+      "block_order": [
+        "zone1",
+        "zone2",
+        "zone3"
+      ]
+    },
+    "sizeguide": {
+      "type": "na-pdp-size-guide",
+      "settings": {
+        "eyebrow": "Find din størrelse",
+        "heading": "Vælg din normale spillestørrelse",
+        "note": "Tights sidder tæt med kompression. 9 ud af 10 spillere passer deres normale størrelse — er du i tvivl mellem to størrelser, så vælg den større. Sidder den forkert, bytter vi gratis."
+      },
+      "blocks": {
+        "s": {
+          "type": "column",
+          "settings": {
+            "size": "S",
+            "range": "165–172 cm"
+          }
+        },
+        "m": {
+          "type": "column",
+          "settings": {
+            "size": "M",
+            "range": "170–178 cm"
+          }
+        },
+        "l": {
+          "type": "column",
+          "settings": {
+            "size": "L",
+            "range": "176–186 cm"
+          }
+        },
+        "xl": {
+          "type": "column",
+          "settings": {
+            "size": "XL",
+            "range": "184–194 cm"
+          }
+        },
+        "xxl": {
+          "type": "column",
+          "settings": {
+            "size": "2XL",
+            "range": "192–202 cm"
+          }
+        }
+      },
+      "block_order": [
+        "s",
+        "m",
+        "l",
+        "xl",
+        "xxl"
+      ]
+    },
+    "reviews": {
+      "type": "na-pdp-reviews",
+      "settings": {
+        "rating": "4,9",
+        "count_text": "1.200+ anmeldelser · verificerede køb",
+        "pct_5": 91,
+        "pct_4": 7,
+        "pct_3": 2,
+        "pct_12": 0,
+        "quote": "Kroppen er mit vigtigste værktøj — derfor bruger jeg fast GAMEPATCH til at støtte den gennem høj kampbelastning.",
+        "athlete_name": "Victoria Mørk",
+        "athlete_club": "Ikast Håndbold",
+        "athlete_image": "shopify://shop_images/Victoria_Moerk.png"
+      },
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "text": "Landede på hoften i weekendens kamp — rejste mig bare igen. Første sæson uden blå mærker.",
+            "name": "Mikkel T.",
+            "meta": "Håndbold, 2. div."
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "text": "Sidder perfekt hele kampen. Man glemmer, man har dem på — indtil man rammer gulvet.",
+            "name": "Cecilie R.",
+            "meta": "Håndbold, U19 elite"
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "text": "Købte dem efter en knæskade. Tryghed i hver eneste finte — og kvaliteten holder.",
+            "name": "Anders K.",
+            "meta": "Basketball"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ]
+    },
+    "bundle": {
+      "type": "na-pdp-bundle",
+      "settings": {
+        "heading": "Komplet beskyttelse — køb samlet",
+        "companion_product": "gamepatch-knee-pads",
+        "savings_amount": 0
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "name": "NA Featured Collection",
+      "settings": {
+        "eyebrow": "Andre købte også",
+        "heading": "Andre købte også",
+        "heading_highlight": true,
+        "link_label": "SE ALLE PRODUKTER →",
+        "link_url": "shopify://collections/gamepatch-1",
+        "collection": "gamepatch-1",
+        "products_to_show": 24,
+        "columns_desktop": 5,
+        "show_rating": true,
+        "show_subline": true,
+        "show_quick_add": true,
+        "card_action": "atc",
+        "show_color_swatches": true,
+        "show_badges": false,
+        "show_filters": true,
+        "filter_1_label": "Alle",
+        "filter_2_label": "Tights",
+        "filter_2_tag": "tights",
+        "filter_3_label": "Knæbeskyttere",
+        "filter_3_tag": "knæbeskyttere",
+        "filter_4_label": "Shorts",
+        "filter_4_tag": "shorts",
+        "filter_5_label": "Compression",
+        "filter_5_tag": "compression",
+        "filter_6_label": "Bundles",
+        "filter_6_tag": "bundle",
+        "show_sort": true,
+        "bg_style": "dark"
+      }
+    },
+    "sport_collection": {
+      "type": "na-sport-collection",
+      "name": "NA Sport Collections",
+      "settings": {
+        "eyebrow": "Shop efter sport",
+        "title": "<p>Find udstyr til <em>din sport</em></p>",
+        "collection_list": [
+          "gamepatch",
+          "fodbold",
+          "frontpage",
+          "bmx",
+          "traening",
+          "kroppen"
+        ]
+      }
+    },
+    "why": {
+      "type": "multicolumn-why",
+      "blocks": {
+        "card_xQfRtA": {
+          "type": "card",
+          "settings": {
+            "icon": "🛡️",
+            "title": "Professionel beskyttelse",
+            "text": "Udviklet med eliteatleter som Magnus Stilling og Høj Elithåndbold. Udstyr der er testet i kamp og på træningsbanen."
+          }
+        },
+        "card_WhMYmD": {
+          "type": "card",
+          "settings": {
+            "icon": "🔨",
+            "title": "Slidstærke materialer",
+            "text": "Designet til høj intensitet og gentagen brug — sæson efter sæson. Håndlavet i Europa efter høje kvalitetsstandarder."
+          }
+        },
+        "card_ezUBFb": {
+          "type": "card",
+          "settings": {
+            "icon": "🤸",
+            "title": "Body Adjust Technology",
+            "text": "Tightsene tilpasser sig din kropstemperatur og former sig naturligt efter kroppen. Fuld bevægelsesfrihed uden begrænsning."
+          }
+        },
+        "card_N4WxHA": {
+          "type": "card",
+          "settings": {
+            "icon": "🚚",
+            "title": "Hurtig levering",
+            "text": "Dag til dag levering på lagervarer. 30 dages returret. Kundeservice mandag til fredag kl. 9–15 — vi svarer inden for 24 timer."
+          }
+        }
+      },
+      "block_order": [
+        "card_xQfRtA",
+        "card_WhMYmD",
+        "card_ezUBFb",
+        "card_N4WxHA"
+      ],
+      "disabled": true,
+      "name": "NA Multicolumn — Hvorfor Nordic Athlete",
+      "settings": {
+        "bg_style": "dark",
+        "columns": 4,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "eyebrow": "Pas på din krop",
+        "heading_line1": "Den skal holde i",
+        "heading_line2": "mange år...",
+        "subtitle": "Vi ved, at sport handler om mere end bare træning og konkurrence. Det handler om at stræbe efter ens bedste, bryde grænser og opnå nye mål."
+      }
+    }
+  },
+  "order": [
+    "main",
+    "skin",
+    "technology",
+    "sizeguide",
+    "reviews",
+    "bundle",
+    "featured_collection",
+    "sport_collection",
+    "why"
+  ]
+}

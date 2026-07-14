@@ -1,0 +1,202 @@
+<section class="na-reviews" id="anmeldelser">
+  <div class="na-reviews__inner">
+    <div class="na-reviews__summary">
+      <div class="na-reviews__score">
+        <span class="na-reviews__score-num">{{ section.settings.rating }}</span>
+        <span class="na-reviews__stars">★★★★★</span>
+        <span class="na-reviews__count">{{ section.settings.count_text }}</span>
+      </div>
+      <div class="na-reviews__bars">
+        {%- assign labels = '5 ★|4 ★|3 ★|1–2 ★' | split: '|' -%}
+        {%- assign pcts = section.settings.pct_5 | append: '|' | append: section.settings.pct_4 | append: '|' | append: section.settings.pct_3 | append: '|' | append: section.settings.pct_12 | split: '|' -%}
+        {%- for label in labels -%}
+          {%- assign pct = pcts[forloop.index0] | plus: 0 -%}
+          <div class="na-reviews__bar-row">
+            <span class="na-reviews__bar-label">{{ label }}</span>
+            <div class="na-reviews__bar-track">
+              <div class="na-reviews__bar-fill{% if forloop.first %} na-reviews__bar-fill--grad{% endif %}" style="width: {{ pct | at_least: 1 }}%;"></div>
+            </div>
+            <span class="na-reviews__bar-pct">{% if pct < 1 %}&lt;1{% else %}{{ pct }}{% endif %}%</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- assign review_blocks = section.blocks | where: 'type', 'review' -%}
+    {%- if review_blocks.size > 0 -%}
+      <div class="na-reviews__grid">
+        {%- for block in review_blocks -%}
+          <div class="na-reviews__card" {{ block.shopify_attributes }}>
+            <span class="na-reviews__card-stars">★★★★★</span>
+            <p class="na-reviews__card-text">"{{ block.settings.text }}"</p>
+            <span class="na-reviews__card-meta"><strong>{{ block.settings.name }}</strong> · {{ block.settings.meta }} <span class="na-reviews__verified">✓ Verificeret køb</span></span>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.quote != blank -%}
+      <div class="na-reviews__athlete">
+        {%- if section.settings.athlete_image -%}
+          {{ section.settings.athlete_image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'na-reviews__athlete-img', alt: section.settings.athlete_name }}
+        {%- endif -%}
+        <p class="na-reviews__athlete-quote">"{{ section.settings.quote }}"</p>
+        <span class="na-reviews__athlete-meta"><strong>{{ section.settings.athlete_name }}</strong><br>{{ section.settings.athlete_club }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .na-reviews {
+    background: #131c15;
+    border-top: 1.5px solid #3a3a3a;
+    border-bottom: 1.5px solid #3a3a3a;
+  }
+  .na-reviews__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 64px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .na-reviews__summary {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .na-reviews__score { display: flex; flex-direction: column; gap: 6px; }
+  .na-reviews__score-num { font-size: 56px; font-weight: 900; color: #ffffff; line-height: 1; }
+  .na-reviews__stars { color: #69E281; font-size: 16px; letter-spacing: 2px; }
+  .na-reviews__count { font-size: 12px; color: #a8b8ae; }
+  .na-reviews__bars { display: flex; flex-direction: column; gap: 7px; }
+  .na-reviews__bar-row { display: flex; align-items: center; gap: 10px; }
+  .na-reviews__bar-label { width: 38px; font-size: 11px; font-weight: 700; color: #a8b8ae; }
+  .na-reviews__bar-track {
+    flex: 1;
+    height: 8px;
+    border-radius: 999px;
+    background: #253020;
+    border: 1px solid #3a3a3a;
+    overflow: hidden;
+  }
+  .na-reviews__bar-fill { height: 100%; background: #3d7a52; }
+  .na-reviews__bar-fill--grad { background: linear-gradient(90deg, #3d7a52, #69E281); }
+  .na-reviews__bar-pct { width: 36px; font-size: 11px; color: #76837b; text-align: right; }
+  .na-reviews__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .na-reviews__card {
+    padding: 22px;
+    background: #253020;
+    border: 1.5px solid #3a3a3a;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .na-reviews__card-stars { color: #69E281; font-size: 13px; letter-spacing: 2px; }
+  .na-reviews__card-text { margin: 0; font-size: 13px; line-height: 1.7; color: #ffffff; }
+  .na-reviews__card-meta { font-size: 12px; color: #a8b8ae; margin-top: auto; }
+  .na-reviews__card-meta strong { color: #ffffff; }
+  .na-reviews__verified { color: #69E281; }
+  .na-reviews__athlete {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    background: #253020;
+    border: 1.5px solid #3a3a3a;
+    border-radius: 8px;
+  }
+  .na-reviews__athlete-img {
+    flex: none;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid #3d7a52;
+  }
+  .na-reviews__athlete-quote { margin: 0; font-size: 14px; line-height: 1.6; color: #ffffff; font-style: italic; }
+  .na-reviews__athlete-meta { margin-left: auto; flex: none; font-size: 12px; color: #a8b8ae; text-align: right; }
+  .na-reviews__athlete-meta strong { color: #ffffff; }
+
+  @media (max-width: 749px) {
+    .na-reviews__inner { padding: 40px 20px; }
+    .na-reviews__summary { grid-template-columns: 1fr; gap: 20px; }
+    .na-reviews__grid { grid-template-columns: 1fr; }
+    .na-reviews__athlete { flex-wrap: wrap; }
+    .na-reviews__athlete-meta { margin-left: 0; text-align: left; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "NA PDP Anmeldelser",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Fordelingen er BRAND-niveau socialt bevis (der er ingen anmeldelses-app med produktdata endnu). Skal fordelingen være pr. produkt, kræver det en anmeldelses-app først."
+    },
+    { "type": "text", "id": "rating", "label": "Samlet score", "default": "4,9" },
+    { "type": "text", "id": "count_text", "label": "Undertekst", "default": "1.200+ anmeldelser · verificerede køb" },
+    { "type": "range", "id": "pct_5", "label": "5★ (%)", "min": 0, "max": 100, "step": 1, "default": 91 },
+    { "type": "range", "id": "pct_4", "label": "4★ (%)", "min": 0, "max": 100, "step": 1, "default": 7 },
+    { "type": "range", "id": "pct_3", "label": "3★ (%)", "min": 0, "max": 100, "step": 1, "default": 2 },
+    { "type": "range", "id": "pct_12", "label": "1–2★ (%)", "min": 0, "max": 100, "step": 1, "default": 0 },
+    { "type": "header", "content": "Atlet-citat" },
+    { "type": "image_picker", "id": "athlete_image", "label": "Atletbillede" },
+    { "type": "textarea", "id": "quote", "label": "Citat", "default": "Kroppen er mit vigtigste værktøj — derfor bruger jeg fast GAMEPATCH til at støtte den gennem høj kampbelastning." },
+    { "type": "text", "id": "athlete_name", "label": "Navn", "default": "Victoria Mørk" },
+    { "type": "text", "id": "athlete_club", "label": "Klub", "default": "Ikast Håndbold" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Anmeldelse",
+      "settings": [
+        { "type": "textarea", "id": "text", "label": "Tekst (uden citationstegn)", "default": "Sidder perfekt hele kampen." },
+        { "type": "text", "id": "name", "label": "Navn", "default": "Mikkel T." },
+        { "type": "text", "id": "meta", "label": "Sport/niveau", "default": "Håndbold, 2. div." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "NA PDP Anmeldelser",
+      "category": "Product",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "text": "Landede på hoften i weekendens kamp — rejste mig bare igen. Første sæson uden blå mærker.",
+            "name": "Mikkel T.",
+            "meta": "Håndbold, 2. div."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "text": "Sidder perfekt hele kampen. Man glemmer, man har dem på — indtil man rammer gulvet.",
+            "name": "Cecilie R.",
+            "meta": "Håndbold, U19 elite"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "text": "Købte dem efter en knæskade. Tryghed i hver eneste finte — og kvaliteten holder.",
+            "name": "Anders K.",
+            "meta": "Basketball"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

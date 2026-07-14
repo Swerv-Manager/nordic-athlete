@@ -1,0 +1,281 @@
+{% schema %}
+{
+  "name": "NA PDP Skin",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Usynlig sektion: leverer NA dark-mode styling til produktskabelonen (købsboks, variantknapper, sticky køb-bar, galleri). Skal ligge i skabelonen sammen med product-information."
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA PDP Skin",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  /* ─── NA PDP SKIN — template-scoped (kun skabeloner med denne sektion) ─── */
+
+  body { background-color: #2a2a2a; }
+
+  /* ── Titel (h1 i product-details text-blokken) ── */
+  .product-information h1 {
+    font-size: clamp(22px, 3vw, 28px) !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.03em !important;
+    text-transform: uppercase !important;
+    color: #ffffff !important;
+    line-height: 1.15 !important;
+    margin: 0;
+  }
+
+  /* ── Pris — 32px/900 hvid; compare-at dæmpet gennemstreget.
+     Horizon udsender BÅDE .price__regular og .price__sale; .price__hidden
+     SKAL forblive skjult, ellers dobbelt-render (gotcha fra fase 1). ── */
+  .product-information .price__hidden { display: none !important; }
+  .product-information .view-product-price .price,
+  .product-information product-price .price {
+    font-size: 32px !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .product-information product-price .price__sale .price-item--regular,
+  .product-information product-price .compare-at-price {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #76837b !important;
+    text-decoration: line-through;
+  }
+
+  /* ── Variantknapper (Størrelse) — 56×44, mørk, grøn aktiv.
+     Horizon lægger input INDE i label ⇒ style via :has(). ── */
+  .product-information .variant-option--buttons legend { display: none; }
+  .product-information .variant-option__button-label {
+    min-width: 56px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px !important;
+    border: 1.5px solid #3a3a3a !important;
+    background: transparent !important;
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    font-size: 13px !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 140ms cubic-bezier(0.4, 0, 0.1, 1);
+    box-shadow: none !important;
+  }
+  .product-information .variant-option__button-label:hover {
+    border-color: #3d7a52 !important;
+    background: rgba(105, 226, 129, 0.08) !important;
+  }
+  .product-information .variant-option__button-label:has(input:checked) {
+    background: #3d7a52 !important;
+    border-color: #3d7a52 !important;
+    color: #131c15 !important;
+  }
+  .product-information .variant-option__button-label:has(input[data-option-available='false']) {
+    opacity: 0.35;
+    text-decoration: line-through;
+  }
+  .product-information .variant-option__button-label__pill { display: none !important; }
+
+  /* ── Læg i kurv — Atletgrøn, 52px, hover Energigrøn + løft ── */
+  .product-information .add-to-cart-button,
+  .product-information button[name='add'] {
+    width: 100%;
+    min-height: 52px;
+    background-color: #3d7a52 !important;
+    color: #131c15 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 900 !important;
+    font-size: 14px !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    transition: background-color 140ms cubic-bezier(0.4, 0, 0.1, 1), transform 140ms cubic-bezier(0.4, 0, 0.1, 1) !important;
+  }
+  .product-information .add-to-cart-button:hover:not(:disabled),
+  .product-information button[name='add']:hover:not(:disabled) {
+    background-color: #69E281 !important;
+    transform: translateY(-1px);
+  }
+  .product-information .add-to-cart-button:active:not(:disabled) {
+    background-color: #316546 !important;
+    transform: translateY(0);
+  }
+
+  /* ── Antal-vælger skjules i købsboksen (mockup har ingen; værdien er 1) ── */
+  .product-information .product-form-buttons .quantity-selector,
+  .product-information .product-form-buttons quantity-selector-component,
+  .product-information .quantity-label,
+  .product-information .quantity-rules {
+    display: none !important;
+  }
+
+  /* ── Antal-vælger — mørk ── */
+  .product-information quantity-selector-component,
+  .product-information .quantity-selector {
+    background: #131c15 !important;
+    border: 1.5px solid #3a3a3a !important;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+  }
+  .product-information .quantity-selector input,
+  .product-information .quantity-selector button {
+    color: #ffffff !important;
+    background: transparent !important;
+  }
+
+  /* ── Galleri — 8px radius + 1.5px kant på medier ── */
+  .product-information .product-media-container,
+  .product-information media-gallery .media-gallery__grid > * {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1.5px solid #3a3a3a;
+    background: #131c15;
+  }
+
+  /* ── Sticky køb-bar (Horizons indbyggede) — dybeste mørke + grøn CTA ── */
+  .sticky-add-to-cart__bar {
+    background: #131c15 !important;
+    color: #ffffff !important;
+    border-top: 1.5px solid #3a3a3a;
+    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.45) !important;
+  }
+  .sticky-add-to-cart__title {
+    font-weight: 900 !important;
+    font-size: 13px !important;
+    letter-spacing: 0.03em !important;
+    text-transform: uppercase;
+    color: #ffffff !important;
+  }
+  .sticky-add-to-cart__variant { color: #a8b8ae !important; }
+  .sticky-add-to-cart__price .price { color: #ffffff !important; font-weight: 900 !important; }
+  .sticky-add-to-cart__bar .add-to-cart-button {
+    background-color: #3d7a52 !important;
+    color: #131c15 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+  }
+  .sticky-add-to-cart__bar .add-to-cart-button:hover:not(:disabled) {
+    background-color: #69E281 !important;
+  }
+
+  /* ── NA badges (renderes af na-pdp-extras) ── */
+  .na-pdpx-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .na-pdpx-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .na-pdpx-badge--green {
+    background: #3d7a52;
+    color: #131c15;
+    border: 1.5px solid #3d7a52;
+  }
+  .na-pdpx-badge--stock {
+    background: rgba(19, 28, 21, 0.9);
+    color: #d8a657;
+    border: 1.5px solid #d8a657;
+  }
+
+  /* ── Øvrige NA-elementer i købsboksen ── */
+  .na-pdpx-breadcrumb { font-size: 12px; color: #76837b; }
+  .na-pdpx-breadcrumb a { color: #a8b8ae; text-decoration: none; transition: color 140ms; }
+  .na-pdpx-breadcrumb a:hover { color: #69E281; }
+
+  .na-pdpx-eyebrow {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #69E281;
+  }
+
+  .na-pdpx-rating {
+    font-size: 13px;
+    font-weight: 700;
+    color: #a8b8ae;
+    text-decoration: none;
+  }
+  .na-pdpx-rating .na-pdpx-rating__score { color: #69E281; }
+  .na-pdpx-rating:hover { color: #ffffff; }
+
+  .na-pdpx-freeshipping {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #69E281;
+  }
+
+  .na-pdpx-sizeheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+  }
+  .na-pdpx-sizeheader__label {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .na-pdpx-sizeheader__link {
+    font-size: 12px;
+    font-weight: 700;
+    color: #3d7a52;
+    text-decoration: none;
+  }
+  .na-pdpx-sizeheader__link:hover { color: #69E281; }
+
+  .na-pdpx-fit { margin: 0; font-size: 12px; color: #76837b; line-height: 1.6; }
+
+  .na-pdpx-delivery {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 16px;
+    background: #131c15;
+    border: 1.5px solid #3a3a3a;
+    border-radius: 6px;
+  }
+  .na-pdpx-delivery__line1 { font-size: 12px; font-weight: 700; color: #ffffff; }
+  .na-pdpx-delivery__line1 strong { color: #69E281; font-weight: 700; }
+  .na-pdpx-delivery__line2 { font-size: 12px; color: #a8b8ae; }
+
+  .na-pdpx-payment {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    width: 100%;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #76837b;
+  }
+
+  /* Beskrivelses-afsnit i købsboksen */
+  .na-pdpx-desc { margin: 0; font-size: 14px; line-height: 1.75; color: #a8b8ae; }
+</style>

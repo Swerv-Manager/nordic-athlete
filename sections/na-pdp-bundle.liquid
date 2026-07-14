@@ -1,0 +1,326 @@
+{%- liquid
+  assign companion = section.settings.companion_product
+  assign main_product = product
+  assign combined = main_product.price | plus: companion.price
+  assign savings = section.settings.savings_amount | times: 100
+  assign bundle_total = combined | minus: savings
+-%}
+
+{%- if companion != blank -%}
+<section class="na-bundle">
+  <div class="na-bundle__box">
+    <div class="na-bundle__head">
+      <h3 class="na-bundle__heading">{{ section.settings.heading }}</h3>
+      {%- if savings > 0 -%}
+        <span class="na-bundle__badge">Spar {{ savings | money_without_trailing_zeros }}</span>
+      {%- endif -%}
+    </div>
+    <div class="na-bundle__row">
+      <div class="na-bundle__item">
+        <div class="na-bundle__imgwrap">
+          {{ main_product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: main_product.title }}
+        </div>
+        <span class="na-bundle__item-title">{{ main_product.title | remove_first: 'GAMEPATCH ' }}</span>
+        <span class="na-bundle__item-price">{{ main_product.price | money_without_trailing_zeros }}</span>
+        {%- unless main_product.has_only_default_variant -%}
+          <select class="na-bundle__select" data-na-bundle-select data-product="a" aria-label="Vælg variant — {{ main_product.title }}">
+            {%- for variant in main_product.variants -%}
+              <option value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}>
+                {{- variant.title }}{% unless variant.available %} — udsolgt{% endunless -%}
+              </option>
+            {%- endfor -%}
+          </select>
+        {%- else -%}
+          <input type="hidden" data-na-bundle-select data-product="a" value="{{ main_product.selected_or_first_available_variant.id }}">
+        {%- endunless -%}
+      </div>
+      <span class="na-bundle__op">+</span>
+      <div class="na-bundle__item">
+        <div class="na-bundle__imgwrap">
+          {{ companion.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: companion.title }}
+        </div>
+        <span class="na-bundle__item-title">{{ companion.title | remove_first: 'GAMEPATCH ' }}</span>
+        <span class="na-bundle__item-price">{{ companion.price | money_without_trailing_zeros }}</span>
+        {%- unless companion.has_only_default_variant -%}
+          <select class="na-bundle__select" data-na-bundle-select data-product="b" aria-label="Vælg variant — {{ companion.title }}">
+            {%- for variant in companion.variants -%}
+              <option value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}>
+                {{- variant.title }}{% unless variant.available %} — udsolgt{% endunless -%}
+              </option>
+            {%- endfor -%}
+          </select>
+        {%- else -%}
+          <input type="hidden" data-na-bundle-select data-product="b" value="{{ companion.selected_or_first_available_variant.id }}">
+        {%- endunless -%}
+      </div>
+      <span class="na-bundle__op">=</span>
+      <div class="na-bundle__total">
+        <div class="na-bundle__total-prices">
+          <span class="na-bundle__total-price">{{ bundle_total | money_without_trailing_zeros }}</span>
+          {%- if savings > 0 -%}
+            <span class="na-bundle__total-compare">{{ combined | money_without_trailing_zeros }}</span>
+          {%- endif -%}
+        </div>
+        <button type="button" class="na-bundle__cta" data-na-bundle-add>
+          <span data-na-bundle-label>Læg bundle i kurv</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    if (window.__naBundleBound) return;
+    window.__naBundleBound = true;
+
+    function cartAddUrl() {
+      try {
+        if (window.Theme && Theme.routes && Theme.routes.cart_add_url) return Theme.routes.cart_add_url;
+      } catch (e) {}
+      return '/cart/add.js';
+    }
+
+    function cartSectionIds() {
+      var ids = [];
+      document.querySelectorAll('cart-items-component[data-section-id]').forEach(function (el) {
+        var id = el.getAttribute('data-section-id');
+        if (id && ids.indexOf(id) === -1) ids.push(id);
+      });
+      return ids;
+    }
+
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-na-bundle-add]');
+      if (!btn) return;
+      e.preventDefault();
+      if (btn.classList.contains('is-loading')) return;
+
+      var box = btn.closest('.na-bundle__box');
+      var label = btn.querySelector('[data-na-bundle-label]');
+      var items = [];
+      box.querySelectorAll('[data-na-bundle-select]').forEach(function (sel) {
+        if (sel.value) items.push({ id: parseInt(sel.value, 10), quantity: 1 });
+      });
+      if (items.length < 2) return;
+
+      btn.classList.add('is-loading');
+
+      var payload = { items: items };
+      var ids = cartSectionIds();
+      if (ids.length) {
+        payload.sections = ids.join(',');
+        payload.sections_url = window.location.pathname;
+      }
+
+      fetch(cartAddUrl(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify(payload)
+      })
+        .then(function (r) {
+          if (!r.ok) return r.json().then(function (err) { throw err; });
+          return r.json();
+        })
+        .then(function (added) {
+          return fetch('/cart.js', { headers: { Accept: 'application/json' } })
+            .then(function (r) { return r.json(); })
+            .then(function (cart) {
+              /* Temaets cart:update-protokol — source ≠ 'product-form-component'
+                 så cart-icon SÆTTER antallet til itemCount (fuld total). */
+              document.dispatchEvent(new CustomEvent('cart:update', {
+                bubbles: true,
+                detail: {
+                  resource: cart,
+                  sourceId: 'na-bundle',
+                  data: {
+                    source: 'na-bundle',
+                    itemCount: cart.item_count,
+                    sections: added.sections
+                  }
+                }
+              }));
+              if (label) label.textContent = '✓ Bundle tilføjet';
+              setTimeout(function () {
+                if (label) label.textContent = 'Læg bundle i kurv';
+              }, 2600);
+            });
+        })
+        .catch(function (err) {
+          if (label) {
+            label.textContent = (err && (err.description || err.message)) || 'Kunne ikke tilføje — prøv igen';
+            setTimeout(function () { label.textContent = 'Læg bundle i kurv'; }, 3200);
+          }
+        })
+        .finally(function () {
+          btn.classList.remove('is-loading');
+        });
+    });
+  })();
+</script>
+
+<style>
+  .na-bundle {
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 64px 32px;
+    box-sizing: border-box;
+  }
+  .na-bundle__box {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: #253020;
+    border: 1.5px solid #3d7a52;
+    border-radius: 8px;
+  }
+  .na-bundle__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .na-bundle__heading {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .na-bundle__badge {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 4px;
+    background: #3d7a52;
+    color: #131c15;
+    border: 1.5px solid #3d7a52;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .na-bundle__row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1.2fr;
+    gap: 14px;
+    align-items: center;
+  }
+  .na-bundle__item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+  .na-bundle__imgwrap {
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    border: 1.5px solid #3a3a3a;
+    background: #131c15;
+    overflow: hidden;
+  }
+  .na-bundle__imgwrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .na-bundle__item-title {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .na-bundle__item-price { font-size: 12px; color: #a8b8ae; }
+  .na-bundle__select {
+    height: 34px;
+    border-radius: 4px;
+    background: #131c15;
+    border: 1.5px solid #3a3a3a;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 0 8px;
+  }
+  .na-bundle__select:focus { outline: none; border-color: #3d7a52; }
+  .na-bundle__op { font-size: 22px; font-weight: 900; color: #69E281; }
+  .na-bundle__total {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+    background: #131c15;
+    border: 1.5px solid #3a3a3a;
+    border-radius: 8px;
+  }
+  .na-bundle__total-prices { display: flex; align-items: baseline; gap: 10px; }
+  .na-bundle__total-price { font-size: 24px; font-weight: 900; color: #ffffff; }
+  .na-bundle__total-compare { font-size: 13px; color: #76837b; text-decoration: line-through; }
+  .na-bundle__cta {
+    width: 100%;
+    min-height: 44px;
+    border: none;
+    border-radius: 6px;
+    background: #3d7a52;
+    color: #131c15;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 140ms cubic-bezier(0.4, 0, 0.1, 1), transform 140ms cubic-bezier(0.4, 0, 0.1, 1);
+  }
+  .na-bundle__cta:hover { background: #69E281; transform: translateY(-1px); }
+  .na-bundle__cta:active { background: #316546; transform: translateY(0); }
+  .na-bundle__cta.is-loading { opacity: 0.6; pointer-events: none; }
+
+  @media (max-width: 749px) {
+    .na-bundle { padding: 40px 20px; }
+    .na-bundle__box { padding: 20px; }
+    .na-bundle__row { grid-template-columns: 1fr auto 1fr; }
+    .na-bundle__op:nth-of-type(2) { display: none; }
+    .na-bundle__total { grid-column: 1 / -1; }
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NA PDP Bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift",
+      "default": "Komplet beskyttelse — køb samlet"
+    },
+    {
+      "type": "product",
+      "id": "companion_product",
+      "label": "Bundle-produkt (lægges i kurv sammen med dette produkt)"
+    },
+    {
+      "type": "number",
+      "id": "savings_amount",
+      "label": "Besparelse i kr (0 = skjul)",
+      "default": 0,
+      "info": "VIGTIGT: Vis kun en besparelse hvis en tilsvarende automatisk rabat er oprettet i Shopify admin (Rabatter). Ellers betaler kunden fuld pris, og badgen ville være vildledende."
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA PDP Bundle",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,401 @@
+{%- liquid
+  assign amb = page.metafields.custom.ambassador.value
+  assign first_name = amb.name.value | split: ' ' | first
+  assign setup_products = amb.products.value
+  assign details = amb.product_details.value
+  assign tag_count = amb.match_tag_count.value | default: 2
+
+  assign setup_total = 0
+  for p in setup_products
+    assign setup_total = setup_total | plus: p.price
+  endfor
+-%}
+
+{%- if amb and setup_products.size > 0 -%}
+<section class="na-amb-setup" id="setup">
+  <div class="na-amb-setup__head">
+    <div class="na-amb-setup__head-titles">
+      <span class="na-amb-setup__eyebrow">{{ first_name }}s setup</span>
+      {%- assign setup_heading = section.settings.heading | replace: '[navn]', first_name -%}
+      <h2 class="na-amb-setup__heading">{{ setup_heading }}</h2>
+    </div>
+    <span class="na-amb-setup__total">Samlet setup: <strong>{{ setup_total | money_without_trailing_zeros }}</strong>{% if setup_total >= 60000 %} · <span class="na-amb-setup__total-shipping">fri fragt</span>{% endif %}</span>
+  </div>
+  <div class="na-amb-setup__grid">
+    {%- for p in setup_products -%}
+      {%- liquid
+        assign brand = 'GAMEPATCH'
+        assign clean_title = p.title
+        if p.title contains 'GAMEPATCH'
+          assign clean_title = p.title | remove_first: 'GAMEPATCH' | strip
+        endif
+      -%}
+      <div class="na-amb-card">
+        {%- if forloop.index <= tag_count -%}
+          <span class="na-amb-card__tag">Bruges i kamp</span>
+        {%- endif -%}
+        <a class="na-amb-card__imgwrap" href="{{ p.url }}" aria-label="{{ p.title }}">
+          {{ p.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: p.title }}
+        </a>
+        <div class="na-amb-card__body">
+          <span class="na-amb-card__brand">{{ brand }}</span>
+          <a class="na-amb-card__title" href="{{ p.url }}">{{ clean_title }}</a>
+          {%- if details[forloop.index0] -%}
+            <span class="na-amb-card__detail">{{ details[forloop.index0] }}</span>
+          {%- endif -%}
+          <span class="na-amb-card__price">{{ p.price | money }}</span>
+
+          {%- comment -%} Quick-add: samme regler som na-card-extras (fase 1) {%- endcomment -%}
+          <div class="na-amb-card__qa" data-na-qa>
+            <span class="na-amb-card__qa-hint" data-na-qa-hint hidden></span>
+            {%- if p.has_only_default_variant -%}
+              <div class="na-amb-card__qa-sizes">
+                <button type="button" class="na-qa-btn na-qa-btn--wide" data-variant-id="{{ p.first_available_variant.id | default: p.variants.first.id }}">Tilføj til kurv</button>
+              </div>
+            {%- elsif p.options.size == 1 -%}
+              <div class="na-amb-card__qa-sizes">
+                {%- for variant in p.variants -%}
+                  <button
+                    type="button"
+                    class="na-qa-btn"
+                    data-variant-id="{{ variant.id }}"
+                    data-na-size="{{ variant.title }}"
+                    {% unless variant.available %}disabled{% endunless %}
+                  >
+                    {{- variant.title -}}
+                  </button>
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              <a class="na-qa-btn na-qa-btn--wide" href="{{ p.url }}">Vælg variant</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{%- if section.settings.show_sticky -%}
+<div class="na-amb-sticky">
+  <div class="na-amb-sticky__inner">
+    <span class="na-amb-sticky__label">{{ first_name }}s setup — <span class="na-amb-sticky__price">{{ setup_total | money_without_trailing_zeros }}</span></span>
+    <span class="na-amb-sticky__meta">Fri fragt · dag-til-dag levering</span>
+    <a href="#setup" class="na-amb-sticky__cta">Shop setuppet</a>
+  </div>
+</div>
+{%- endif -%}
+
+<script>
+  (function () {
+    if (window.__naQaBound) return;
+    window.__naQaBound = true;
+
+    /* Samme cart-protokol som na-gamepatch-skin (fase 1): POST til temaets
+       cart_add_url med sections for cart-items-component, og dispatch
+       cart:update med source ≠ 'product-form-component' så cart-icon
+       SÆTTER antallet til fuld total. */
+    function cartAddUrl() {
+      try {
+        if (window.Theme && Theme.routes && Theme.routes.cart_add_url) return Theme.routes.cart_add_url;
+      } catch (e) {}
+      return '/cart/add.js';
+    }
+
+    function cartSectionIds() {
+      var ids = [];
+      document.querySelectorAll('cart-items-component[data-section-id]').forEach(function (el) {
+        var id = el.getAttribute('data-section-id');
+        if (id && ids.indexOf(id) === -1) ids.push(id);
+      });
+      return ids;
+    }
+
+    document.addEventListener(
+      'click',
+      function (e) {
+        var btn = e.target.closest('button.na-qa-btn[data-variant-id]');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (btn.disabled || btn.classList.contains('is-loading')) return;
+
+        var qa = btn.closest('[data-na-qa]');
+        btn.classList.add('is-loading');
+
+        var ids = cartSectionIds();
+        var form = new FormData();
+        form.append('id', btn.getAttribute('data-variant-id'));
+        form.append('quantity', '1');
+        if (ids.length) {
+          form.append('sections', ids.join(','));
+          form.append('sections_url', window.location.pathname);
+        }
+
+        fetch(cartAddUrl(), {
+          method: 'POST',
+          headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+          body: form
+        })
+          .then(function (r) {
+            if (!r.ok) return r.json().then(function (err) { throw err; });
+            return r.json();
+          })
+          .then(function (added) {
+            return fetch('/cart.js', { headers: { Accept: 'application/json' } })
+              .then(function (r) { return r.json(); })
+              .then(function (cart) {
+                document.dispatchEvent(new CustomEvent('cart:update', {
+                  bubbles: true,
+                  detail: {
+                    resource: cart,
+                    sourceId: 'na-quick-add',
+                    data: {
+                      source: 'na-quick-add',
+                      itemCount: cart.item_count,
+                      variantId: btn.getAttribute('data-variant-id'),
+                      sections: added.sections
+                    }
+                  }
+                }));
+
+                if (qa) {
+                  qa.querySelectorAll('.na-qa-btn').forEach(function (b) { b.classList.remove('is-active'); });
+                  btn.classList.add('is-active');
+                  var hint = qa.querySelector('[data-na-qa-hint]');
+                  if (hint) {
+                    hint.textContent = '✓ Tilføjet til kurv' + (btn.dataset.naSize ? ' — str. ' + btn.dataset.naSize : '');
+                    hint.hidden = false;
+                  }
+                }
+              });
+          })
+          .catch(function (err) {
+            if (qa) {
+              var hint = qa.querySelector('[data-na-qa-hint]');
+              if (hint) {
+                hint.textContent = (err && (err.description || err.message)) ? (err.description || err.message) : 'Kunne ikke tilføje — prøv igen';
+                hint.hidden = false;
+              }
+            }
+          })
+          .finally(function () {
+            btn.classList.remove('is-loading');
+          });
+      },
+      true
+    );
+  })();
+</script>
+
+<style>
+  .na-amb-setup {
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 64px 32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .na-amb-setup__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .na-amb-setup__head-titles { display: flex; flex-direction: column; gap: 6px; }
+  .na-amb-setup__eyebrow {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #69E281;
+  }
+  .na-amb-setup__heading {
+    margin: 0;
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .na-amb-setup__total { font-size: 12px; color: #a8b8ae; }
+  .na-amb-setup__total strong { color: #ffffff; }
+  .na-amb-setup__total-shipping { color: #69E281; }
+  .na-amb-setup__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .na-amb-card {
+    position: relative;
+    background: #253020;
+    border: 1.5px solid #3a3a3a;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 140ms;
+    display: flex;
+    flex-direction: column;
+  }
+  .na-amb-card:hover, .na-amb-card:focus-within { border-color: #3d7a52; }
+  .na-amb-card__tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: #131c15;
+    color: #69E281;
+    border: 1.5px solid #3d7a52;
+  }
+  .na-amb-card__imgwrap {
+    display: block;
+    aspect-ratio: 1 / 1;
+    background: radial-gradient(80% 80% at 50% 38%, #2f3a2c, #131c15);
+  }
+  .na-amb-card__imgwrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .na-amb-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 12px 14px;
+  }
+  .na-amb-card__brand {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #76837b;
+  }
+  .na-amb-card__title {
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-decoration: none;
+    line-height: 1.35;
+  }
+  .na-amb-card__title:hover { color: #69E281; }
+  .na-amb-card__detail { font-size: 12px; color: #a8b8ae; }
+  .na-amb-card__price { font-size: 17px; font-weight: 900; color: #ffffff; margin-top: 6px; }
+  .na-amb-card__qa { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  .na-amb-card__qa-hint {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #69E281;
+  }
+  .na-amb-card__qa-sizes { display: flex; gap: 6px; flex-wrap: wrap; }
+  .na-qa-btn {
+    flex: 1;
+    min-width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 11px;
+    background: transparent;
+    color: #ffffff;
+    border: 1.5px solid #3a3a3a;
+    transition: all 140ms;
+    text-decoration: none;
+    padding: 0 8px;
+  }
+  .na-qa-btn:hover:not(:disabled), .na-qa-btn:focus-visible { border-color: #3d7a52; }
+  .na-qa-btn.is-active { background: #3d7a52; color: #131c15; border-color: #3d7a52; }
+  .na-qa-btn:disabled { opacity: 0.35; cursor: not-allowed; text-decoration: line-through; }
+  .na-qa-btn.is-loading { opacity: 0.6; pointer-events: none; }
+  .na-qa-btn--wide { flex: 1 1 100%; }
+
+  .na-amb-sticky {
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+    background: #131c15;
+    border-top: 1.5px solid #3a3a3a;
+    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.45);
+  }
+  .na-amb-sticky__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 32px;
+  }
+  .na-amb-sticky__label {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .na-amb-sticky__price { color: #69E281; }
+  .na-amb-sticky__meta { font-size: 11px; color: #76837b; }
+  .na-amb-sticky__cta {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 22px;
+    border-radius: 6px;
+    background: #3d7a52;
+    color: #131c15;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 140ms cubic-bezier(0.4, 0, 0.1, 1);
+  }
+  .na-amb-sticky__cta:hover { background: #69E281; color: #131c15; }
+
+  @media (max-width: 749px) {
+    .na-amb-setup { padding: 40px 20px; }
+    .na-amb-setup__grid { grid-template-columns: 1fr; }
+    .na-amb-sticky__inner { padding: 10px 16px; gap: 10px; }
+    .na-amb-sticky__meta { display: none; }
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NA Ambassadør Setup",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift ([navn] erstattes med atletens fornavn)",
+      "default": "Det [navn] spiller med — hver kamp"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky",
+      "label": "Vis sticky køb-bar i bunden",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Ambassadør Setup",
+      "category": "Page"
+    }
+  ]
+}
+{% endschema %}

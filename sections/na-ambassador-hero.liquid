@@ -1,0 +1,175 @@
+{%- liquid
+  # Ambassadør-data: metaobjekt via sidens metafelt (custom.ambassador).
+  # Én skabelon → mange atleter: opret en side pr. atlet og peg metafeltet
+  # på det rette ambassador-metaobjekt.
+  assign amb = page.metafields.custom.ambassador.value
+  assign first_name = amb.name.value | split: ' ' | first
+-%}
+
+{%- if amb -%}
+<section class="na-amb-hero">
+  <div class="na-amb-hero__inner">
+    <div class="na-amb-hero__media">
+      {%- if amb.hero_image.value -%}
+        {{ amb.hero_image.value | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', class: 'na-amb-hero__img', alt: amb.name.value }}
+      {%- endif -%}
+      <div class="na-amb-hero__nameplate">
+        <span class="na-amb-hero__name">{{ amb.name.value }}</span>
+        <span class="na-amb-hero__career">{{ amb.career_line.value }}</span>
+      </div>
+    </div>
+    <div class="na-amb-hero__content">
+      <div>
+        <span class="na-amb-hero__badge">GAMEPATCH-ambassadør</span>
+      </div>
+      <h1 class="na-amb-hero__heading">
+        {{ amb.headline.value }}<br>
+        <span class="na-amb-hero__heading-accent">{{ amb.headline_accent.value }}</span>
+      </h1>
+      <p class="na-amb-hero__intro">{{ amb.intro.value }}</p>
+      <div class="na-amb-hero__cta-wrap">
+        <a href="#setup" class="na-amb-hero__cta">Shop {{ first_name }}s setup ↓</a>
+        <span class="na-amb-hero__trust">★ {{ section.settings.trust_line }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+{%- else -%}
+  <section class="na-amb-hero">
+    <div class="na-amb-hero__inner" style="padding: 48px; color: #a8b8ae;">
+      Siden mangler et ambassadør-metaobjekt: udfyld sidens metafelt <code>custom.ambassador</code> i Shopify admin.
+    </div>
+  </section>
+{%- endif -%}
+
+<style>
+  body { background-color: #2a2a2a; }
+
+  .na-amb-hero {
+    background: #131c15;
+    border-bottom: 1.5px solid #3a3a3a;
+  }
+  .na-amb-hero__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+  }
+  .na-amb-hero__media {
+    position: relative;
+    min-height: 560px;
+    background: #0d130f;
+    border-right: 1.5px solid #3a3a3a;
+    overflow: hidden;
+  }
+  .na-amb-hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .na-amb-hero__nameplate {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    background: rgba(19, 28, 21, 0.92);
+    border: 1.5px solid #3a3a3a;
+    border-radius: 8px;
+  }
+  .na-amb-hero__name {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .na-amb-hero__career { font-size: 11px; color: #a8b8ae; }
+  .na-amb-hero__content {
+    padding: 56px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+  }
+  .na-amb-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 4px;
+    background: #3d7a52;
+    color: #131c15;
+    border: 1.5px solid #3d7a52;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .na-amb-hero__heading {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1.1;
+  }
+  .na-amb-hero__heading-accent { color: #69E281; }
+  .na-amb-hero__intro { margin: 0; font-size: 14px; line-height: 1.75; color: #a8b8ae; }
+  .na-amb-hero__cta-wrap { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+  .na-amb-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 28px;
+    border-radius: 6px;
+    background: #3d7a52;
+    color: #131c15;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 140ms cubic-bezier(0.4, 0, 0.1, 1), transform 140ms cubic-bezier(0.4, 0, 0.1, 1);
+  }
+  .na-amb-hero__cta:hover { background: #69E281; color: #131c15; transform: translateY(-1px); }
+  .na-amb-hero__cta:active { background: #316546; transform: translateY(0); }
+  .na-amb-hero__trust { font-size: 11px; color: #76837b; }
+
+  @media (max-width: 749px) {
+    .na-amb-hero__inner { grid-template-columns: 1fr; }
+    .na-amb-hero__media { min-height: 420px; border-right: none; border-bottom: 1.5px solid #3a3a3a; }
+    .na-amb-hero__content { padding: 32px 20px 40px; }
+    .na-amb-hero__cta { width: 100%; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "NA Ambassadør Hero",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Data hentes fra sidens metafelt custom.ambassador (ambassador-metaobjekt). Opret en side pr. atlet med skabelonen 'ambassador'."
+    },
+    {
+      "type": "text",
+      "id": "trust_line",
+      "label": "Trust-linje under CTA",
+      "default": "4,9/5 · 1.200+ anmeldelser · Fri fragt over 600 kr"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Ambassadør Hero",
+      "category": "Page"
+    }
+  ]
+}
+{% endschema %}

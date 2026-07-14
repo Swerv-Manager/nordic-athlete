@@ -1,0 +1,38 @@
+{
+  "sections": {
+    "hero": {
+      "type": "na-ambassador-hero",
+      "settings": {
+        "trust_line": "4,9/5 · 1.200+ anmeldelser · Fri fragt over 600 kr"
+      }
+    },
+    "setup": {
+      "type": "na-ambassador-setup",
+      "settings": {
+        "heading": "Det [navn] spiller med — hver kamp",
+        "show_sticky": true
+      }
+    },
+    "story": {
+      "type": "na-ambassador-story",
+      "settings": {
+        "story_eyebrow": "[navn]s historie",
+        "founder_eyebrow": "Fra atleter, til atleter",
+        "founder_quote": "For mig handler NORDIC ATHLETE om ærlighed, kvalitet og løsninger, der faktisk gør en forskel. Jeg har et ønske om at vi skal passe bedre på vores kroppe!",
+        "founder_name": "Jonas Ostenfeldt",
+        "founder_title": "Ejer & daglig leder",
+        "stat1_num": "4,9 / 5",
+        "stat1_label": "1.200+ anmeldelser",
+        "stat2_num": "40+",
+        "stat2_label": "Kampe pr. sæson i udstyret",
+        "stat3_num": "20%",
+        "stat3_label": "Mere effektiv stødabsorbering"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "setup",
+    "story"
+  ]
+}

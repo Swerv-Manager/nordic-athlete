@@ -1,0 +1,148 @@
+{%- liquid
+  assign amb = page.metafields.custom.ambassador.value
+-%}
+
+{%- if amb -%}
+<section class="na-amb-story">
+  <div class="na-amb-story__inner">
+    <div class="na-amb-story__cols">
+      <div class="na-amb-story__col na-amb-story__col--divide">
+        {%- assign amb_first_name = amb.name.value | split: ' ' | first -%}
+        {%- assign story_eyebrow = section.settings.story_eyebrow | replace: '[navn]', amb_first_name -%}
+        <span class="na-amb-story__eyebrow">{{ story_eyebrow }}</span>
+        <p class="na-amb-story__quote">"{{ amb.quote.value }}"</p>
+        <span class="na-amb-story__attribution"><strong>{{ amb.name.value }}</strong> · {{ amb.club.value }}</span>
+      </div>
+      <div class="na-amb-story__col">
+        <span class="na-amb-story__eyebrow">{{ section.settings.founder_eyebrow }}</span>
+        <p class="na-amb-story__founder-text">"{{ section.settings.founder_quote }}"</p>
+        <span class="na-amb-story__attribution"><strong>{{ section.settings.founder_name }}</strong> · {{ section.settings.founder_title }}</span>
+        <div class="na-amb-story__badges">
+          <span class="na-amb-story__badge">✓ Udviklet med eliteatleter</span>
+          <span class="na-amb-story__badge">✓ 30 dages retur</span>
+        </div>
+      </div>
+    </div>
+    <div class="na-amb-story__stats">
+      <div class="na-amb-story__stat na-amb-story__stat--divide">
+        <span class="na-amb-story__stat-num na-amb-story__stat-num--green">{{ section.settings.stat1_num }}</span>
+        <span class="na-amb-story__stat-label">{{ section.settings.stat1_label }}</span>
+      </div>
+      <div class="na-amb-story__stat na-amb-story__stat--divide">
+        <span class="na-amb-story__stat-num">{{ section.settings.stat2_num }}</span>
+        <span class="na-amb-story__stat-label">{{ section.settings.stat2_label }}</span>
+      </div>
+      <div class="na-amb-story__stat">
+        <span class="na-amb-story__stat-num">{{ section.settings.stat3_num }}</span>
+        <span class="na-amb-story__stat-label">{{ section.settings.stat3_label }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<style>
+  .na-amb-story {
+    background: #131c15;
+    border-top: 1.5px solid #3a3a3a;
+    border-bottom: 1.5px solid #3a3a3a;
+  }
+  .na-amb-story__inner { max-width: 1280px; margin: 0 auto; }
+  .na-amb-story__cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .na-amb-story__col {
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .na-amb-story__col--divide { border-right: 1.5px solid #3a3a3a; }
+  .na-amb-story__eyebrow {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #69E281;
+  }
+  .na-amb-story__quote {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.65;
+    color: #ffffff;
+    font-style: italic;
+  }
+  .na-amb-story__founder-text { margin: 0; font-size: 14px; line-height: 1.75; color: #a8b8ae; }
+  .na-amb-story__attribution { font-size: 12px; color: #a8b8ae; }
+  .na-amb-story__attribution strong { color: #ffffff; }
+  .na-amb-story__badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+  .na-amb-story__badge {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 4px;
+    border: 1.5px solid #3a3a3a;
+    color: #a8b8ae;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .na-amb-story__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1.5px solid #3a3a3a;
+    text-align: center;
+  }
+  .na-amb-story__stat {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .na-amb-story__stat--divide { border-right: 1.5px solid #3a3a3a; }
+  .na-amb-story__stat-num { font-size: 22px; font-weight: 900; color: #ffffff; }
+  .na-amb-story__stat-num--green { color: #69E281; }
+  .na-amb-story__stat-label { font-size: 11px; color: #a8b8ae; }
+
+  @media (max-width: 749px) {
+    .na-amb-story__cols { grid-template-columns: 1fr; }
+    .na-amb-story__col--divide { border-right: none; border-bottom: 1.5px solid #3a3a3a; }
+    .na-amb-story__col { padding: 32px 20px; }
+    .na-amb-story__stats { grid-template-columns: 1fr; }
+    .na-amb-story__stat--divide { border-right: none; border-bottom: 1.5px solid #3a3a3a; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "NA Ambassadør Historie",
+  "settings": [
+    { "type": "text", "id": "story_eyebrow", "label": "Eyebrow (atlet — [navn] erstattes med fornavn)", "default": "[navn]s historie" },
+    { "type": "text", "id": "founder_eyebrow", "label": "Eyebrow (stifter)", "default": "Fra atleter, til atleter" },
+    {
+      "type": "textarea",
+      "id": "founder_quote",
+      "label": "Stifter-citat (uden citationstegn)",
+      "default": "For mig handler NORDIC ATHLETE om ærlighed, kvalitet og løsninger, der faktisk gør en forskel. Jeg har et ønske om at vi skal passe bedre på vores kroppe!"
+    },
+    { "type": "text", "id": "founder_name", "label": "Stifter-navn", "default": "Jonas Ostenfeldt" },
+    { "type": "text", "id": "founder_title", "label": "Stifter-titel", "default": "Ejer & daglig leder" },
+    { "type": "header", "content": "Statistik-række" },
+    { "type": "text", "id": "stat1_num", "label": "Stat 1 — tal", "default": "4,9 / 5" },
+    { "type": "text", "id": "stat1_label", "label": "Stat 1 — label", "default": "1.200+ anmeldelser" },
+    { "type": "text", "id": "stat2_num", "label": "Stat 2 — tal", "default": "40+" },
+    { "type": "text", "id": "stat2_label", "label": "Stat 2 — label", "default": "Kampe pr. sæson i udstyret" },
+    { "type": "text", "id": "stat3_num", "label": "Stat 3 — tal", "default": "20%" },
+    { "type": "text", "id": "stat3_label", "label": "Stat 3 — label", "default": "Mere effektiv stødabsorbering" }
+  ],
+  "presets": [
+    {
+      "name": "NA Ambassadør Historie",
+      "category": "Page"
+    }
+  ]
+}
+{% endschema %}
