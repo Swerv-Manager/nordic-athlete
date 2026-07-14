@@ -31,8 +31,23 @@
         assign show_stock = true
       endif
     -%}
+    {%- liquid
+      # Badge: metafelt -> "Officiel partner" (kun Gamepatch) -> vendor -> ingen
+      assign badge_label = product.metafields.custom.pdp_badge.value
+      if badge_label == blank
+        assign vendor_down = product.vendor | downcase
+        assign title_down = product.title | downcase
+        if vendor_down contains 'gamepatch' or title_down contains 'gamepatch'
+          assign badge_label = 'Officiel partner'
+        elsif vendor_down != blank and vendor_down != 'nordic-athlete' and vendor_down != 'nordic athlete'
+          assign badge_label = product.vendor
+        endif
+      endif
+    -%}
     <div class="na-pdpx-badges" data-na-stock-badges>
-      <span class="na-pdpx-badge na-pdpx-badge--green">{{ product.metafields.custom.pdp_badge.value | default: 'Officiel partner' }}</span>
+      {%- if badge_label != blank -%}
+        <span class="na-pdpx-badge na-pdpx-badge--green">{{ badge_label }}</span>
+      {%- endif -%}
       <span
         class="na-pdpx-badge na-pdpx-badge--stock"
         data-na-stock-badge
@@ -91,11 +106,17 @@
   {%- when 'sizeheader' -%}
     <div class="na-pdpx-sizeheader">
       <span class="na-pdpx-sizeheader__label">Størrelse</span>
-      <a class="na-pdpx-sizeheader__link" href="#guide">Størrelsesguide</a>
+      {%- comment -%} Guide-linket vises kun, når produktet faktisk har en størrelsesguide (ellers er #guide et dødt anker). {%- endcomment -%}
+      {%- if product.metafields.custom.pdp_size_columns.value.size > 0 -%}
+        <a class="na-pdpx-sizeheader__link" href="#guide">Størrelsesguide</a>
+      {%- endif -%}
     </div>
 
   {%- when 'fit' -%}
-    <p class="na-pdpx-fit">{{ product.metafields.custom.pdp_fit_note.value | default: text | default: 'Sidder tæt med kompression. Er du i tvivl mellem to størrelser, så vælg den større.' }}</p>
+    {%- assign fit_text = product.metafields.custom.pdp_fit_note.value | default: text -%}
+    {%- if fit_text != blank -%}
+      <p class="na-pdpx-fit">{{ fit_text }}</p>
+    {%- endif -%}
 
   {%- when 'delivery' -%}
     <div class="na-pdpx-delivery">
@@ -109,5 +130,23 @@
     </div>
 
   {%- when 'desc' -%}
-    <p class="na-pdpx-desc">{{ product.metafields.custom.pdp_short_desc.value | default: text | default: product.description | strip_html | truncate: 220 }}</p>
+    {%- liquid
+      assign desc_preview = product.metafields.custom.pdp_short_desc.value | default: text
+      assign desc_full_plain = product.description | strip_html | strip
+      if desc_preview == blank
+        assign desc_preview = desc_full_plain | truncate: 220
+      endif
+    -%}
+    {%- if desc_full_plain.size > 240 -%}
+      <details class="na-pdpx-descwrap">
+        <summary class="na-pdpx-desc">
+          <span class="na-pdpx-desc__preview">{{ desc_preview }}</span>
+          <span class="na-pdpx-desc__more">Læs hele beskrivelsen ▾</span>
+          <span class="na-pdpx-desc__less">Vis mindre ▴</span>
+        </summary>
+        <div class="na-pdpx-desc na-pdpx-desc--full">{{ product.description }}</div>
+      </details>
+    {%- elsif desc_preview != blank -%}
+      <p class="na-pdpx-desc">{{ desc_preview }}</p>
+    {%- endif -%}
 {%- endcase -%}

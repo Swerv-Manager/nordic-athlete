@@ -1,0 +1,164 @@
+{%- comment -%}
+  NA Collection FAQ — kollektionsspecifikke spørgsmål/svar under produktgridden.
+  Indhold: kollektions-metafeltet custom.faqs (list.metaobject_reference →
+  metaobjekt-typen "faq_item" med felterne question/answer). Fælles FAQ-emner
+  (levering, retur …) kan genbruges på tværs af kollektioner ved at referere
+  samme metaobjekt. Udsender FAQPage JSON-LD for SEO (rich results).
+  Sektionen skjules helt, når metafeltet er tomt.
+{%- endcomment -%}
+
+{%- liquid
+  assign faqs = collection.metafields.custom.faqs.value
+  assign faq_count = 0
+  if faqs
+    assign faq_count = faqs.size
+  endif
+-%}
+
+{%- if faq_count > 0 -%}
+<section class="na-cfaq">
+  <div class="na-cfaq__inner">
+    <span class="na-cfaq__eyebrow">{{ section.settings.eyebrow }}</span>
+    <h2 class="na-cfaq__heading">{{ section.settings.heading | replace: '[kollektion]', collection.title }}</h2>
+    <div class="na-cfaq__items">
+      {%- for item in faqs -%}
+        {%- if item.question.value == blank -%}{%- continue -%}{%- endif -%}
+        <details class="na-cfaq__item"{% if forloop.first %} open{% endif %}>
+          <summary class="na-cfaq__q">
+            {{ item.question.value }}
+            <svg class="na-cfaq__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="na-cfaq__a">{{ item.answer.value | newline_to_br }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for item in faqs -%}
+      {%- if item.question.value == blank -%}{%- continue -%}{%- endif -%}
+      {
+        "@type": "Question",
+        "name": {{ item.question.value | json }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ item.answer.value | json }}
+        }
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+<style>
+  .na-cfaq {
+    background: #131c15;
+    border-top: 1.5px solid #3a3a3a;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .na-cfaq__inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 56px 32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .na-cfaq__eyebrow {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #69E281;
+  }
+  .na-cfaq__heading {
+    margin: 0;
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .na-cfaq__items { display: flex; flex-direction: column; }
+  .na-cfaq__item {
+    border: 1.5px solid #3a3a3a;
+    border-radius: 0;
+    overflow: hidden;
+  }
+  .na-cfaq__item:first-child { border-radius: 8px 8px 0 0; }
+  .na-cfaq__item:last-child { border-radius: 0 0 8px 8px; }
+  .na-cfaq__item + .na-cfaq__item { border-top: none; }
+  .na-cfaq__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 18px;
+    background: #253020;
+    cursor: pointer;
+    list-style: none;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+    user-select: none;
+    transition: background-color 140ms, color 140ms;
+  }
+  .na-cfaq__q::-webkit-details-marker { display: none; }
+  .na-cfaq__q::marker { display: none; }
+  .na-cfaq__q:hover { color: #69E281; }
+  .na-cfaq__item[open] > .na-cfaq__q { color: #69E281; border-bottom: 1.5px solid #3a3a3a; }
+  .na-cfaq__chevron { width: 16px; height: 16px; flex: none; transition: transform 200ms ease; }
+  .na-cfaq__item[open] .na-cfaq__chevron { transform: rotate(180deg); }
+  .na-cfaq__a {
+    padding: 16px 18px;
+    background: #2a2a2a;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #a8b8ae;
+  }
+  .na-cfaq__a strong { color: #ffffff; }
+
+  @media (max-width: 749px) {
+    .na-cfaq__inner { padding: 40px 20px; }
+  }
+</style>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NA Collection FAQ",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Viser FAQ-metaobjekter fra kollektions-metafeltet custom.faqs. Tomt metafelt = sektionen skjules. Udsender FAQPage JSON-LD."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Ofte stillede spørgsmål"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift ([kollektion] = kollektionens titel)",
+      "default": "FAQ — [kollektion]"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Collection FAQ",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

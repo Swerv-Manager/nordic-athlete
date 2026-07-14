@@ -375,12 +375,12 @@
             "na_breadcrumb",
             "group_header",
             "group_price",
-            "na_desc",
             "na_sizeheader",
             "variant_picker",
             "na_fit",
             "na_delivery",
             "buy_buttons",
+            "na_desc",
             "na_payment"
           ]
         }

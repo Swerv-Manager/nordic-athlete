@@ -96,3 +96,47 @@ Regler fulgt:
 
 (Victoria Mørk: /pages/victoria-moerk, gid://shopify/Metaobject/350848188749, fra fase 2.)
 Preview: https://www.nordic-athlete.dk/pages/<handle>?preview_theme_id=193309901133
+
+## 6. Fase 3b — rettelser efter merchant-review (14/7)
+
+**PDP:**
+- Badge: "Officiel partner" vises nu KUN på Gamepatch-produkter; andre mærker
+  viser vendor-navnet (fx "Bauerfeind"); NORDIC-ATHLETE-egne varer viser ingen
+  badge. `custom.pdp_badge` overstyrer stadig alt.
+- Størrelsesguide: nyt række-baseret tabelformat i `custom.pdp_size_columns`
+  (første element = header-række, celler adskilt med `|`). Understøtter nu
+  også bukse-matricen (højde×vægt) og Bauerfeind-skemaer. Nye felter:
+  `pdp_size_heading` (overskrift) og `pdp_size_measure` ("Emoji|Label|Tekst"
+  = måleinstruktions-boks). Data er migreret fra de GAMLE skabelon-accordions:
+  armsleeves (albueomkreds), knæbeskyttere (knæomkreds), bukser/tights/shorts
+  (højde×vægt-matrix, inkl. JR-størrelser), Bauerfeind-strømper (Omfang 1+2 +
+  længdevalg). "Størrelsesguide"-linket i købsboksen vises kun, når produktet
+  har guide-data — ellers er ankeret dødt (det var fejlen).
+  OBS: Bauerfeind-BANDAGER (knæ/ankel/albue) har IKKE fået strømpe-skemaet
+  (det ville være misvisende) — de skal have deres egne skemaer fra Bauerfeind.
+- Pasform-noten er nu ren metafelt (`pdp_fit_note`) — ingen hardcodet fallback.
+  Sat på alle compression-/beskyttelsesprodukter; Bauerfeind-strømper har
+  Bauerfeinds egen anbefaling (vælg den MINDRE størrelse).
+- Produktbeskrivelse: flyttet NED UNDER køb-knappen og gjort udvidbar
+  (kort preview + "Læs hele beskrivelsen" — fold-skub undgås).
+
+**Kollektionssider:**
+- Filtre: `na-collection-filters` renderer nu ALLE liste-filtre fra Search &
+  Discovery pr. kollektion (ikke kun Kategori/Kroppen) — rækkerne tilpasser
+  sig automatisk hver kollektion.
+- Kort: brand-eyebrow på ALLE kort (Gamepatch-split som før; ellers vendor,
+  fx BAUERFEIND/HUMMEL; egne varer = NORDIC ATHLETE). Undertitel-linjen
+  reserveres altid (kropszone → produkttype → blank linje), så blandede grids
+  flugter.
+- Nye sektioner under produktgridden (begge skjules uden data):
+  - `na-collection-seo`: udvidet SEO-tekst fra `custom.seo_text` (rich text).
+  - `na-collection-faq`: FAQ fra `custom.faqs` (liste af `faq_item`-metaobjekter,
+    genbrugelige på tværs) + FAQPage JSON-LD (rich results).
+  Indhold sat på alle 18 kollektioner (4 fælles + 9 kollektionsspecifikke
+  FAQ-punkter; SEO-tekster destilleret af eksisterende beskrivelser).
+
+**Ambassadører:**
+- Nyt metaobjekt-felt `story` (multi_line): hele artiklens relevante tekst i
+  Q&A-format (linje der ender med "?" = spørgsmåls-overskrift). Renderes i
+  `na-ambassador-story` under citaterne. Udfyldt for alle 9 atleter inkl.
+  Victoria.

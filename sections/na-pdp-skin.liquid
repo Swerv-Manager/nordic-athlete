@@ -278,4 +278,30 @@
 
   /* Beskrivelses-afsnit i købsboksen */
   .na-pdpx-desc { margin: 0; font-size: 14px; line-height: 1.75; color: #a8b8ae; }
+
+  /* ── Udvidbar produktbeskrivelse (ligger under køb-knappen) ── */
+  .na-pdpx-descwrap { border-top: 1.5px solid #3a3a3a; padding-top: 14px; }
+  .na-pdpx-descwrap summary { list-style: none; cursor: pointer; }
+  .na-pdpx-descwrap summary::-webkit-details-marker { display: none; }
+  .na-pdpx-descwrap summary::marker { display: none; }
+  .na-pdpx-desc__more,
+  .na-pdpx-desc__less {
+    display: inline-block;
+    margin-left: 6px;
+    color: #69E281;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .na-pdpx-descwrap .na-pdpx-desc__less { display: none; }
+  .na-pdpx-descwrap[open] .na-pdpx-desc__preview { display: none; }
+  .na-pdpx-descwrap[open] .na-pdpx-desc__more { display: none; }
+  .na-pdpx-descwrap[open] .na-pdpx-desc__less { display: inline-block; margin-left: 0; }
+  .na-pdpx-desc--full { margin-top: 10px; }
+  .na-pdpx-desc--full p { margin: 0 0 10px; }
+  .na-pdpx-desc--full p:last-child { margin-bottom: 0; }
+  .na-pdpx-desc--full ul { margin: 8px 0; padding-left: 18px; }
+  .na-pdpx-desc--full strong { color: #ffffff; }
 </style>

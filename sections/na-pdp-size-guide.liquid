@@ -2,18 +2,27 @@
   # Produkt-metafelter (custom.pdp_size_*) har forrang over sektionens blokke —
   # én skabelon kan dermed dække alle produkter. Sektionen skjules helt, når
   # hverken metafelt eller blokke findes (fx tilbehør uden størrelser).
-  # Kolonne-format: "Størrelse|Interval", fx "M|170–178 cm" (list.single_line_text_field).
-  assign mf_cols = product.metafields.custom.pdp_size_columns.value
-  assign col_count = 0
-  if mf_cols
-    assign col_count = mf_cols.size
+  # Række-format (list.single_line_text_field): hvert element er én tabelrække
+  # med |-adskilte celler; FØRSTE element er header-rækken.
+  # Fx: "Mål|XS|S|M|L" · "CM|24–26|26–28|28–30|30–32"
+  assign mf_rows = product.metafields.custom.pdp_size_columns.value
+  assign row_count = 0
+  if mf_rows
+    assign row_count = mf_rows.size
   endif
+  if row_count == 0
+    assign mf_rows = blank
+  endif
+  assign col_count = row_count
   if col_count == 0
     assign col_count = section.blocks.size
-    assign mf_cols = blank
   endif
 
+  assign guide_heading = product.metafields.custom.pdp_size_heading.value | default: section.settings.heading
   assign guide_note = product.metafields.custom.pdp_size_note.value | default: section.settings.note
+
+  # Måleinstruktion (how-box): "Emoji|Label|Tekst", fx "💪|Albueomkreds|Mål rundt om albuen …"
+  assign guide_measure = product.metafields.custom.pdp_size_measure.value
 
   # Størrelsesguide-billede: indstilling → ellers produktmedie med 'size' i filnavnet → ellers sidste produktbillede
   assign guide_image = section.settings.image
@@ -29,39 +38,45 @@
 -%}
 
 {%- if col_count > 0 -%}
-<section class="na-sizeguide" id="guide">
+<section class="na-sizeguide{% unless guide_image %} na-sizeguide--noimage{% endunless %}" id="guide">
   <div class="na-sizeguide__col">
     <span class="na-sizeguide__eyebrow">{{ section.settings.eyebrow }}</span>
-    <h2 class="na-sizeguide__heading">{{ section.settings.heading }}</h2>
-    <div class="na-sizeguide__table" style="grid-template-columns: repeat({{ col_count }}, 1fr);">
-      {%- if mf_cols != blank -%}
-        {%- for col in mf_cols -%}
-          {%- assign cp = col | split: '|' -%}
-          <div class="na-sizeguide__cell na-sizeguide__cell--head{% unless forloop.last %} na-sizeguide__cell--divide{% endunless %}">
-            {{- cp[0] | strip -}}
-          </div>
-        {%- endfor -%}
-        {%- for col in mf_cols -%}
-          {%- assign cp = col | split: '|' -%}
-          <div class="na-sizeguide__cell na-sizeguide__cell--body{% unless forloop.last %} na-sizeguide__cell--divide{% endunless %}">
-            {{- cp[1] | strip -}}
-          </div>
-        {%- endfor -%}
-      {%- else -%}
-        {%- for block in section.blocks -%}
-          <div class="na-sizeguide__cell na-sizeguide__cell--head{% unless forloop.last %} na-sizeguide__cell--divide{% endunless %}" {{ block.shopify_attributes }}>
-            {{- block.settings.size -}}
-          </div>
-        {%- endfor -%}
-        {%- for block in section.blocks -%}
-          <div class="na-sizeguide__cell na-sizeguide__cell--body{% unless forloop.last %} na-sizeguide__cell--divide{% endunless %}">
-            {{- block.settings.range -}}
-          </div>
-        {%- endfor -%}
-      {%- endif -%}
+    <h2 class="na-sizeguide__heading">{{ guide_heading }}</h2>
+    {%- if guide_measure != blank -%}
+      {%- assign gm = guide_measure | split: '|' -%}
+      <div class="na-sizeguide__how">
+        <span class="na-sizeguide__how-icon">{{ gm[0] | strip }}</span>
+        <div class="na-sizeguide__how-text">
+          <strong>{{ gm[1] | strip }}</strong>
+          <p>{{ gm[2] | strip }}</p>
+        </div>
+      </div>
+    {%- endif -%}
+    <div class="na-sizeguide__scroll">
+      <table class="na-sizeguide__table">
+        {%- if mf_rows != blank -%}
+          {%- assign header_cells = mf_rows | first | split: '|' -%}
+          <thead>
+            <tr>{% for c in header_cells %}<th>{{ c | strip }}</th>{% endfor %}</tr>
+          </thead>
+          <tbody>
+            {%- for row in mf_rows offset: 1 -%}
+              {%- assign cells = row | split: '|' -%}
+              <tr>{% for c in cells %}{% if forloop.first %}<td class="na-sizeguide__rowlbl">{{ c | strip }}</td>{% else %}<td>{{ c | strip }}</td>{% endif %}{% endfor %}</tr>
+            {%- endfor -%}
+          </tbody>
+        {%- else -%}
+          <thead>
+            <tr>{% for block in section.blocks %}<th {{ block.shopify_attributes }}>{{ block.settings.size }}</th>{% endfor %}</tr>
+          </thead>
+          <tbody>
+            <tr>{% for block in section.blocks %}<td>{{ block.settings.range }}</td>{% endfor %}</tr>
+          </tbody>
+        {%- endif -%}
+      </table>
     </div>
     {%- if guide_note != blank -%}
-      <p class="na-sizeguide__note">💡 {{ guide_note }}</p>
+      <p class="na-sizeguide__note">💡 {{ guide_note | newline_to_br }}</p>
     {%- endif -%}
     <div class="na-sizeguide__badges">
       <span class="na-sizeguide__badge">✓ Gratis ombytning</span>
@@ -87,6 +102,7 @@
     gap: 48px;
     align-items: start;
   }
+  .na-sizeguide--noimage { grid-template-columns: 1fr; max-width: 900px; }
   .na-sizeguide__col { display: flex; flex-direction: column; gap: 16px; }
   .na-sizeguide__eyebrow {
     font-size: 11px;
@@ -103,28 +119,55 @@
     text-transform: uppercase;
     color: #ffffff;
   }
+  .na-sizeguide__how {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #253020;
+    border: 1.5px solid #3a3a3a;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .na-sizeguide__how-icon { font-size: 30px; line-height: 1; flex: none; }
+  .na-sizeguide__how-text strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 3px;
+  }
+  .na-sizeguide__how-text p { margin: 0; font-size: 12px; color: #a8b8ae; }
+  .na-sizeguide__scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .na-sizeguide__table {
-    display: grid;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
     border: 1.5px solid #3a3a3a;
     border-radius: 6px;
     overflow: hidden;
     text-align: center;
   }
-  .na-sizeguide__cell--head {
-    padding: 10px 0;
+  .na-sizeguide__table th {
+    padding: 10px 6px;
     background: #131c15;
     font-size: 11px;
     font-weight: 900;
     letter-spacing: 0.05em;
     color: #ffffff;
+    white-space: nowrap;
   }
-  .na-sizeguide__cell--body {
-    padding: 10px 4px;
+  .na-sizeguide__table td {
+    padding: 10px 6px;
     font-size: 11px;
     color: #a8b8ae;
     border-top: 1.5px solid #3a3a3a;
+    white-space: nowrap;
   }
-  .na-sizeguide__cell--divide { border-right: 1.5px solid #3a3a3a; }
+  .na-sizeguide__table th + th,
+  .na-sizeguide__table td + td { border-left: 1.5px solid #3a3a3a; }
+  .na-sizeguide__rowlbl { font-weight: 900; color: #ffffff; background: #131c15; }
   .na-sizeguide__note { margin: 0; font-size: 13px; line-height: 1.75; color: #a8b8ae; }
   .na-sizeguide__note strong { color: #ffffff; }
   .na-sizeguide__badges { display: flex; gap: 10px; flex-wrap: wrap; }

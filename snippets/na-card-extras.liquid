@@ -16,7 +16,9 @@
   assign v0 = product.selected_or_first_available_variant
 
   comment
-    Brand-split: "GAMEPATCH ..." / "GAMEPATCH.DK ..." -> eyebrow + renset titel.
+    Brand-eyebrow på ALLE kort (konsistens på blandede kollektioner):
+    GAMEPATCH-titel-split som før; ellers vendor som brand-linje (titel renses
+    for vendor-prefix); vendor = butiksnavn -> "NORDIC ATHLETE".
   endcomment
   assign raw_title = product.title | strip
   assign title_down = raw_title | downcase
@@ -28,11 +30,22 @@
   elsif title_down contains 'gamepatch'
     assign brand_label = 'GAMEPATCH'
     assign clean_title = raw_title | remove_first: 'GAMEPATCH' | remove_first: 'GamePatch' | remove_first: 'Gamepatch' | remove_first: 'gamepatch'
+  else
+    assign vendor_down = product.vendor | downcase | strip
+    if vendor_down != blank and vendor_down != 'nordic-athlete' and vendor_down != 'nordic athlete'
+      assign brand_label = product.vendor | upcase
+      assign vendor_len = product.vendor.size
+      assign title_prefix = raw_title | slice: 0, vendor_len | downcase
+      if title_prefix == vendor_down
+        assign clean_title = raw_title | slice: vendor_len, raw_title.size | strip
+      endif
+    else
+      assign brand_label = 'NORDIC ATHLETE'
+    endif
   endif
   assign clean_title = clean_title | strip
   if clean_title == blank
     assign clean_title = raw_title
-    assign brand_label = ''
   endif
 
   comment
@@ -83,8 +96,13 @@
 {%- endif -%}
 <h3 class="na-cardx-title">{{ clean_title }}</h3>
 
+{%- comment -%} Zone-linjen renderes altid (nbsp når tom), så kort i blandede grids flugter. {%- endcomment -%}
 {%- if zones != blank -%}
   <span class="na-cardx-zone">{% for z in zones %}{{ z }}{% unless forloop.last %} / {% endunless %}{% endfor %}</span>
+{%- elsif product.type != blank and product.type != 'Produkter' -%}
+  <span class="na-cardx-zone">{{ product.type }}</span>
+{%- else -%}
+  <span class="na-cardx-zone">&nbsp;</span>
 {%- endif -%}
 
 <div class="na-cardx-media" data-na-media>

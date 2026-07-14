@@ -27,6 +27,45 @@
         </div>
       </div>
     </div>
+    {%- comment -%}
+      Fuld historie fra metaobjekt-feltet "story" (multi_line): afsnit adskilles
+      af tomme linjer; et afsnit på én linje der ender med "?" styles som
+      spørgsmåls-overskrift (Q&A-format fra blog-artiklerne).
+    {%- endcomment -%}
+    {%- if amb.story.value != blank -%}
+      <div class="na-amb-story__long">
+        <span class="na-amb-story__eyebrow">{{ amb_first_name }}s historie</span>
+        {%- assign story_parts = amb.story.value | split: '
+' -%}
+        {%- assign para = '' -%}
+        {%- for line in story_parts -%}
+          {%- assign l = line | strip -%}
+          {%- if l == blank -%}
+            {%- if para != blank -%}
+              {%- assign last_char = para | slice: -1 -%}
+              {%- if last_char == '?' -%}
+                <h3 class="na-amb-story__q">{{ para }}</h3>
+              {%- else -%}
+                <p class="na-amb-story__p">{{ para }}</p>
+              {%- endif -%}
+              {%- assign para = '' -%}
+            {%- endif -%}
+          {%- elsif para == blank -%}
+            {%- assign para = l -%}
+          {%- else -%}
+            {%- assign para = para | append: ' ' | append: l -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if para != blank -%}
+          {%- assign last_char = para | slice: -1 -%}
+          {%- if last_char == '?' -%}
+            <h3 class="na-amb-story__q">{{ para }}</h3>
+          {%- else -%}
+            <p class="na-amb-story__p">{{ para }}</p>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
     <div class="na-amb-story__stats">
       <div class="na-amb-story__stat na-amb-story__stat--divide">
         <span class="na-amb-story__stat-num na-amb-story__stat-num--green">{{ section.settings.stat1_num }}</span>
@@ -52,6 +91,21 @@
     border-bottom: 1.5px solid #3a3a3a;
   }
   .na-amb-story__inner { max-width: 1280px; margin: 0 auto; }
+  .na-amb-story__long {
+    padding: 40px 40px 48px;
+    border-top: 1.5px solid #3a3a3a;
+    max-width: 760px;
+  }
+  .na-amb-story__long .na-amb-story__eyebrow { display: block; margin-bottom: 14px; }
+  .na-amb-story__q {
+    margin: 22px 0 8px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #69E281;
+  }
+  .na-amb-story__p { margin: 0 0 12px; font-size: 14px; line-height: 1.8; color: #a8b8ae; }
   .na-amb-story__cols {
     display: grid;
     grid-template-columns: 1fr 1fr;

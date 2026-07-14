@@ -1,25 +1,21 @@
-{%- doc -%}
+{%- comment -%}
   NA Collection Filters — chip-baserede filtre (2026-design).
   Renderer Kategori- og Kropszone-grupperne fra Shopifys native collection.filters
   (Search & Discovery skal have filtrene slået til). Chips er almindelige links
   (url_to_add / url_to_remove). Ajax-laget henter den filtrerede side og udskifter
   chip- og grid-sektionerne fra det parsede dokument — robust i preview og på
   alternative templates. Uden JS virker alt som normale sidenavigationer.
-{%- enddoc -%}
+{%- endcomment -%}
 
 {%- liquid
   assign sid = section.id
 
-  assign kat_filter = null
-  assign zone_filter = null
-  for f in collection.filters
-    if f.param_name contains 'custom.kategori'
-      assign kat_filter = f
-    elsif f.param_name contains 'custom.kropszone'
-      assign zone_filter = f
-    endif
-  endfor
-
+  comment
+    Generisk: render ALLE liste-filtre fra Search & Discovery (kategori,
+    kropszone, mærke, størrelse …) — S&D afgrænser selv filtrene pr.
+    kollektion, så rækkerne tilpasser sig automatisk hver kollektion.
+    Kendte grupper får en foretrukken chip-rækkefølge.
+  endcomment
   assign g1_order = 'Tights,Knæbeskyttere,Shorts,Compression,Bundles,Merch' | split: ','
   assign g2_order = 'Knæ,Hofte,Skulder,Albue' | split: ','
 
@@ -42,45 +38,44 @@
 <section id="na-cf-{{ sid }}" class="na-cf">
   <div class="na-cf__inner">
 
-    {%- if kat_filter and kat_filter.values.size > 0 -%}
+    {%- for f in collection.filters -%}
+      {%- if f.type != 'list' or f.values.size == 0 -%}{%- continue -%}{%- endif -%}
+      {%- liquid
+        # Foretrukken rækkefølge + dansk label for de kendte grupper
+        assign pref_order = blank
+        assign row_label = f.label
+        if f.param_name contains 'custom.kategori'
+          assign pref_order = g1_order
+          assign row_label = section.settings.label_group1 | default: f.label
+        elsif f.param_name contains 'custom.kropszone'
+          assign pref_order = g2_order
+          assign row_label = section.settings.label_group2 | default: f.label
+        endif
+      -%}
       <div class="na-cf__row">
-        <span class="na-cf__rowlabel">{{ section.settings.label_group1 }}</span>
+        <span class="na-cf__rowlabel">{{ row_label }}</span>
         <div class="na-cf__chips">
-          {%- for pref in g1_order -%}
-            {%- for v in kat_filter.values -%}
-              {%- if v.label == pref -%}
-                {%- render 'na-filter-chip', v: v -%}
-              {%- endif -%}
+          {%- if pref_order != blank -%}
+            {%- for pref in pref_order -%}
+              {%- for v in f.values -%}
+                {%- if v.label == pref -%}
+                  {%- render 'na-filter-chip', v: v -%}
+                {%- endif -%}
+              {%- endfor -%}
             {%- endfor -%}
-          {%- endfor -%}
-          {%- for v in kat_filter.values -%}
-            {%- unless g1_order contains v.label -%}
+            {%- for v in f.values -%}
+              {%- unless pref_order contains v.label -%}
+                {%- render 'na-filter-chip', v: v -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for v in f.values -%}
               {%- render 'na-filter-chip', v: v -%}
-            {%- endunless -%}
-          {%- endfor -%}
+            {%- endfor -%}
+          {%- endif -%}
         </div>
       </div>
-    {%- endif -%}
-
-    {%- if zone_filter and zone_filter.values.size > 0 -%}
-      <div class="na-cf__row">
-        <span class="na-cf__rowlabel">{{ section.settings.label_group2 }}</span>
-        <div class="na-cf__chips">
-          {%- for pref in g2_order -%}
-            {%- for v in zone_filter.values -%}
-              {%- if v.label == pref -%}
-                {%- render 'na-filter-chip', v: v -%}
-              {%- endif -%}
-            {%- endfor -%}
-          {%- endfor -%}
-          {%- for v in zone_filter.values -%}
-            {%- unless g2_order contains v.label -%}
-              {%- render 'na-filter-chip', v: v -%}
-            {%- endunless -%}
-          {%- endfor -%}
-        </div>
-      </div>
-    {%- endif -%}
+    {%- endfor -%}
 
     <div class="na-cf__bar">
       <span class="na-cf__count">
