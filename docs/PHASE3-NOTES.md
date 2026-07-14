@@ -80,3 +80,19 @@ Regler fulgt:
   tema-publish. Overvej sitemap/indeksering, hvis publish trækker ud.
 - Bundle-besparelse og anmeldelses-app: uændret fra fase 2 (HANDOFF §6.6/6.7).
 - `assets/na-product-page.css` (legacy) stadig ikke ryddet op (HANDOFF §6.10).
+
+## 5. Oprettede ambassadører (fase 3)
+
+| Atlet | Side | Metaobjekt |
+|---|---|---|
+| Kristian Høegh | /pages/kristian-hoegh | gid://shopify/Metaobject/350938366285 |
+| Magnus Stilling | /pages/magnus-stilling | gid://shopify/Metaobject/350938464589 |
+| Bastian Fredslund Fallesen | /pages/bastian-fallesen | gid://shopify/Metaobject/350938497357 |
+| Laura Rømer | /pages/laura-romer | gid://shopify/Metaobject/350938530125 |
+| Viktor Bille | /pages/viktor-bille | gid://shopify/Metaobject/350938628429 |
+| Mads-Emil Røll | /pages/mads-emil-roll | gid://shopify/Metaobject/350938693965 |
+| Patrick Boldsen | /pages/patrick-boldsen | gid://shopify/Metaobject/350938726733 |
+| Lucas Bess | /pages/lucas-bess | gid://shopify/Metaobject/350938759501 |
+
+(Victoria Mørk: /pages/victoria-moerk, gid://shopify/Metaobject/350848188749, fra fase 2.)
+Preview: https://www.nordic-athlete.dk/pages/<handle>?preview_theme_id=193309901133
