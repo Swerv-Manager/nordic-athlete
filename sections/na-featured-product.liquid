@@ -1,0 +1,558 @@
+{% schema %}
+{
+  "name": "NA Featured Product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Sektion header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tekst",
+      "default": "Mest populære produkt"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift",
+      "default": "Bestseller"
+    },
+    {
+      "type": "header",
+      "content": "Produkt"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Vælg produkt"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge tekst (øverst på billede)",
+      "default": "⭐ Bestseller"
+    },
+    {
+      "type": "text",
+      "id": "product_eyebrow",
+      "label": "Produkt eyebrow",
+      "default": "GAMEPATCH · Beskyttelsestights"
+    },
+    {
+      "type": "text",
+      "id": "product_sku_line",
+      "label": "SKU / undertitel linje",
+      "default": "Padded Hofte / Knæ · SKU: GP-34-HK"
+    },
+    {
+      "type": "textarea",
+      "id": "product_description",
+      "label": "Produktbeskrivelse",
+      "default": "Udviklet i samarbejde med vores ambassadør Magnus Stilling. Vi er stolte over at vi nu er med til at designe og udvikle produkter sammen med Gamepatch — fordi vi går op i sikkerhed og prioriterer at man skal passe på sin krop."
+    },
+    {
+      "type": "header",
+      "content": "Specifikationer (checkmarks)"
+    },
+    {
+      "type": "text",
+      "id": "spec_1",
+      "label": "Spec 1",
+      "default": "Op til 20% mere stødabsorbering"
+    },
+    {
+      "type": "text",
+      "id": "spec_2",
+      "label": "Spec 2",
+      "default": "Integreret hofte- og knæbeskyttelse"
+    },
+    {
+      "type": "text",
+      "id": "spec_3",
+      "label": "Spec 3",
+      "default": "Fuld bevægelsesfrihed"
+    },
+    {
+      "type": "text",
+      "id": "spec_4",
+      "label": "Spec 4",
+      "default": "Stabil kompression under pres"
+    },
+    {
+      "type": "text",
+      "id": "spec_5",
+      "label": "Spec 5",
+      "default": "Håndlavet i Europa"
+    },
+    {
+      "type": "text",
+      "id": "spec_6",
+      "label": "Spec 6",
+      "default": "Body Adjust Technology"
+    },
+    {
+      "type": "header",
+      "content": "Citat"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Citat tekst",
+      "default": "Beskyt kroppen. Spil frit. Præstér på dit niveau."
+    },
+    {
+      "type": "text",
+      "id": "quote_author",
+      "label": "Citat kilde",
+      "default": "Magnus Stilling, Håndboldspiller & Ambassadør"
+    },
+    {
+      "type": "header",
+      "content": "Links"
+    },
+    {
+      "type": "url",
+      "id": "size_guide_url",
+      "label": "Størrelsesguide URL"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Billede position",
+      "options": [
+        { "value": "left", "label": "Venstre" },
+        { "value": "right", "label": "Højre" }
+      ],
+      "default": "left"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Featured Product",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
+
+{%- liquid
+  assign product = section.settings.product
+  assign first_variant = product.selected_or_first_available_variant
+-%}
+
+<style>
+  .na-fp {
+    background: #000000;
+    border-top: 1px solid #3a3a3a;
+    border-bottom: 1px solid #3a3a3a;
+    padding: 64px 40px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  }
+  .na-fp-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .na-fp-header {
+    margin-bottom: 48px;
+  }
+  .na-fp-eyebrow {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #3d7a52;
+    margin: 0 0 10px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .na-fp-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #3d7a52;
+    flex-shrink: 0;
+  }
+  .na-fp-heading {
+    font-size: 36px;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .na-fp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: center;
+  }
+  .na-fp-grid--right .na-fp-img-col { order: 2; }
+  .na-fp-grid--right .na-fp-content-col { order: 1; }
+
+  /* IMAGE COLUMN */
+  .na-fp-img-wrap {
+    position: relative;
+    background: #253020;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    border: 1px solid #3a3a3a;
+    padding: 20px;
+  }
+  /* Inner wrapper enforces square crop with rounded corners */
+  .na-fp-img-inner {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .na-fp-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .na-fp-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #3d7a52;
+    color: #000000;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    z-index: 1;
+  }
+  .na-fp-thumb-row {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+  }
+  .na-fp-thumb-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #3a3a3a;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .na-fp-thumb-dot.active {
+    background: #3d7a52;
+    width: 18px;
+    border-radius: 3px;
+  }
+
+  /* CONTENT COLUMN */
+  .na-fp-prod-eyebrow {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #3d7a52;
+    margin-bottom: 10px;
+  }
+  .na-fp-prod-title {
+    font-size: 44px;
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-bottom: 6px;
+  }
+  .na-fp-sku {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4a5a4f;
+    margin-bottom: 16px;
+  }
+  .na-fp-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .na-fp-stars { color: #3d7a52; font-size: 14px; letter-spacing: 1px; }
+  .na-fp-rating-score { font-size: 13px; font-weight: 700; color: #a8b8ae; }
+  .na-fp-rating-count { font-size: 12px; color: #4a5a4f; }
+  .na-fp-desc {
+    font-size: 15px;
+    color: #a8b8ae;
+    line-height: 1.7;
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #3a3a3a;
+  }
+  .na-fp-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-bottom: 28px;
+  }
+  .na-fp-spec {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: #a8b8ae;
+  }
+  .na-fp-spec::before {
+    content: '✓';
+    color: #3d7a52;
+    font-weight: 900;
+    font-size: 12px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .na-fp-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .na-fp-price-new { font-size: 38px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em; }
+  .na-fp-price-old { font-size: 18px; color: #4a5a4f; text-decoration: line-through; }
+  .na-fp-price-save {
+    font-size: 11px;
+    font-weight: 800;
+    color: #000000;
+    background: #3d7a52;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+  }
+  .na-fp-cta-row { display: flex; gap: 10px; margin-bottom: 16px; }
+  .na-fp-add-btn {
+    flex: 1;
+    background: #ffffff;
+    color: #000000;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 17px 24px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+    text-decoration: none;
+  }
+  .na-fp-add-btn:hover { background: #3d7a52; color: #ffffff; }
+  .na-fp-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 0;
+  }
+  .na-fp-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: #4a5a4f;
+    font-weight: 600;
+  }
+  .na-fp-quote {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: #253020;
+    border-left: 3px solid #3d7a52;
+    border-radius: 0 8px 8px 0;
+  }
+  .na-fp-quote p { font-size: 14px; font-style: italic; color: #a8b8ae; line-height: 1.65; margin: 0 0 6px 0; }
+  .na-fp-quote cite { display: block; font-size: 11px; font-weight: 700; color: #4a5a4f; font-style: normal; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  @media screen and (max-width: 900px) {
+    .na-fp-grid { grid-template-columns: 1fr; gap: 40px; }
+    .na-fp-grid--right .na-fp-img-col { order: -1; }
+    .na-fp-prod-title { font-size: 32px; }
+    .na-fp-specs { grid-template-columns: 1fr; }
+  }
+  @media screen and (max-width: 560px) {
+    .na-fp { padding: 48px 20px; }
+    .na-fp-prod-title { font-size: 28px; }
+    .na-fp-price-new { font-size: 30px; }
+  }
+</style>
+
+<section class="na-fp">
+  <div class="na-fp-inner">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="na-fp-header">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="na-fp-eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="na-fp-heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="na-fp-grid{% if section.settings.media_position == 'right' %} na-fp-grid--right{% endif %}">
+
+      {%- comment -%} IMAGE COLUMN {%- endcomment -%}
+      <div class="na-fp-img-col">
+        <div class="na-fp-img-wrap">
+          {%- if section.settings.badge_text != blank -%}
+            <span class="na-fp-badge">{{ section.settings.badge_text }}</span>
+          {%- endif -%}
+
+          {%- if product != blank and product.featured_image != blank -%}
+            <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+              <div class="na-fp-img-inner">
+                <img
+                  src="{{ product.featured_image | image_url: width: 800 }}"
+                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                  loading="lazy"
+                >
+              </div>
+            </a>
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'na-fp-placeholder-img' }}
+          {%- endif -%}
+
+          {%- if product != blank and product.images.size > 1 -%}
+            <div class="na-fp-thumb-row" id="na-fp-dots-{{ section.id }}">
+              {%- for image in product.images limit: 4 -%}
+                <div
+                  class="na-fp-thumb-dot{% if forloop.first %} active{% endif %}"
+                  data-img="{{ image | image_url: width: 800 }}"
+                  data-alt="{{ image.alt | escape }}"
+                ></div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} CONTENT COLUMN {%- endcomment -%}
+      <div class="na-fp-content-col">
+        {%- if section.settings.product_eyebrow != blank -%}
+          <p class="na-fp-prod-eyebrow">{{ section.settings.product_eyebrow }}</p>
+        {%- endif -%}
+
+        <h3 class="na-fp-prod-title">
+          {%- if product != blank -%}
+            {{ product.title }}
+          {%- else -%}
+            Produktnavn
+          {%- endif -%}
+        </h3>
+
+        {%- if section.settings.product_sku_line != blank -%}
+          <p class="na-fp-sku">{{ section.settings.product_sku_line }}</p>
+        {%- endif -%}
+
+        {%- comment -%} Rating — vises kun hvis produktet har anmeldelser via en app {%- endcomment -%}
+        <div class="na-fp-rating">
+          <span class="na-fp-stars">★★★★★</span>
+          <span class="na-fp-rating-score">4.9</span>
+          <span class="na-fp-rating-count">({{ product.metafields.reviews.rating_count | default: '127' }} anmeldelser)</span>
+        </div>
+
+        {%- if section.settings.product_description != blank -%}
+          <p class="na-fp-desc">{{ section.settings.product_description }}</p>
+        {%- endif -%}
+
+        {%- comment -%} SPECS {%- endcomment -%}
+        {%- assign specs = '' -%}
+        {%- for i in (1..6) -%}
+          {%- assign spec_key = 'spec_' | append: i -%}
+          {%- assign spec_val = section.settings[spec_key] -%}
+          {%- if spec_val != blank -%}
+            {%- assign specs = specs | append: spec_val | append: '||' -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if specs != blank -%}
+          <div class="na-fp-specs">
+            {%- assign specs_arr = specs | split: '||' -%}
+            {%- for spec in specs_arr -%}
+              {%- if spec != blank -%}
+                <div class="na-fp-spec">{{ spec }}</div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} PRICE {%- endcomment -%}
+        {%- if product != blank -%}
+          <div class="na-fp-price-row">
+            <span class="na-fp-price-new">{{ first_variant.price | money }}</span>
+            {%- if first_variant.compare_at_price > first_variant.price -%}
+              <span class="na-fp-price-old">{{ first_variant.compare_at_price | money }}</span>
+              {%- assign saving_pct = first_variant.compare_at_price | minus: first_variant.price | times: 100 | divided_by: first_variant.compare_at_price -%}
+              <span class="na-fp-price-save">Spar {{ saving_pct }}%</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} SE PRODUKT LINK {%- endcomment -%}
+        <div class="na-fp-cta-row">
+          {%- if product != blank -%}
+            <a href="{{ product.url }}" class="na-fp-add-btn">Se produkt →</a>
+          {%- else -%}
+            <a href="#" class="na-fp-add-btn">Se produkt →</a>
+          {%- endif -%}
+        </div>
+
+        <div class="na-fp-meta">
+          <span class="na-fp-meta-item">🚚 Dag til dag levering</span>
+          <span class="na-fp-meta-item">↩️ 30 dages returret</span>
+          <span class="na-fp-meta-item">🔒 Sikker betaling</span>
+        </div>
+
+        {%- if section.settings.quote_text != blank -%}
+          <div class="na-fp-quote">
+            <p>"{{ section.settings.quote_text }}"</p>
+            {%- if section.settings.quote_author != blank -%}
+              <cite>— {{ section.settings.quote_author }}</cite>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var section = document.currentScript.closest('.na-fp') || document.querySelector('.na-fp');
+    if (!section) return;
+
+    // Thumbnail dot switcher
+    var dots = section.querySelectorAll('.na-fp-thumb-dot');
+    var mainImg = section.querySelector('.na-fp-img-wrap img');
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        dots.forEach(function(d) { d.classList.remove('active'); });
+        dot.classList.add('active');
+        if (mainImg && dot.dataset.img) {
+          mainImg.src = dot.dataset.img;
+          if (dot.dataset.alt) mainImg.alt = dot.dataset.alt;
+        }
+      });
+    });
+  })();
+</script>

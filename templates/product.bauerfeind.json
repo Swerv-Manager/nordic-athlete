@@ -1,0 +1,472 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "media_presentation": "grid",
+            "media_columns": "two",
+            "image_gap": 4,
+            "large_first_image": true,
+            "icons_style": "none",
+            "slideshow_controls_style": "counter",
+            "slideshow_mobile_controls_style": "dots",
+            "thumbnail_position": "right",
+            "thumbnail_width": 44,
+            "thumbnail_radius": 0,
+            "aspect_ratio": "1",
+            "constrain_to_viewport": true,
+            "media_fit": "contain",
+            "media_radius": 0,
+            "extend_media": false,
+            "zoom": true,
+            "video_loop": false,
+            "hide_variants": true,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "details_position": "flex-start",
+            "gap": 28,
+            "sticky_details_desktop": true,
+            "inherit_color_scheme": true,
+            "color_scheme": "scheme-1",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 24,
+            "padding-block-end": 24,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "group_icgrde": {
+              "type": "group",
+              "name": "Header",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "custom_liquid_Tdcw8T": {
+                  "type": "custom-liquid",
+                  "name": "t:names.custom_liquid",
+                  "settings": {
+                    "custom_liquid": "<!-- ═══════════════════════════════════════════════════════════════\n     NA PRODUCT BLOCK: Sub-headline\n     Brug: Custom Liquid block i product-info sektionen\n     Placering: EFTER title-blokken, FØR price-blokken\n     ═══════════════════════════════════════════════════════════════ -->\n\n<style>\n  .na-pb-subheadline {\n    font-size: 11px;\n    font-weight: 700;\n    letter-spacing: 0.14em;\n    text-transform: uppercase;\n    color: #3d7a52;\n    margin-bottom: 0px;\n    margin-top: -4px;\n  }\n</style>\n\n<p class=\"na-pb-subheadline\">\n Pas på din krop - Den skal holde i mange år\n</p>"
+                  },
+                  "blocks": {}
+                },
+                "text_xrnftG": {
+                  "type": "text",
+                  "name": "Product title",
+                  "settings": {
+                    "text": "<h1>{{ closest.product.title }}</h1>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h3",
+                    "font": "var(--font-primary--family)",
+                    "font_size": "",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "price_tVjtKg": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": false,
+                    "type_preset": "custom",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "1.5rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "color": "var(--color-foreground)",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "custom_liquid_Tdcw8T",
+                "text_xrnftG",
+                "price_tVjtKg"
+              ]
+            },
+            "custom_liquid_tNFfmt": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "disabled": true,
+              "settings": {
+                "custom_liquid": "<!-- ═══════════════════════════════════════════════════════════════\n     NA PRODUCT BLOCK: USP Strip — Bauerfeind\n     Placering: Custom Liquid block EFTER price-blokken, FØR variant-picker\n     ═══════════════════════════════════════════════════════════════ -->\n<style>\n  .na-pb-usp {\n    display: flex;\n    flex-wrap: wrap;\n    gap: 6px;\n    padding: 12px 0;\n    border-top: 1px solid #2e3d32;\n    border-bottom: 1px solid #2e3d32;\n  }\n  .na-pb-usp-item {\n    display: flex;\n    align-items: center;\n    gap: 6px;\n    background-color: #253020;\n    border: 1px solid #2e3d32;\n    border-radius: 20px;\n    padding: 5px 11px;\n    font-size: 11.5px;\n    font-weight: 600;\n    color: #a8b8ae;\n    white-space: nowrap;\n  }\n  .na-pb-usp-item .usp-icon { font-size: 13px; }\n</style>\n<div class=\"na-pb-usp\">\n  <div class=\"na-pb-usp-item\"><span class=\"usp-icon\">💪</span> Støtte &amp; kompression i topkvalitet</div>\n  <div class=\"na-pb-usp-item\"><span class=\"usp-icon\">🩸</span> Forbedrer blodcirkulation og restitution</div>\n  <div class=\"na-pb-usp-item\"><span class=\"usp-icon\">🦴</span> Ergonomisk og anatomisk pasform</div>\n  <div class=\"na-pb-usp-item\"><span class=\"usp-icon\">🏥</span> Medicinsk dokumenteret kvalitet</div>\n  <div class=\"na-pb-usp-item\"><span class=\"usp-icon\">🏆</span> Anbefalet af fysioterapeuter</div>\n  <div class=\"na-pb-usp-item\"><span class=\"usp-icon\">🔁</span> Kompression til sport, arbejde og genoptræning</div>\n</div>"
+              },
+              "blocks": {}
+            },
+            "variant_picker_R3rGDr": {
+              "type": "variant-picker",
+              "settings": {
+                "variant_style": "buttons",
+                "show_swatches": false,
+                "alignment": "left",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "custom_liquid_6PXycQ": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "disabled": true,
+              "settings": {
+                "custom_liquid": "{% if product.selected_or_first_available_variant.inventory_quantity < 5 \n   and product.selected_or_first_available_variant.inventory_quantity > 0 %}\n  <span>⚠️ Kun {{ product.selected_or_first_available_variant.inventory_quantity }} tilbage</span>\n{% endif %}"
+              },
+              "blocks": {}
+            },
+            "buy_buttons_eYQEYi": {
+              "type": "buy-buttons",
+              "settings": {
+                "stacking": false,
+                "show_pickup_availability": false,
+                "gift_card_form": true,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "disabled": true,
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
+            },
+            "custom_liquid_kPCWJc": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "{% comment %}\n  ══════════════════════════════════════════════\n  LAGER STATUS BAR — Nordic Athlete\n  Indsæt som \"Custom Liquid\" blok i\n  Shopify Customizer → Product page\n\n  Dynamisk logik (JavaScript-drevet):\n  - Lytter på variant:change event fra Shopifys\n    native variant-picker — opdaterer i realtid\n    når kunden skifter størrelse, side eller farve\n  - Viser korrekt lagerantal for den PRÆCISE\n    kombination kunden har valgt\n      0       → Udsolgt: 7–10 dages levering (grå)\n      1–3     → \"Kun X tilbage\" (rød/kritisk)\n      4–8     → \"Populær · Kun Y tilbage\" (gul)\n      9+      → \"På lager · Leveres dag til dag\" (grøn)\n  ══════════════════════════════════════════════\n{% endcomment %}\n\n{%- comment %} Embed all variant data as JSON for JS to read {%- endcomment %}\n<script type=\"application/json\" id=\"na-variant-data\">\n  [\n    {%- for variant in product.variants -%}\n      {\n        \"id\": {{ variant.id }},\n        \"available\": {{ variant.available }},\n        \"inventory_quantity\": {{ variant.inventory_quantity | default: 0 }},\n        \"inventory_management\": {{ variant.inventory_management | json }}\n      }{% unless forloop.last %},{% endunless %}\n    {%- endfor -%}\n  ]\n</script>\n\n{%- comment %} Initial render via Liquid (first selected variant) {%- endcomment %}\n{%- assign variant = product.selected_or_first_available_variant -%}\n{%- assign qty = variant.inventory_quantity | default: 0 -%}\n{%- assign track = variant.inventory_management -%}\n\n<div id=\"na-stock-bar-wrapper\">\n  {%- if track == 'shopify' -%}\n    {%- if qty <= 0 -%}\n      <div class=\"na-stock-bar na-stock--soldout\">\n        <span class=\"na-stock-dot\"></span>\n        <span class=\"na-stock-text\"><strong>Udsolgt:</strong> 7–10 dages levering.</span>\n      </div>\n    {%- elsif qty <= 3 -%}\n      <div class=\"na-stock-bar na-stock--critical\">\n        <span class=\"na-stock-dot\"></span>\n        <span class=\"na-stock-text\"><strong>Kun {{ qty }} tilbage på lager</strong> — bestil nu for at sikre din.</span>\n      </div>\n    {%- elsif qty <= 8 -%}\n      <div class=\"na-stock-bar na-stock--low\">\n        <span class=\"na-stock-dot\"></span>\n        <span class=\"na-stock-text\"><strong>Populær:</strong> Mange kigger på dette nu &nbsp;·&nbsp; <strong>Kun {{ qty }} tilbage på lager</strong></span>\n      </div>\n    {%- else -%}\n      <div class=\"na-stock-bar na-stock--normal\">\n        <span class=\"na-stock-dot\"></span>\n        <span class=\"na-stock-text\"><strong>På lager</strong> — leveres dag til dag med GLS</span>\n      </div>\n    {%- endif -%}\n  {%- endif -%}\n</div>\n\n<style>\n  .na-stock-bar {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    border-radius: 6px;\n    padding: 10px 14px;\n    margin: 0 0 14px;\n    font-size: 13px;\n    font-weight: 500;\n    line-height: 1.45;\n    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;\n    transition: opacity 0.2s ease;\n  }\n  .na-stock-dot {\n    width: 9px;\n    height: 9px;\n    border-radius: 50%;\n    flex-shrink: 0;\n    position: relative;\n  }\n  .na-stock-dot::after {\n    content: '';\n    position: absolute;\n    inset: -3px;\n    border-radius: 50%;\n    opacity: 0;\n    animation: na-pulse 2s ease-out infinite;\n  }\n  @keyframes na-pulse {\n    0%   { transform: scale(0.8); opacity: 0.6; }\n    70%  { transform: scale(1.8); opacity: 0; }\n    100% { opacity: 0; }\n  }\n\n  /* På lager — grøn */\n  .na-stock--normal {\n    background: #0f1f13;\n    border: 1.5px solid #2d5a3d;\n    color: #a8d4b4;\n  }\n  .na-stock--normal .na-stock-dot { background: #5ab87a; }\n  .na-stock--normal .na-stock-dot::after { background: #5ab87a; }\n  .na-stock--normal .na-stock-text strong { color: #5ab87a; font-weight: 700; }\n\n  /* Lav beholdning — gul */\n  .na-stock--low {\n    background: #1a1500;\n    border: 1.5px solid #7a5c00;\n    color: #c9a84c;\n  }\n  .na-stock--low .na-stock-dot { background: #f0b429; }\n  .na-stock--low .na-stock-dot::after { background: #f0b429; }\n  .na-stock--low .na-stock-text strong { color: #f0b429; font-weight: 700; }\n\n  /* Kritisk lav — rød */\n  .na-stock--critical {\n    background: #1a0a0a;\n    border: 1.5px solid #7a2020;\n    color: #d49494;\n  }\n  .na-stock--critical .na-stock-dot { background: #e53e3e; }\n  .na-stock--critical .na-stock-dot::after { background: #e53e3e; }\n  .na-stock--critical .na-stock-text strong { color: #e86060; font-weight: 700; }\n\n  /* Udsolgt — grå */\n  .na-stock--soldout {\n    background: #111a13;\n    border: 1.5px solid #2e3d32;\n    color: #6b7d70;\n  }\n  .na-stock--soldout .na-stock-dot { background: #4a5a4f; animation: none; }\n  .na-stock--soldout .na-stock-dot::after { display: none; }\n  .na-stock--soldout .na-stock-text strong { color: #8a9e8f; font-weight: 700; }\n\n  @media (max-width: 749px) {\n    .na-stock-bar { font-size: 12px; padding: 9px 12px; }\n  }\n</style>\n\n<script>\n(function () {\n  // ── Build variant lookup map from embedded JSON ──\n  var variantData = JSON.parse(\n    document.getElementById('na-variant-data').textContent\n  );\n  var variantMap = {};\n  variantData.forEach(function (v) { variantMap[v.id] = v; });\n\n  var wrapper = document.getElementById('na-stock-bar-wrapper');\n\n  function renderBar(qty, tracked) {\n    if (!tracked) { wrapper.innerHTML = ''; return; }\n\n    var state, text;\n    if (qty <= 0) {\n      state = 'soldout';\n      text  = '<strong>Udsolgt:</strong> 7\\u201310 dages levering.';\n    } else if (qty <= 3) {\n      state = 'critical';\n      text  = '<strong>Kun ' + qty + ' tilbage p\\u00e5 lager</strong> \\u2014 bestil nu for at sikre din.';\n    } else if (qty <= 8) {\n      state = 'low';\n      text  = '<strong>Popul\\u00e6r:</strong> Mange kigger p\\u00e5 dette nu &nbsp;\\u00b7&nbsp; <strong>Kun ' + qty + ' tilbage p\\u00e5 lager</strong>';\n    } else {\n      state = 'normal';\n      text  = '<strong>P\\u00e5 lager</strong> \\u2014 leveres dag til dag med GLS';\n    }\n\n    wrapper.innerHTML =\n      '<div class=\"na-stock-bar na-stock--' + state + '\">' +\n        '<span class=\"na-stock-dot\"></span>' +\n        '<span class=\"na-stock-text\">' + text + '</span>' +\n      '</div>';\n  }\n\n  // ── Listen for Shopify native variant change events ──\n  // Works with Horizon, Dawn, and most modern themes\n  document.addEventListener('variant:change', function (e) {\n    var variantId = e.detail && (e.detail.variant && e.detail.variant.id || e.detail.id);\n    if (!variantId) return;\n    var v = variantMap[variantId];\n    if (!v) return;\n    renderBar(v.inventory_quantity, v.inventory_management === 'shopify');\n  });\n\n  // ── Fallback: watch for URL param changes (older themes) ──\n  var lastVariantId = null;\n  function checkUrlVariant() {\n    var params = new URLSearchParams(window.location.search);\n    var id = parseInt(params.get('variant'), 10);\n    if (id && id !== lastVariantId && variantMap[id]) {\n      lastVariantId = id;\n      var v = variantMap[id];\n      renderBar(v.inventory_quantity, v.inventory_management === 'shopify');\n    }\n  }\n\n  // ── Fallback: MutationObserver on the add-to-cart button\n  //    (Horizon updates button data-variant-id when variant changes) ──\n  function watchAddToCartButton() {\n    var btn = document.querySelector('[name=\"id\"], [data-variant-id], #ProductSubmitButton, .product-form__submit');\n    if (!btn) return;\n    var observer = new MutationObserver(function () {\n      var id = parseInt(btn.value || btn.dataset.variantId, 10);\n      if (id && id !== lastVariantId && variantMap[id]) {\n        lastVariantId = id;\n        var v = variantMap[id];\n        renderBar(v.inventory_quantity, v.inventory_management === 'shopify');\n      }\n    });\n    observer.observe(btn, { attributes: true, attributeFilter: ['value', 'data-variant-id'] });\n  }\n\n  // ── Also listen on the hidden variant input directly ──\n  function watchVariantInput() {\n    var input = document.querySelector('input[name=\"id\"][form], form[action*=\"/cart/add\"] input[name=\"id\"]');\n    if (!input) return;\n    input.addEventListener('change', function () {\n      var id = parseInt(input.value, 10);\n      if (id && variantMap[id]) {\n        lastVariantId = id;\n        var v = variantMap[id];\n        renderBar(v.inventory_quantity, v.inventory_management === 'shopify');\n      }\n    });\n  }\n\n  document.addEventListener('DOMContentLoaded', function () {\n    watchAddToCartButton();\n    watchVariantInput();\n    // Poll URL as last-resort fallback\n    setInterval(checkUrlVariant, 400);\n  });\n\n  // If DOM already loaded\n  if (document.readyState !== 'loading') {\n    watchAddToCartButton();\n    watchVariantInput();\n    setInterval(checkUrlVariant, 400);\n  }\n})();\n</script>"
+              },
+              "blocks": {}
+            },
+            "custom_liquid_YkhLHN": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "disabled": true,
+              "settings": {
+                "custom_liquid": "<!-- ═══════════════════════════════════════════════════════════════\n     NA PRODUCT BLOCK: Trust Badges\n     Brug: Custom Liquid block i product-info sektionen\n     Placering: EFTER buy-buttons-blokken\n     ═══════════════════════════════════════════════════════════════ -->\n\n<style>\n  .na-pb-trust {\n    display: flex;\n    gap: 0;\n    border: 1px solid #2e3d32;\n    border-radius: 10px;\n    overflow: hidden;\n    margin-top: 4px;\n  }\n  .na-pb-trust-item {\n    flex: 1;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    gap: 4px;\n    padding: 12px 8px;\n    background-color: #00000;\n    text-align: center;\n  }\n  .na-pb-trust-item + .na-pb-trust-item {\n    border-left: 1px solid #2e3d32;\n  }\n  .na-pb-trust-icon {\n    font-size: 18px;\n    line-height: 1;\n  }\n  .na-pb-trust-title {\n    font-size: 11.5px;\n    font-weight: 700;\n    color: #ffffff;\n    line-height: 1.2;\n  }\n  .na-pb-trust-sub {\n    font-size: 10px;\n    color: #68706c;\n    line-height: 1.2;\n  }\n</style>\n\n<div class=\"na-pb-trust\">\n  <div class=\"na-pb-trust-item\">\n    <span class=\"na-pb-trust-icon\">🚚</span>\n    <span class=\"na-pb-trust-title\">Dag til dag</span>\n    <span class=\"na-pb-trust-sub\">levering på lagervarer</span>\n  </div>\n  <div class=\"na-pb-trust-item\">\n    <span class=\"na-pb-trust-icon\">↩️</span>\n    <span class=\"na-pb-trust-title\">30 dages</span>\n    <span class=\"na-pb-trust-sub\">returret</span>\n  </div>\n  <div class=\"na-pb-trust-item\">\n    <span class=\"na-pb-trust-icon\">🇪🇺</span>\n    <span class=\"na-pb-trust-title\">Håndlavet</span>\n    <span class=\"na-pb-trust-sub\">i Europa</span>\n  </div>\n  <div class=\"na-pb-trust-item\">\n    <span class=\"na-pb-trust-icon\">🔒</span>\n    <span class=\"na-pb-trust-title\">Sikker</span>\n    <span class=\"na-pb-trust-sub\">betaling</span>\n  </div>\n</div>"
+              },
+              "blocks": {}
+            },
+            "custom_liquid_F7gwa8": {
+              "type": "custom-liquid",
+              "name": "t:names.custom_liquid",
+              "settings": {
+                "custom_liquid": "<!-- ═══════════════════════════════════════════════════════════════\n     NA PRODUCT BLOCK: Accordion — Bauerfeind\n     Placering: Custom Liquid block EFTER trust-badges blokken\n     Indeholder: Produktbeskrivelse · Størrelsesguide (lægomkreds + læglængde) · Levering & Retur\n     ═══════════════════════════════════════════════════════════════ -->\n<style>\n  .na-accordion {\n    display: flex; flex-direction: column; gap: 0; margin-top: 8px;\n  }\n  .na-accordion-item {\n    border: 1px solid #2e3d32; border-radius: 0; overflow: hidden;\n  }\n  .na-accordion-item:first-child { border-radius: 8px 8px 0 0; }\n  .na-accordion-item:last-child  { border-radius: 0 0 8px 8px; }\n  .na-accordion-item + .na-accordion-item { border-top: none; }\n  .na-accordion-item summary {\n    display: flex; align-items: center; justify-content: space-between;\n    gap: 12px; padding: 14px 18px; background-color: #253020;\n    cursor: pointer; list-style: none; font-size: 12px; font-weight: 700;\n    letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff;\n    transition: background-color 0.15s, color 0.15s; user-select: none;\n  }\n  .na-accordion-item summary::-webkit-details-marker { display: none; }\n  .na-accordion-item summary::marker { display: none; }\n  .na-accordion-item summary:hover { background-color: #2c3d2e; color: #3d7a52; }\n  .na-accordion-item[open] > summary { color: #3d7a52; background-color: #2a2a2a; border-bottom: 1px solid #2e3d32; }\n  .na-accordion-chevron {\n    width: 16px; height: 16px; flex-shrink: 0;\n    transition: transform 0.2s ease; color: currentColor;\n  }\n  .na-accordion-item[open] .na-accordion-chevron { transform: rotate(180deg); }\n  .na-accordion-body {\n    background-color: #2a2a2a; padding: 16px 18px;\n    font-size: 14px; color: #a8b8ae; line-height: 1.75;\n  }\n  .na-accordion-body p { margin: 0 0 10px; }\n  .na-accordion-body p:last-child { margin-bottom: 0; }\n  .na-accordion-body ul { margin: 8px 0; padding-left: 0; list-style: none; }\n  .na-accordion-body ul li { padding: 3px 0; display: flex; align-items: flex-start; gap: 8px; }\n  .na-accordion-body strong { color: #ffffff; }\n\n  /* ── Size guide: Bauerfeind socks ── */\n  .na-sg-label {\n    font-size: 10px; font-weight: 800; letter-spacing: 0.14em;\n    text-transform: uppercase; color: #5ab87a; margin: 0 0 10px 0;\n  }\n  .na-sg-sublabel {\n    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;\n    text-transform: uppercase; color: #a8b8ae;\n    margin: 18px 0 8px 0; padding-top: 14px; border-top: 1px solid #2a3828;\n  }\n  .na-sg-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }\n  .na-sg-step {\n    display: flex; align-items: flex-start; gap: 12px;\n    background: #1a2a1f; border-radius: 8px; padding: 10px 12px;\n  }\n  .na-sg-step-num {\n    width: 24px; height: 24px; background: #2d5a3d; color: #ffffff;\n    font-weight: 900; font-size: 11px; border-radius: 50%;\n    display: flex; align-items: center; justify-content: center; flex-shrink: 0;\n  }\n  .na-sg-step-text strong {\n    display: block; font-size: 11px; font-weight: 800;\n    letter-spacing: 0.07em; text-transform: uppercase; color: #ffffff; margin-bottom: 2px;\n  }\n  .na-sg-step-text p { font-size: 12px; color: #a8b8ae; margin: 0; }\n  .na-sg-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }\n  .na-sg-table { border-collapse: collapse; width: 100%; min-width: 300px; }\n  .na-sg-table th, .na-sg-table td {\n    border: 1px solid #2a3828; text-align: center; padding: 8px 10px; font-size: 12.5px;\n  }\n  .na-sg-table thead th {\n    background: #2d5a3d; color: #ffffff; font-weight: 800;\n    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;\n  }\n  .na-sg-table .size-cell {\n    background: #1a2a1f !important; color: #ffffff; font-weight: 800;\n    font-size: 13px; text-align: left; padding-left: 12px;\n  }\n  .na-sg-table tbody tr:nth-child(odd) td  { background: #131c15; }\n  .na-sg-table tbody tr:nth-child(even) td { background: #1a2a1f; }\n  .na-sg-table tbody tr td:first-child { background: #1a2a1f; }\n  .na-sg-tip {\n    font-size: 11.5px; color: #6a7a70; margin-top: 12px;\n    padding: 10px 14px; background: #1a2a1f;\n    border-left: 3px solid #2d5a3d; border-radius: 0 6px 6px 0;\n  }\n</style>\n\n<div class=\"na-accordion\">\n\n  <!-- 1: Produktbeskrivelse -->\n  <details class=\"na-accordion-item\" open>\n    <summary>\n      Produktbeskrivelse\n      <svg class=\"na-accordion-chevron\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"6 9 12 15 18 9\"/></svg>\n    </summary>\n    <div class=\"na-accordion-body\">{{ product.description }}</div>\n  </details>\n\n  <!-- 2: Størrelsesguide -->\n  <details class=\"na-accordion-item\">\n    <summary>\n      Størrelsesguide\n      <svg class=\"na-accordion-chevron\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"6 9 12 15 18 9\"/></svg>\n    </summary>\n    <div class=\"na-accordion-body\">\n      <p class=\"na-sg-label\">📏 Størrelsesguide — Bauerfeind Kompressionsstrømper</p>\n\n      <div class=\"na-sg-steps\">\n        <div class=\"na-sg-step\">\n          <div class=\"na-sg-step-num\">1</div>\n          <div class=\"na-sg-step-text\">\n            <strong>Lægomkreds — tykkeste punkt (Omfang 1)</strong>\n            <p>Mål rundt om læggen på det tykkeste sted i cm.</p>\n          </div>\n        </div>\n        <div class=\"na-sg-step\">\n          <div class=\"na-sg-step-num\">2</div>\n          <div class=\"na-sg-step-text\">\n            <strong>Ankelomkreds — over ankelbenet (Omfang 2)</strong>\n            <p>Mål rundt om anklen på det smalleste sted, lige over ankelbenet.</p>\n          </div>\n        </div>\n        <div class=\"na-sg-step\">\n          <div class=\"na-sg-step-num\">3</div>\n          <div class=\"na-sg-step-text\">\n            <strong>Læglængde — knæ til ankel (Omfang 3)</strong>\n            <p>Bruges til at vælge Short / Long / X Long.</p>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"na-sg-scroll\">\n        <table class=\"na-sg-table\">\n          <thead>\n            <tr>\n              <th>Størrelse</th>\n              <th>Omfang 1 (cm)</th><th>Omfang 1 (inch)</th>\n              <th>Omfang 2 (cm)</th><th>Omfang 2 (inch)</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr><td class=\"size-cell\">S</td><td>32–39</td><td>12½–15½</td><td>19–21</td><td>7½–8¼</td></tr>\n            <tr><td class=\"size-cell\">M</td><td>35–43</td><td>13¾–17</td><td>21–24</td><td>8¼–9½</td></tr>\n            <tr><td class=\"size-cell\">L</td><td>38–47</td><td>15–18½</td><td>24–27</td><td>9½–10¾</td></tr>\n            <tr><td class=\"size-cell\">XL</td><td>42–51</td><td>16½–20</td><td>27–31</td><td>10¾–12¼</td></tr>\n          </tbody>\n        </table>\n      </div>\n\n      <p class=\"na-sg-sublabel\">Vælg længde (Omfang 3 — knæ til ankel)</p>\n      <div class=\"na-sg-scroll\">\n        <table class=\"na-sg-table\">\n          <thead>\n            <tr><th>Længde</th><th>Læglængde (cm)</th><th>Læglængde (inch)</th></tr>\n          </thead>\n          <tbody>\n            <tr><td class=\"size-cell\">Short</td><td>26–30</td><td>10½–11</td></tr>\n            <tr><td class=\"size-cell\">Long</td><td>30,1–36</td><td>12–14¼</td></tr>\n            <tr><td class=\"size-cell\">X Long</td><td>36,1–43</td><td>14¼–17</td></tr>\n          </tbody>\n        </table>\n      </div>\n\n      <p class=\"na-sg-tip\">💡 Størrelserne overlapper — er du i tvivl, anbefaler Bauerfeind at vælge den <strong>mindre</strong> størrelse for optimal kompressionseffekt.</p>\n    </div>\n  </details>\n\n      </ul>\n    </div>\n  </details>\n\n</div>"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "group_icgrde",
+            "custom_liquid_tNFfmt",
+            "variant_picker_R3rGDr",
+            "custom_liquid_6PXycQ",
+            "buy_buttons_eYQEYi",
+            "custom_liquid_kPCWJc",
+            "custom_liquid_YkhLHN",
+            "custom_liquid_F7gwa8"
+          ]
+        }
+      },
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": true,
+        "limit_details_width": false,
+        "gap": 48,
+        "enable_sticky_add_to_cart": true,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "featured_collection_tdddLB": {
+      "type": "featured-collection",
+      "name": "NA Featured Collection",
+      "settings": {
+        "eyebrow": "Andre købte også",
+        "heading": "Prøv GAMEPATCH",
+        "heading_highlight": true,
+        "link_label": "SE ALLE PRODUKTER →",
+        "link_url": "shopify://collections/gamepatch-1",
+        "collection": "gamepatch-1",
+        "products_to_show": 24,
+        "columns_desktop": 5,
+        "show_rating": true,
+        "show_subline": true,
+        "show_quick_add": true,
+        "card_action": "atc",
+        "show_color_swatches": true,
+        "show_badges": false,
+        "show_filters": true,
+        "filter_1_label": "Alle",
+        "filter_2_label": "Tights",
+        "filter_2_tag": "tights",
+        "filter_3_label": "Knæbeskyttere",
+        "filter_3_tag": "knæbeskyttere",
+        "filter_4_label": "Shorts",
+        "filter_4_tag": "shorts",
+        "filter_5_label": "Compression",
+        "filter_5_tag": "compression",
+        "filter_6_label": "Bundles",
+        "filter_6_tag": "bundle",
+        "show_sort": true,
+        "bg_style": "dark"
+      }
+    },
+    "na_sport_collection_Eqa6i8": {
+      "type": "na-sport-collection",
+      "name": "NA Sport Collections",
+      "settings": {
+        "eyebrow": "Shop efter sport",
+        "title": "<p>Find udstyr til <em>din sport</em></p>",
+        "collection_list": [
+          "gamepatch",
+          "fodbold",
+          "frontpage",
+          "bmx",
+          "traening",
+          "kroppen"
+        ]
+      }
+    },
+    "multicolumn_reviews_hdyhXd": {
+      "type": "multicolumn-reviews",
+      "blocks": {
+        "review_rLnDjb": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Endeligt et produkt der faktisk holder, hvad det lover. Har brugt Gamepatch tights i hele sæsonen og mærker en klar forskel på mine knæ.",
+            "initials": "MS",
+            "name": "Mikkel S.",
+            "role": "Håndboldsspiller",
+            "verified": true
+          }
+        },
+        "review_cxcqCX": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Bruger dem til basketball. Sidder perfekt og giver god støtte uden at føles tunge. Vil klart anbefale til alle holdspillere.",
+            "initials": "BF",
+            "name": "Bastian F.",
+            "role": "Basketballspiller · BK Vejen",
+            "verified": true
+          }
+        },
+        "review_VpFKGG": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Har prøvet mange beskyttende tights, men intet matcher kvaliteten fra Nordic Athlete. Hoftepadding sidder præcis, hvor den skal.",
+            "initials": "LK",
+            "name": "Louise K.",
+            "role": "Håndboldsspiller · Høj Elithåndbold",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_rLnDjb",
+        "review_cxcqCX",
+        "review_VpFKGG"
+      ],
+      "disabled": true,
+      "name": "NA Multicolumn — Kundeanmeldelser",
+      "settings": {
+        "bg_style": "darker",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "eyebrow": "Kundeanmeldelser",
+        "heading_line1": "Hvad siger",
+        "heading_line2": "vores kunder?",
+        "link_label": "Se alle anmeldelser →",
+        "link_url": "",
+        "show_summary": true,
+        "score": "4.9",
+        "score_count": "200+ anmeldelser",
+        "bar5": 88,
+        "bar4": 9,
+        "bar3": 2,
+        "bar2": 1,
+        "bar1": 0,
+        "count5": 176,
+        "count4": 18,
+        "count3": 4,
+        "count2": 2,
+        "count1": 0
+      }
+    },
+    "multicolumn_why_TyEYh7": {
+      "type": "multicolumn-why",
+      "blocks": {
+        "card_xQfRtA": {
+          "type": "card",
+          "settings": {
+            "icon": "🛡️",
+            "title": "Professionel beskyttelse",
+            "text": "Udviklet med eliteatleter som Magnus Stilling og Høj Elithåndbold. Udstyr der er testet i kamp og på træningsbanen."
+          }
+        },
+        "card_WhMYmD": {
+          "type": "card",
+          "settings": {
+            "icon": "🔨",
+            "title": "Slidstærke materialer",
+            "text": "Designet til høj intensitet og gentagen brug — sæson efter sæson. Håndlavet i Europa efter høje kvalitetsstandarder."
+          }
+        },
+        "card_ezUBFb": {
+          "type": "card",
+          "settings": {
+            "icon": "🤸",
+            "title": "Body Adjust Technology",
+            "text": "Tightsene tilpasser sig din kropstemperatur og former sig naturligt efter kroppen. Fuld bevægelsesfrihed uden begrænsning."
+          }
+        },
+        "card_N4WxHA": {
+          "type": "card",
+          "settings": {
+            "icon": "🚚",
+            "title": "Hurtig levering",
+            "text": "Dag til dag levering på lagervarer. 30 dages returret. Kundeservice mandag til fredag kl. 9–15 — vi svarer inden for 24 timer."
+          }
+        }
+      },
+      "block_order": [
+        "card_xQfRtA",
+        "card_WhMYmD",
+        "card_ezUBFb",
+        "card_N4WxHA"
+      ],
+      "disabled": true,
+      "name": "NA Multicolumn — Hvorfor Nordic Athlete",
+      "settings": {
+        "bg_style": "dark",
+        "columns": 4,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "eyebrow": "Pas på din krop",
+        "heading_line1": "Den skal holde i",
+        "heading_line2": "mange år...",
+        "subtitle": "Vi ved, at sport handler om mere end bare træning og konkurrence. Det handler om at stræbe efter ens bedste, bryde grænser og opnå nye mål."
+      }
+    }
+  },
+  "order": [
+    "main",
+    "featured_collection_tdddLB",
+    "na_sport_collection_Eqa6i8",
+    "multicolumn_reviews_hdyhXd",
+    "multicolumn_why_TyEYh7"
+  ]
+}

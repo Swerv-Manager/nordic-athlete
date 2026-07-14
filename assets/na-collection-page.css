@@ -1,0 +1,381 @@
+/*
+ * na-collection-page.css  v2.0
+ * Nordic Athlete — Collection Page Brand Overrides
+ * ─────────────────────────────────────────────────
+ * Targets the Alchemy 7 theme's actual class names:
+ *   product-card, product-card__content, product-media-container,
+ *   product-media, quick-add-component, quick-add__button, etc.
+ *
+ * HOW TO INSTALL:
+ *   1. Shopify Admin → Online Store → Themes → Edit code
+ *   2. Assets → Add a new file → paste this CSS → save as
+ *      "na-collection-page.css"
+ *   3. Layout → theme.liquid → just before </head> add:
+ *      {% if template.name == 'collection' %}
+ *        {{ 'na-collection-page.css' | asset_url | stylesheet_tag }}
+ *      {% endif %}
+ *
+ * DESIGN TOKENS
+ * ─────────────────────────────────────────────────
+ *   --na-green:       #3d7a52  (primary accent)
+ *   --na-green-dim:   rgba(126,217,87,0.35)
+ *   --na-amber:       #3d7a52  (badges: new)
+ *   --na-bg:          #2a2a2a  (page background)
+ *   --na-bg-dark:     #131c15  (header / footer bg)
+ *   --na-bg-card:     #1a2520  (card image background)
+ *   --na-border:      rgba(126,217,87,0.14)
+ *   --na-text-dim:    #5a7060
+ *   --na-text-muted:  #8fa894
+ *   --na-white:       #f0f5f1
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   1. PAGE BACKGROUND
+   ═══════════════════════════════════════════════════════════════ */
+
+.template-collection body,
+.template-collection .shopify-section,
+.template-collection main,
+.template-collection .page-width {
+  background-color: #2a2a2a;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   2. COLLECTION TITLE & DESCRIPTION (native Alchemy header)
+   ═══════════════════════════════════════════════════════════════ */
+
+.collection__title {
+  color: #f0f5f1 !important;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.collection__description {
+  color: #8fa894 !important;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   3. FILTER BAR
+   ─────────────────────────────────────────────────────────────
+   Alchemy uses summary/details for filter dropdowns.
+   ═══════════════════════════════════════════════════════════════ */
+
+.facets-container,
+.facets__form,
+.collection-filters {
+  background: #131c15 !important;
+  border-color: rgba(126,217,87,0.14) !important;
+}
+
+.facets__heading,
+.facet-filters__label,
+summary.facets__summary {
+  color: #f0f5f1 !important;
+  font-weight: 700;
+}
+
+.facets__item label,
+.facet-checkbox__label {
+  color: #8fa894 !important;
+}
+
+.facets__item label:hover,
+.facet-checkbox__label:hover {
+  color: #7ed957 !important;
+}
+
+.facets__item input:checked + label,
+.facet-checkbox input:checked + .facet-checkbox__label {
+  color: #7ed957 !important;
+  font-weight: 700;
+}
+
+/* Sort dropdown */
+.facet-filters__sort select,
+.collection-filters__sort select {
+  background: #1a2520 !important;
+  border: 1px solid rgba(126,217,87,0.14) !important;
+  color: #8fa894 !important;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.facet-filters__sort select:hover,
+.facet-filters__sort select:focus {
+  border-color: rgba(126,217,87,0.35) !important;
+  color: #f0f5f1 !important;
+}
+
+/* Product count */
+.product-count {
+  color: #5a7060 !important;
+  font-size: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   4. PRODUCT GRID
+   ═══════════════════════════════════════════════════════════════ */
+
+.product-grid {
+  background: #2a2a2a;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   5. PRODUCT CARD — WRAPPER
+   ─────────────────────────────────────────────────────────────
+   Alchemy uses <product-card> custom element with
+   .product-card__content inside. No .card class.
+   ═══════════════════════════════════════════════════════════════ */
+
+product-card {
+  border-radius: 12px !important;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s !important;
+}
+
+product-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35) !important;
+}
+
+/* The inner content panel */
+.product-card__content {
+  background: #1a2520 !important;
+  border: 1px solid rgba(126,217,87,0.14) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  transition: border-color 0.2s !important;
+}
+
+product-card:hover .product-card__content {
+  border-color: rgba(126,217,87,0.35) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   6. PRODUCT CARD — IMAGE AREA
+   ─────────────────────────────────────────────────────────────
+   Alchemy structure:
+     slideshow-container > slideshow-slides > slideshow-slide.product-media-container
+       > div.product-media > img.product-media__image
+   ═══════════════════════════════════════════════════════════════ */
+
+/* The slideshow container that holds the image */
+product-card slideshow-container {
+  background: #1a2520 !important;
+}
+
+/* Smooth image zoom on hover */
+product-card:hover .product-media__image {
+  transform: scale(1.05) !important;
+  transition: transform 0.4s ease !important;
+}
+
+.product-media__image {
+  transition: transform 0.4s ease !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   7. PRODUCT CARD — QUICK ADD BUTTON
+   ─────────────────────────────────────────────────────────────
+   Alchemy uses <quick-add-component class="quick-add ...">
+   which is a full-size absolute overlay. We must NOT color the
+   component itself — only the actual buttons inside it.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Reset the overlay component — it must stay transparent */
+quick-add-component.quick-add {
+  background: transparent !important;
+}
+
+/* Style only the actual add/choose buttons — preserve Alchemy's pill shape */
+quick-add-component .quick-add__button,
+quick-add-component .quick-add__button--choose,
+quick-add-component .quick-add__button--add {
+  background: #7ed957 !important;
+  color: #131c15 !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border: none !important;
+  /* Keep Alchemy's pill border-radius — do NOT override to 0 */
+  border-radius: 50px !important;
+  /* Keep Alchemy's natural width — do NOT force 100% */
+  width: auto !important;
+  transition: background 0.2s, opacity 0.2s !important;
+}
+
+/* The text span inside the button also needs the green bg */
+quick-add-component .quick-add__button .add-to-cart-text {
+  background: #7ed957 !important;
+  color: #131c15 !important;
+  border-radius: 50px !important;
+}
+
+quick-add-component .quick-add__button:hover,
+quick-add-component .quick-add__button--choose:hover,
+quick-add-component .quick-add__button--add:hover {
+  background: #3d7a52 !important;
+}
+
+quick-add-component .quick-add__button:hover .add-to-cart-text {
+  background: #3d7a52 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   8. PRODUCT CARD — INFO / TEXT AREA
+   ─────────────────────────────────────────────────────────────
+   Alchemy uses .card-gallery for the image+info wrapper.
+   Text info is inside .product-card-info or similar.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Product title */
+.product-card__title,
+.product-card__title a,
+.product-card-info__title,
+.product-card-info__title a {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #f0f5f1 !important;
+  line-height: 1.35 !important;
+  text-transform: uppercase !important;
+}
+
+.product-card__title a:hover,
+.product-card-info__title a:hover {
+  color: #7ed957 !important;
+}
+
+/* Price */
+.product-card__price,
+.product-card-info__price,
+.price-item,
+.price-item--regular,
+.price-item--sale {
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  color: #f0f5f1 !important;
+}
+
+/* Compare-at / original price */
+.price-item--compare,
+.product-card__price s,
+.product-card-info__price s {
+  font-size: 12px !important;
+  color: #5a7060 !important;
+  text-decoration: line-through !important;
+}
+
+/* Vendor line */
+.product-card__vendor,
+.product-card-info__vendor {
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #5a7060 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   9. BADGES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Alchemy native badge */
+.badge,
+.product-card__badge {
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  padding: 4px 10px !important;
+  border-radius: 4px !important;
+}
+
+.badge--sale,
+.badge--on-sale {
+  background: #e05252 !important;
+  color: #fff !important;
+}
+
+.badge--sold-out {
+  background: rgba(30,43,35,0.85) !important;
+  color: #8fa894 !important;
+  border: 1px solid rgba(126,217,87,0.14) !important;
+}
+
+/* Custom NA badges (injected via na-collection-badges.liquid) */
+.na-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  z-index: 3;
+  pointer-events: none;
+}
+.na-badge--bestseller { background: #7ed957; color: #131c15; }
+.na-badge--bundle     { background: #7c6af0; color: #fff; }
+.na-badge--new        { background: #f5c842; color: #131c15; }
+
+/* ═══════════════════════════════════════════════════════════════
+   10. STAR RATINGS (Judge.me / Okendo / Yotpo)
+   ═══════════════════════════════════════════════════════════════ */
+
+.jdgm-prev-badge__stars,
+.jdgm-star,
+.okendo-reviews-star-rating,
+.yotpo-stars .yotpo-icon-star {
+  color: #f5c842 !important;
+  fill: #f5c842 !important;
+}
+
+.jdgm-prev-badge__count,
+.jdgm-prev-badge__text {
+  color: #5a7060 !important;
+  font-size: 11px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   11. PAGINATION
+   ═══════════════════════════════════════════════════════════════ */
+
+.pagination {
+  background: transparent !important;
+}
+
+.pagination__item {
+  background: #1a2520 !important;
+  border: 1px solid rgba(126,217,87,0.14) !important;
+  color: #8fa894 !important;
+  border-radius: 8px !important;
+  transition: all 0.15s !important;
+}
+
+.pagination__item:hover {
+  border-color: rgba(126,217,87,0.35) !important;
+  color: #7ed957 !important;
+}
+
+.pagination__item.active,
+.pagination__item[aria-current="page"] {
+  background: rgba(126,217,87,0.12) !important;
+  border-color: rgba(126,217,87,0.35) !important;
+  color: #7ed957 !important;
+  font-weight: 700 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   12. EMPTY COLLECTION STATE
+   ═══════════════════════════════════════════════════════════════ */
+
+.collection--empty {
+  color: #5a7060 !important;
+  text-align: center;
+  padding: 80px 32px;
+}

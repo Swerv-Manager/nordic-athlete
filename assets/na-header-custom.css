@@ -1,0 +1,205 @@
+/* ═══════════════════════════════════════════════════════
+   NORDIC ATHLETE — Header Custom Styles
+   Inkludér i layout/theme.liquid (lige over </head>):
+   {{ 'na-header-custom.css' | asset_url | stylesheet_tag }}
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── BRAND TOKENS ─── */
+:root {
+  --na-green:       #3d7a52;
+  --na-green-hover: #3d7a52;
+  --na-bg-dark:     #131c15;
+  --na-text-dim:    #4a5a4f;
+  --na-white:       #ffffff;
+}
+
+/* ─── TAGLINE UNDER LOGO (DESKTOP ONLY) ─────────────────
+   .header-logo er et <a>-tag med display:flex, height:100%
+   og align-items:center — det strækker sig over hele
+   header-højden. Vi kan IKKE bruge flex-direction:column
+   her uden at bryde header-layoutet (søg rykker).
+
+   Løsning: Vi bruger position:absolute på tagline-teksten
+   så den ikke påvirker flex-layoutet i headeren.
+   ──────────────────────────────────────────────────────── */
+
+@media screen and (min-width: 750px) {
+  /* Giv .header-logo position:relative så tagline kan
+     positioneres absolut relativt til logoet */
+  .header-logo {
+    position: relative !important;
+  }
+
+ 
+
+/* ─── KURV KNAP (DESKTOP, TEXT-MODE) ────────────────────
+   Forudsætter: Hjælpefunktioner → Menustil → "Tekst"
+   ──────────────────────────────────────────────────────── */
+
+@media screen and (min-width: 750px) {
+
+  /* Grøn knap-boks */
+  .header-actions__cart-icon--text {
+    background-color: var(--na-white) !important;
+    border-radius: 6px !important;
+    padding: 7px 14px !important;
+    transition: background-color 0.2s ease !important;
+    gap: 8px !important;
+  }
+
+  .header-actions__cart-icon--text:hover {
+    background-color: var(--na-green-hover) !important;
+  }
+
+  /* Tekst-span: "Kurv" / "Indkøbskurv" */
+  .header-actions__cart-icon--text > span:first-child {
+    color: var(--na-bg-dark) !important;
+    font-weight: 800 !important;
+    font-size: 11.5px !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  /* Fjern donut-mask (påvirker baggrunden selvom SVG er skjult) */
+  .header-actions__cart-icon--text.header-actions__cart-icon--has-cart svg,
+  .header-actions__cart-icon--text svg {
+    mask: none !important;
+    -webkit-mask: none !important;
+  }
+
+  /* Cart-bubble: lille mørk cirkel med grøn tal */
+  .header-actions__cart-icon--text .cart-bubble {
+    position: relative !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+    aspect-ratio: 1 !important;
+  }
+
+  .header-actions__cart-icon--text .cart-bubble__background {
+    background-color: var(--na-bg-dark) !important;
+    border-radius: 50% !important;
+    position: absolute !important;
+    inset: 0 !important;
+  }
+
+  .header-actions__cart-icon--text .cart-bubble__text {
+    color: var(--na-green) !important;
+    font-weight: 900 !important;
+    font-size: 10px !important;
+    position: relative !important;
+    z-index: 1 !important;
+    line-height: 1 !important;
+  }
+
+  .header-actions__cart-icon--text .cart-bubble__text-count {
+    color: var(--na-green) !important;
+  }
+
+  /* Vis altid cart-boblen (selv når kurven er tom) */
+  .header-actions__cart-icon--text .cart-bubble.visually-hidden {
+    /* Ophæv Alchemy's visually-hidden på selve boblen */
+    overflow: visible !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    clip: auto !important;
+    clip-path: none !important;
+    position: relative !important;
+    white-space: normal !important;
+  }
+
+  /* Vis altid tæller-spannet — selv med klassen 'hidden' */
+  .header-actions__cart-icon--text .cart-bubble__text-count {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--na-green) !important;
+    font-weight: 900 !important;
+    font-size: 10px !important;
+    position: relative !important;
+    z-index: 1 !important;
+    line-height: 1 !important;
+  }
+
+}
+
+/* ─── MOBIL HEADER ───────────────────────────────────────
+   På mobil (<750px) viser Horizon:
+   - Hamburger-menu ikon til venstre
+   - Søg-ikon til venstre for logo
+   - Logo centreret
+   - Ingen kurv-knap (kurv er i hamburgermenu)
+
+   Vi skjuler tagline på mobil (den passer ikke i det
+   kompakte mobile layout) og sikrer at ikonerne er
+   korrekt farvet.
+   ──────────────────────────────────────────────────────── */
+
+@media screen and (max-width: 749px) {
+
+  /* Ingen tagline på mobil */
+  .header-logo::after {
+    display: none !important;
+  }
+
+  /* Hamburger-menu ikon */
+  .header-drawer__toggle svg,
+  button[aria-label*="menu" i] svg,
+  button[aria-label*="menu" i] {
+    color: var(--na-white) !important;
+  }
+
+  /* Søg-ikon på mobil */
+  .search-action svg,
+  button[aria-label*="søg" i] svg,
+  button[aria-label*="search" i] svg {
+    color: var(--na-text-dim) !important;
+    transition: color 0.2s !important;
+  }
+
+  .search-action:hover svg,
+  button[aria-label*="søg" i]:hover svg,
+  button[aria-label*="search" i]:hover svg {
+    color: var(--na-white) !important;
+  }
+
+}
+
+/* ─── SØG IKON (DESKTOP) ─────────────────────────────── */
+@media screen and (min-width: 750px) {
+  .search-action svg,
+  button[aria-label*="søg" i] svg,
+  button[aria-label*="search" i] svg {
+    color: var(--na-text-dim) !important;
+    transition: color 0.2s !important;
+  }
+
+  .search-action:hover svg,
+  button[aria-label*="søg" i]:hover svg,
+  button[aria-label*="search" i]:hover svg {
+    color: var(--na-white) !important;
+  }
+}
+
+/* ─── KONTO IKON ─────────────────────────────────────── */
+.header-actions [aria-label*="konto" i] svg,
+.header-actions [aria-label*="account" i] svg,
+.header-actions [aria-label*="log" i] svg {
+  color: var(--na-text-dim) !important;
+  transition: color 0.2s !important;
+}
+
+.header-actions [aria-label*="konto" i]:hover svg,
+.header-actions [aria-label*="account" i]:hover svg,
+.header-actions [aria-label*="log" i]:hover svg {
+  color: var(--na-white) !important;
+}

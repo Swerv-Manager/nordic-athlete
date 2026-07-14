@@ -1,0 +1,14 @@
+{%- doc -%}
+  En enkelt filter-chip. Forventer et filter_value-objekt som `v`.
+{%- enddoc -%}
+{%- liquid
+  assign chip_url = v.url_to_add
+  if v.active
+    assign chip_url = v.url_to_remove
+  endif
+-%}
+<a
+  href="{{ chip_url }}"
+  class="na-cf__chip{% if v.active %} is-active{% endif %}{% if v.count == 0 and v.active == false %} is-empty{% endif %}"
+  {% if v.active %}aria-current="true"{% endif %}
+>{{ v.label }}</a>

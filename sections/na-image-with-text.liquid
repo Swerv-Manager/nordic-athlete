@@ -1,0 +1,625 @@
+{% schema %}
+{
+  "name": "NA Image with Text",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Baggrund & Layout"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Baggrundsstil",
+      "options": [
+        { "value": "dark",   "label": "Mørk (#2a2a2a)" },
+        { "value": "darker", "label": "Mørkere (#000000)" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Billede position",
+      "options": [
+        { "value": "left",  "label": "Venstre" },
+        { "value": "right", "label": "Højre" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Billedformat",
+      "options": [
+        { "value": "3/4",  "label": "3:4 (portræt)" },
+        { "value": "4/5",  "label": "4:5 (høj portræt)" },
+        { "value": "1/1",  "label": "1:1 (kvadrat)" },
+        { "value": "16/9", "label": "16:9 (landskab)" }
+      ],
+      "default": "3/4"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Billedudfyldning",
+      "options": [
+        { "value": "cover",   "label": "Cover (fyld rammen)" },
+        { "value": "contain", "label": "Contain (vis hele billedet)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Afstand top (px)",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Afstand bund (px)",
+      "min": 0,
+      "max": 120,
+      "step": 8,
+      "default": 80
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_border",
+      "label": "Vis øverste kant",
+      "default": true
+    },
+
+    {
+      "type": "header",
+      "content": "Chip / Partner-badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_chip",
+      "label": "Vis chip-badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "chip_text",
+      "label": "Chip tekst",
+      "default": "✓ Officiel partner"
+    },
+
+    {
+      "type": "header",
+      "content": "Tekst"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow (lille tekst over overskrift)",
+      "default": "Ambassadør"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Overskrift linje 1",
+      "default": "Magnus"
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "Overskrift linje 2 (grøn fremhævning)",
+      "default": "Stilling"
+    },
+    {
+      "type": "textarea",
+      "id": "text_1",
+      "label": "Brødtekst afsnit 1",
+      "default": "Magnus Stilling er en af Danmarks bedste håndboldspillere og en central del af Nordic Athletes produktudvikling. Sammen har vi skabt udstyr, der faktisk gør en forskel på banen — og i kroppen, når sæsonen er slut."
+    },
+    {
+      "type": "textarea",
+      "id": "text_2",
+      "label": "Brødtekst afsnit 2 (valgfrit)",
+      "placeholder": "Valgfrit ekstra afsnit..."
+    },
+
+    {
+      "type": "header",
+      "content": "Statistikker (3 tal under tekst)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Vis statistikker",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "stat1_value",
+      "label": "Stat 1 — Tal",
+      "default": "+20%"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 — Label",
+      "default": "Stødabsorbering"
+    },
+    {
+      "type": "text",
+      "id": "stat2_value",
+      "label": "Stat 2 — Tal",
+      "default": "EU"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 — Label",
+      "default": "Produktion"
+    },
+    {
+      "type": "text",
+      "id": "stat3_value",
+      "label": "Stat 3 — Tal",
+      "default": "4.9★"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 — Label",
+      "default": "Kundernes dom"
+    },
+
+    {
+      "type": "header",
+      "content": "CTA-knap"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Knap tekst",
+      "default": "Se Magnus' udstyr →"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Knap URL"
+    },
+    {
+      "type": "select",
+      "id": "cta_style",
+      "label": "Knap stil",
+      "options": [
+        { "value": "primary", "label": "Primær (grøn fyldt)" },
+        { "value": "outline", "label": "Outline (grøn kant)" }
+      ],
+      "default": "primary"
+    },
+
+    {
+      "type": "header",
+      "content": "Billede"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Billede"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Billede alt-tekst",
+      "placeholder": "Beskriv billedet..."
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Image with Text — Magnus Stilling",
+      "settings": {
+        "bg_style": "dark",
+        "image_position": "left",
+        "image_ratio": "3/4",
+        "image_fit": "cover",
+        "show_chip": false,
+        "eyebrow": "Ambassadør",
+        "heading_line1": "Magnus",
+        "heading_line2": "Stilling",
+        "text_1": "Magnus Stilling er en af Danmarks bedste håndboldspillere og en central del af Nordic Athletes produktudvikling. Sammen har vi skabt udstyr, der faktisk gør en forskel på banen — og i kroppen, når sæsonen er slut.",
+        "text_2": "",
+        "show_stats": true,
+        "stat1_value": "+20%",
+        "stat1_label": "Stødabsorbering",
+        "stat2_value": "EU",
+        "stat2_label": "Produktion",
+        "stat3_value": "4.9★",
+        "stat3_label": "Kundernes dom",
+        "cta_text": "Se Magnus' udstyr →",
+        "cta_style": "primary",
+        "show_top_border": true,
+        "section_padding_top": 80,
+        "section_padding_bottom": 80
+      }
+    },
+    {
+      "name": "NA Image with Text — Bastian",
+      "settings": {
+        "bg_style": "dark",
+        "image_position": "right",
+        "image_ratio": "3/4",
+        "image_fit": "cover",
+        "show_chip": false,
+        "eyebrow": "Fokus",
+        "heading_line1": "Bastian",
+        "heading_line2": "Fredslund Fallesen",
+        "text_1": "Bastian er 19 år og spiller Power Forward i BK Vejen. Han begyndte at spille basketball som 11-årig, da en god ven fik ham med til træning — og siden har sporten været en central del af hans liv.",
+        "text_2": "Basketball blev hurtigt hans første kærlighed og en vigtig kilde til personlig udvikling. Med GAMEPATCH udstyr kan han fokusere fuldt ud på sit spil — ikke på sit udstyr.",
+        "show_stats": false,
+        "cta_text": "Se Bastian Bundle →",
+        "cta_style": "outline",
+        "show_top_border": true,
+        "section_padding_top": 80,
+        "section_padding_bottom": 80
+      }
+    },
+    {
+      "name": "NA Image with Text — Høj Elithåndbold",
+      "settings": {
+        "bg_style": "darker",
+        "image_position": "right",
+        "image_ratio": "16/9",
+        "image_fit": "cover",
+        "show_chip": true,
+        "chip_text": "✓ Officiel partner",
+        "eyebrow": "Samarbejde",
+        "heading_line1": "Høj",
+        "heading_line2": "Elithåndbold",
+        "text_1": "NORDIC ATHLETE servicerer både dame- og herreholdene i Høj Elithåndbold med GAMEPATCH udstyr. Netop så de kan passe på deres kroppe og levere på højeste plan, hver gang de går på banen.",
+        "text_2": "",
+        "show_stats": false,
+        "cta_text": "Læs mere om samarbejdet →",
+        "cta_style": "primary",
+        "show_top_border": true,
+        "section_padding_top": 80,
+        "section_padding_bottom": 80
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{%- liquid
+  assign sid        = section.id
+  assign bg_style   = section.settings.bg_style
+  assign img_pos    = section.settings.image_position
+  assign img_ratio  = section.settings.image_ratio
+  assign img_fit    = section.settings.image_fit
+  assign pt         = section.settings.section_padding_top
+  assign pb         = section.settings.section_padding_bottom
+  assign show_chip  = section.settings.show_chip
+  assign show_stats = section.settings.show_stats
+  assign cta_style  = section.settings.cta_style
+  assign cta_text   = section.settings.cta_text
+  assign cta_url    = section.settings.cta_url
+  assign image      = section.settings.image
+
+  if bg_style == 'darker'
+    assign bg_color  = '#000000'
+  else
+    assign bg_color  = '#2a2a2a'
+  endif
+-%}
+
+<style>
+  /* ── Scoped to this section instance ── */
+  #na-iwt-{{ sid }} {
+    background: {{ bg_color }};
+    {% if section.settings.show_top_border %}border-top: 1px solid #3a3a3a;{% endif %}
+    padding: {{ pt }}px 40px {{ pb }}px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #na-iwt-{{ sid }} * { box-sizing: border-box; }
+  #na-iwt-{{ sid }} *:not(.na-iwt-inner-{{ sid }}) { margin: 0; padding: 0; }
+  #na-iwt-{{ sid }} a[class], #na-iwt-{{ sid }} button[class] { padding: revert; margin: revert; }
+  #na-iwt-{{ sid }} a { text-decoration: none; color: inherit; }
+
+  .na-iwt-inner-{{ sid }} {
+    max-width: 1200px;
+    margin: 0 auto !important;
+  }
+
+  /* ── Content column: flex column so align-self works on buttons ── */
+  .na-iwt-content-col-{{ sid }} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* ── Grid ── */
+  .na-iwt-grid-{{ sid }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: center;
+  }
+  {% if img_pos == 'left' %}
+    .na-iwt-img-col-{{ sid }}     { order: 1; }
+    .na-iwt-content-col-{{ sid }} { order: 2; }
+  {% else %}
+    .na-iwt-img-col-{{ sid }}     { order: 2; }
+    .na-iwt-content-col-{{ sid }} { order: 1; }
+  {% endif %}
+
+  /* ── Image ── */
+  .na-iwt-img-wrap-{{ sid }} {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #3a3a3a;
+    aspect-ratio: {{ img_ratio }};
+    background: #000000;
+  }
+  .na-iwt-img-wrap-{{ sid }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: {{ img_fit }};
+    object-position: center top;
+    display: block;
+  }
+
+  /* ── Chip badge ── */
+  .na-iwt-chip-{{ sid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(105,226,129,0.10);
+    border: 1px solid #3d7a52;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #3d7a52;
+    padding: 5px 14px !important;
+    margin-bottom: 24px !important;
+  }
+
+  /* ── Eyebrow ── */
+  .na-iwt-eyebrow-{{ sid }} {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #3d7a52;
+    margin-bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .na-iwt-eyebrow-{{ sid }}::before {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #3d7a52;
+    flex-shrink: 0;
+  }
+
+  /* ── Heading ── */
+  .na-iwt-heading-{{ sid }} {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-bottom: 24px !important;
+  }
+  .na-iwt-heading-{{ sid }} .na-iwt-hl {
+    color: #3d7a52;
+  }
+
+  /* ── Body text ── */
+  .na-iwt-text-{{ sid }} {
+    font-size: 15px;
+    color: #a8b8ae;
+    line-height: 1.7;
+    margin-bottom: 16px !important;
+  }
+  .na-iwt-text-{{ sid }}:last-of-type {
+    margin-bottom: 24px !important;
+  }
+
+  /* ── Stats ── */
+  .na-iwt-stats-{{ sid }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px !important;
+  }
+  .na-iwt-stat-{{ sid }} {
+    background: #000000;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    padding: 18px 14px !important;
+    text-align: center;
+  }
+  .na-iwt-stat-value-{{ sid }} {
+    font-size: 22px;
+    font-weight: 900;
+    color: #3d7a52;
+    letter-spacing: -0.02em;
+  }
+  .na-iwt-stat-label-{{ sid }} {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #4a5a4f;
+    margin-top: 5px;
+  }
+
+  /* ── CTA buttons ── */
+  .na-iwt-btn-primary-{{ sid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 28px !important;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    font-family: inherit;
+    text-decoration: none;
+    margin: 0 !important;
+    width: fit-content !important;
+    align-self: flex-start;
+  }
+  .na-iwt-btn-primary-{{ sid }}:hover {
+    background: #ffffff;
+    transform: translateY(-1px);
+  }
+  .na-iwt-btn-outline-{{ sid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 13px 28px !important;
+    border-radius: 6px;
+    border: 1.5px solid #ffffff !important;
+    width: fit-content !important;
+    align-self: flex-start;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    font-family: inherit;
+    text-decoration: none;
+  }
+  .na-iwt-btn-outline-{{ sid }}:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    #na-iwt-{{ sid }} {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .na-iwt-grid-{{ sid }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .na-iwt-img-col-{{ sid }} { order: 1 !important; }
+    .na-iwt-content-col-{{ sid }} { order: 2 !important; }
+    .na-iwt-heading-{{ sid }} { font-size: 36px; }
+    .na-iwt-stats-{{ sid }} { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  }
+  @media (max-width: 480px) {
+    .na-iwt-heading-{{ sid }} { font-size: 30px; }
+    .na-iwt-stats-{{ sid }} { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<section id="na-iwt-{{ sid }}">
+  <div class="na-iwt-inner-{{ sid }}">
+    <div class="na-iwt-grid-{{ sid }}">
+
+      {%- comment -%} ── IMAGE COLUMN ── {%- endcomment -%}
+      <div class="na-iwt-img-col-{{ sid }}">
+        <div class="na-iwt-img-wrap-{{ sid }}">
+          {%- if image != blank -%}
+            {{
+              image
+              | image_url: width: 900
+              | image_tag:
+                loading: 'lazy',
+                alt: section.settings.image_alt,
+                widths: '400,600,800,900'
+            }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'na-iwt-placeholder' }}
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} ── CONTENT COLUMN ── {%- endcomment -%}
+      <div class="na-iwt-content-col-{{ sid }}">
+
+        {%- if show_chip and section.settings.chip_text != blank -%}
+          <div class="na-iwt-chip-{{ sid }}">{{ section.settings.chip_text }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="na-iwt-eyebrow-{{ sid }}">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        <h2 class="na-iwt-heading-{{ sid }}">
+          {%- if section.settings.heading_line1 != blank -%}
+            {{ section.settings.heading_line1 }}
+            {%- if section.settings.heading_line2 != blank -%}<br>{%- endif -%}
+          {%- endif -%}
+          {%- if section.settings.heading_line2 != blank -%}
+            <span class="na-iwt-hl">{{ section.settings.heading_line2 }}</span>
+          {%- endif -%}
+        </h2>
+
+        {%- if section.settings.text_1 != blank -%}
+          <p class="na-iwt-text-{{ sid }}">{{ section.settings.text_1 }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.text_2 != blank -%}
+          <p class="na-iwt-text-{{ sid }}">{{ section.settings.text_2 }}</p>
+        {%- endif -%}
+
+        {%- if show_stats -%}
+          <div class="na-iwt-stats-{{ sid }}">
+            {%- if section.settings.stat1_value != blank -%}
+              <div class="na-iwt-stat-{{ sid }}">
+                <div class="na-iwt-stat-value-{{ sid }}">{{ section.settings.stat1_value }}</div>
+                <div class="na-iwt-stat-label-{{ sid }}">{{ section.settings.stat1_label }}</div>
+              </div>
+            {%- endif -%}
+            {%- if section.settings.stat2_value != blank -%}
+              <div class="na-iwt-stat-{{ sid }}">
+                <div class="na-iwt-stat-value-{{ sid }}">{{ section.settings.stat2_value }}</div>
+                <div class="na-iwt-stat-label-{{ sid }}">{{ section.settings.stat2_label }}</div>
+              </div>
+            {%- endif -%}
+            {%- if section.settings.stat3_value != blank -%}
+              <div class="na-iwt-stat-{{ sid }}">
+                <div class="na-iwt-stat-value-{{ sid }}">{{ section.settings.stat3_value }}</div>
+                <div class="na-iwt-stat-label-{{ sid }}">{{ section.settings.stat3_label }}</div>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if cta_text != blank -%}
+          {%- if cta_style == 'outline' -%}
+            <a
+              href="{{ cta_url | default: '#' }}"
+              class="na-iwt-btn-outline-{{ sid }}"
+            >{{ cta_text }}</a>
+          {%- else -%}
+            <a
+              href="{{ cta_url | default: '#' }}"
+              class="na-iwt-btn-primary-{{ sid }}"
+            >{{ cta_text }}</a>
+          {%- endif -%}
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,446 @@
+{%- liquid
+  assign sid = section.id | replace: '__', '-'
+-%}
+
+<style>
+  /* ── FOOTER WRAPPER ── */
+  #na-footer-{{ sid }} {
+    background: #000000;
+    border-top: 1px solid #2e3d32;
+  }
+  .na-footer-inner-{{ sid }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 32px 36px;
+  }
+
+  /* ── TOP GRID: logo col (2fr) + 3 link cols (1fr each) ── */
+  .na-footer-top-{{ sid }} {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 56px;
+    margin-bottom: 56px;
+  }
+
+  /* ── LOGO IMAGE ── */
+  .na-footer-logo-link-{{ sid }} {
+    display: inline-block;
+    margin-bottom: 18px;
+    text-decoration: none;
+  }
+  .na-footer-logo-img-{{ sid }} {
+    display: block;
+    max-height: {{ section.settings.logo_height | default: 36 }}px;
+    width: auto;
+    max-width: 180px;
+  }
+
+  /* ── TAGLINE & CONTACT ── */
+  .na-footer-tagline-{{ sid }} {
+    font-size: 13px;
+    color: #4a5a4f;
+    line-height: 1.65;
+    margin-bottom: 18px;
+    max-width: 240px;
+  }
+  .na-footer-contact-{{ sid }} {
+    font-size: 12.5px;
+    color: #4a5a4f;
+    line-height: 1.9;
+  }
+  .na-footer-contact-{{ sid }} a {
+    color: #4a5a4f;
+    text-decoration: none;
+  }
+  .na-footer-contact-{{ sid }} a:hover { color: #3d7a52; }
+
+  /* ── SOCIAL ICONS ── */
+  .na-footer-social-{{ sid }} {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .na-footer-social-link-{{ sid }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #253020;
+    border: 1px solid #2e3d32;
+    color: #68706c;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .na-footer-social-link-{{ sid }}:hover {
+    background: #3d7a52;
+    color: #000000;
+    border-color: #3d7a52;
+  }
+
+  /* ── LINK COLUMNS ── */
+  .na-footer-col-title-{{ sid }} {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 18px;
+  }
+  .na-footer-links-{{ sid }} {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .na-footer-links-{{ sid }} a {
+    font-size: 13px;
+    color: #4a5a4f;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .na-footer-links-{{ sid }} a:hover { color: #3d7a52; }
+
+  /* ── BOTTOM BAR ── */
+  .na-footer-bottom-{{ sid }} {
+    border-top: 1px solid #2e3d32;
+    padding-top: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .na-footer-copy-{{ sid }} {
+    font-size: 12px;
+    color: #4a5a4f;
+  }
+  .na-footer-payments-{{ sid }} {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .na-footer-payment-badge-{{ sid }} {
+    background: #253020;
+    border: 1px solid #2e3d32;
+    border-radius: 4px;
+    padding: 5px 11px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #4a5a4f;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .na-footer-top-{{ sid }} {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+  }
+  @media (max-width: 540px) {
+    .na-footer-inner-{{ sid }} { padding: 48px 16px 28px; }
+    .na-footer-top-{{ sid }} {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .na-footer-bottom-{{ sid }} {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+
+<footer id="na-footer-{{ sid }}">
+  <div class="na-footer-inner-{{ sid }}">
+
+    {%- comment -%}── TOP GRID ──{%- endcomment -%}
+    <div class="na-footer-top-{{ sid }}">
+
+      {%- comment -%}── COL 1: Logo + tagline + contact + social ──{%- endcomment -%}
+      <div>
+        {%- comment -%} Logo: image_picker (med fallback til shop.name tekst) {%- endcomment -%}
+        <a href="{{ routes.root_url }}" class="na-footer-logo-link-{{ sid }}" aria-label="{{ shop.name }}">
+          {%- if section.settings.logo != blank -%}
+            {{- section.settings.logo | image_url: width: 360 | image_tag:
+              class: 'na-footer-logo-img-' | append: sid,
+              alt: shop.name,
+              loading: 'lazy',
+              widths: '120, 180, 240, 360'
+            -}}
+          {%- else -%}
+            <span style="color:#ffffff;font-size:18px;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;">
+              {{ shop.name }}
+            </span>
+          {%- endif -%}
+        </a>
+
+        {%- if section.settings.tagline != blank -%}
+          <p class="na-footer-tagline-{{ sid }}">{{ section.settings.tagline }}</p>
+        {%- endif -%}
+
+        <div class="na-footer-contact-{{ sid }}">
+          {%- if section.settings.phone != blank -%}
+            Telefon: <a href="tel:{{ section.settings.phone | remove: ' ' }}">{{ section.settings.phone }}</a><br>
+          {%- endif -%}
+          {%- if section.settings.email != blank -%}
+            E-mail: <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a><br>
+          {%- endif -%}
+          {%- if section.settings.address != blank -%}
+            {{ section.settings.address }}<br>
+          {%- endif -%}
+          {%- if section.settings.hours != blank -%}
+            {{ section.settings.hours }}
+          {%- endif -%}
+        </div>
+
+        {%- comment -%}Social icons{%- endcomment -%}
+        {%- assign has_social = false -%}
+        {%- if section.settings.social_instagram != blank or section.settings.social_facebook != blank or section.settings.social_tiktok != blank or section.settings.social_youtube != blank -%}
+          {%- assign has_social = true -%}
+        {%- endif -%}
+        {%- if has_social -%}
+          <div class="na-footer-social-{{ sid }}">
+            {%- if section.settings.social_instagram != blank -%}
+              <a href="{{ section.settings.social_instagram }}" class="na-footer-social-link-{{ sid }}" target="_blank" rel="noopener" aria-label="Instagram">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.social_facebook != blank -%}
+              <a href="{{ section.settings.social_facebook }}" class="na-footer-social-link-{{ sid }}" target="_blank" rel="noopener" aria-label="Facebook">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.social_tiktok != blank -%}
+              <a href="{{ section.settings.social_tiktok }}" class="na-footer-social-link-{{ sid }}" target="_blank" rel="noopener" aria-label="TikTok">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.social_youtube != blank -%}
+              <a href="{{ section.settings.social_youtube }}" class="na-footer-social-link-{{ sid }}" target="_blank" rel="noopener" aria-label="YouTube">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%}── LINK COLUMNS (blocks med linklist) ──{%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link_column' -%}
+          {%- assign menu = linklists[block.settings.menu] -%}
+          <div {{ block.shopify_attributes }}>
+            {%- comment -%} Overskrift: brug menu-titlen hvis ingen custom titel {%- endcomment -%}
+            {%- assign col_title = block.settings.title -%}
+            {%- if col_title == blank and menu != blank -%}
+              {%- assign col_title = menu.title -%}
+            {%- endif -%}
+            {%- if col_title != blank -%}
+              <div class="na-footer-col-title-{{ sid }}">{{ col_title }}</div>
+            {%- endif -%}
+
+            {%- if menu != blank -%}
+              <ul class="na-footer-links-{{ sid }}">
+                {%- for link in menu.links -%}
+                  <li>
+                    <a href="{{ link.url }}">{{ link.title }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+    </div>
+
+    {%- comment -%}── BOTTOM BAR ──{%- endcomment -%}
+    <div class="na-footer-bottom-{{ sid }}">
+      <p class="na-footer-copy-{{ sid }}">
+        © {{ 'now' | date: '%Y' }} {{ section.settings.copyright_name | default: shop.name }} · {{ section.settings.copyright_suffix | default: 'Alle rettigheder forbeholdes' }}
+      </p>
+      <div class="na-footer-payments-{{ sid }}">
+        {%- for i in (1..6) -%}
+          {%- assign pkey = 'payment_' | append: i -%}
+          {%- assign pval = section.settings[pkey] -%}
+          {%- if pval != blank -%}
+            <span class="na-footer-payment-badge-{{ sid }}">{{ pval }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "NA Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo billede"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo højde (px)",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Tagline & Kontakt"
+    },
+    {
+      "type": "textarea",
+      "id": "tagline",
+      "label": "Tagline under logo",
+      "default": "Beskyt din krop. Den skal holde i mange år. Professionelt beskyttelsesudstyr til seriøse atleter."
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Telefonnummer",
+      "default": "+45 53 53 11 11"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "E-mail",
+      "default": "support@nordic-athlete.dk"
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "label": "Adresse",
+      "default": "Hareskovvej 17H, 4400 Kalundborg"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "Åbningstider",
+      "default": "Kundeservice: Man–fre kl. 9–15"
+    },
+    {
+      "type": "header",
+      "content": "Sociale medier"
+    },
+    {
+      "type": "url",
+      "id": "social_instagram",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "social_facebook",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "social_tiktok",
+      "label": "TikTok URL"
+    },
+    {
+      "type": "url",
+      "id": "social_youtube",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "header",
+      "content": "Betalingsmetoder (tekst-badges)"
+    },
+    {
+      "type": "text",
+      "id": "payment_1",
+      "label": "Betalingsmetode 1",
+      "default": "VISA"
+    },
+    {
+      "type": "text",
+      "id": "payment_2",
+      "label": "Betalingsmetode 2",
+      "default": "MASTERCARD"
+    },
+    {
+      "type": "text",
+      "id": "payment_3",
+      "label": "Betalingsmetode 3",
+      "default": "MOBILEPAY"
+    },
+    {
+      "type": "text",
+      "id": "payment_4",
+      "label": "Betalingsmetode 4",
+      "default": "APPLE PAY"
+    },
+    {
+      "type": "text",
+      "id": "payment_5",
+      "label": "Betalingsmetode 5"
+    },
+    {
+      "type": "text",
+      "id": "payment_6",
+      "label": "Betalingsmetode 6"
+    },
+    {
+      "type": "header",
+      "content": "Copyright"
+    },
+    {
+      "type": "text",
+      "id": "copyright_name",
+      "label": "Butiksnavn i copyright",
+      "default": "Nordic Athlete"
+    },
+    {
+      "type": "text",
+      "id": "copyright_suffix",
+      "label": "Copyright-tekst efter navn",
+      "default": "Alle rettigheder forbeholdes"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link_column",
+      "name": "Link-kolonne",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu (vælg fra Shopify navigation)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Kolonneoverskrift (valgfri — bruges i stedet for menu-titel)",
+          "info": "Lad feltet stå tomt for at bruge menu-titlen automatisk"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Footer",
+      "blocks": [
+        { "type": "link_column" },
+        { "type": "link_column" },
+        { "type": "link_column" }
+      ]
+    }
+  ]
+}
+{% endschema %}

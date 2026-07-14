@@ -1,0 +1,24 @@
+# Allow search engines to index ALL content
+User-agent: *
+Disallow:
+
+# Block Shopify internal search result pages
+Disallow: /search
+
+# Block Shopify checkout pages
+Disallow: /checkout
+Disallow: /orders
+Disallow: /account
+
+# Explicitly allow cart and collections pages
+Allow: /cart
+Allow: /collections/
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-image
+Allow: /
+
+# Sitemap
+Sitemap: https://www.nordic-athlete.dk/sitemap.xml

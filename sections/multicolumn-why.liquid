@@ -1,0 +1,307 @@
+{%- liquid
+  assign sid = section.id | replace: '__', '-'
+  assign eyebrow    = section.settings.eyebrow
+  assign heading_1  = section.settings.heading_line1
+  assign heading_hl = section.settings.heading_line2
+  assign subtitle   = section.settings.subtitle
+  assign bg_style   = section.settings.bg_style
+  assign cols       = section.settings.columns | default: 4
+  assign cols_m1    = cols | minus: 1
+-%}
+
+<style>
+  /* ── SECTION ── */
+  #na-why-{{ sid }} {
+    background: {% if bg_style == 'darker' %}#131c15{% else %}#2a2a2a{% endif %};
+    border-top: 1px solid #3a3a3a;
+    padding: {{ section.settings.padding_top | default: 80 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px;
+  }
+  .na-why-inner-{{ sid }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ── HEADER ── */
+  .na-why-header-{{ sid }} {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 52px;
+  }
+  .na-why-eyebrow-{{ sid }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: #ffffff;
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+  .na-why-eyebrow-{{ sid }}::before,
+  .na-why-eyebrow-{{ sid }}::after {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: #69e281;
+    border-radius: 1px;
+  }
+  .na-why-heading-{{ sid }} {
+    font-size: 11px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .na-why-heading-hl-{{ sid }} { color: #69e281; }
+  .na-why-subtitle-{{ sid }} {
+    font-size: 15px;
+    color: #a8b8ae;
+    line-height: 1.7;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ── GRID ── */
+  .na-why-grid-{{ sid }} {
+    display: grid;
+    grid-template-columns: repeat({{ cols }}, 1fr);
+    gap: 16px;
+  }
+
+  /* ── CARD ── */
+  .na-why-card-{{ sid }} {
+    background: #253020;
+    border: 1px solid #3a3a3a;
+    border-radius: 10px;
+    padding: 32px 24px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .na-why-card-{{ sid }}:hover {
+    border-color: #63d67b;
+    transform: translateY(-2px);
+  }
+  .na-why-icon-{{ sid }} {
+    font-size: 28px;
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+  .na-why-card-title-{{ sid }} {
+    font-size: 15px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .na-why-card-text-{{ sid }} {
+    font-size: 13.5px;
+    color: #68706c;
+    line-height: 1.65;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .na-why-grid-{{ sid }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 540px) {
+    .na-why-inner-{{ sid }} { padding: 0 16px; }
+    .na-why-grid-{{ sid }} {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<section id="na-why-{{ sid }}">
+  <div class="na-why-inner-{{ sid }}">
+
+    {%- comment -%}── HEADER ──{%- endcomment -%}
+    <div class="na-why-header-{{ sid }}">
+      {%- if eyebrow != blank -%}
+        <p class="na-why-eyebrow-{{ sid }}">{{ eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="na-why-heading-{{ sid }}">
+        {{- heading_1 -}}
+        {%- if heading_hl != blank -%}
+          <span class="na-why-heading-hl-{{ sid }}"> {{ heading_hl }}</span>
+        {%- endif -%}
+      </h2>
+      {%- if subtitle != blank -%}
+        <p class="na-why-subtitle-{{ sid }}">{{ subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%}── CARDS GRID ──{%- endcomment -%}
+    <div class="na-why-grid-{{ sid }}">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'card' -%}
+          <div
+            class="na-why-card-{{ sid }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.icon != blank -%}
+              <div class="na-why-icon-{{ sid }}">{{ block.settings.icon }}</div>
+            {%- endif -%}
+            {%- if block.settings.title != blank -%}
+              <div class="na-why-card-title-{{ sid }}">{{ block.settings.title }}</div>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="na-why-card-text-{{ sid }}">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "NA Multicolumn — Hvorfor",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Baggrund & Layout"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Baggrundsstil",
+      "options": [
+        { "value": "dark",   "label": "Mørk (#2a2a2a)" },
+        { "value": "darker", "label": "Mørkere (#131c15)" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Kolonner (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Afstand top (px)",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Afstand bund (px)",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Tekst"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow (lille tekst over overskrift)",
+      "default": "Pas på din krop"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Overskrift linje 1",
+      "default": "Den skal holde i"
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "Overskrift linje 2 (grøn fremhævning)",
+      "default": "mange år..."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Undertekst under overskrift",
+      "default": "Vi ved, at sport handler om mere end bare træning og konkurrence. Det handler om at stræbe efter ens bedste, bryde grænser og opnå nye mål."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Feature-kort",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji-ikon",
+          "default": "🛡️",
+          "info": "Indsæt et emoji-tegn, f.eks. 🛡️ 🔨 🤸 🚚"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Kortets overskrift",
+          "default": "Professionel beskyttelse"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Kortets tekst",
+          "default": "Udviklet med eliteatleter som Magnus Stilling og Høj Elithåndbold. Udstyr der er testet i kamp og på træningsbanen."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Multicolumn — Hvorfor Nordic Athlete",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "icon": "🛡️",
+            "title": "Professionel beskyttelse",
+            "text": "Udviklet med eliteatleter som Magnus Stilling og Høj Elithåndbold. Udstyr der er testet i kamp og på træningsbanen."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "icon": "🔨",
+            "title": "Slidstærke materialer",
+            "text": "Designet til høj intensitet og gentagen brug — sæson efter sæson. Håndlavet i Europa efter høje kvalitetsstandarder."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "icon": "🤸",
+            "title": "Body Adjust Technology",
+            "text": "Tightsene tilpasser sig din kropstemperatur og former sig naturligt efter kroppen. Fuld bevægelsesfrihed uden begrænsning."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "icon": "🚚",
+            "title": "Hurtig levering",
+            "text": "Dag til dag levering på lagervarer. 30 dages returret. Kundeservice mandag til fredag kl. 9–15 — vi svarer inden for 24 timer."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

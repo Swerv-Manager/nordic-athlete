@@ -1,0 +1,168 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "na-collection-hero",
+      "name": "NA Collection Hero",
+      "settings": {
+        "layout": "banner",
+        "eyebrow": "Officiel partner · Gamepatch & Høj Elitehåndbold",
+        "title_line1": "Shop GAMEPATCH.",
+        "title_line2": "Beskyt din krop. Spil frit.",
+        "title_line2_style": "muted",
+        "description": "Professionelt beskyttelsesudstyr udviklet i samarbejde med eliteatleter. Fordi din krop skal holde i mange år — sæson efter sæson.",
+        "description_priority": "setting",
+        "stat1_accent": true,
+        "stat1_value": "4,9 / 5",
+        "stat1_label": "1.200+ anmeldelser",
+        "stat2_value": "1–2 dage",
+        "stat2_label": "Dag-til-dag levering",
+        "stat3_value": "Fri fragt",
+        "stat3_label": "Ved køb over 600 kr",
+        "stat4_value": "30 dage",
+        "stat4_label": "Fri retur",
+        "bg_style": "darker"
+      }
+    },
+    "skin": {
+      "type": "na-gamepatch-skin",
+      "name": "NA GAMEPATCH Skin",
+      "settings": {}
+    },
+    "filters_chips": {
+      "type": "na-collection-filters",
+      "name": "NA Collection Filters",
+      "settings": {
+        "label_group1": "Kategori",
+        "label_group2": "Kroppen",
+        "enable_ajax": true
+      }
+    },
+    "main": {
+      "type": "main-collection",
+      "blocks": {
+        "filters": {
+          "type": "filters",
+          "static": true,
+          "settings": {
+            "enable_filtering": false,
+            "filter_style": "horizontal",
+            "filter_width": "centered",
+            "text_label_case": "default",
+            "show_swatch_label": false,
+            "show_filter_label": false,
+            "enable_sorting": true,
+            "enable_grid_density": false,
+            "inherit_color_scheme": true,
+            "color_scheme": "scheme-4",
+            "padding-block-start": 8,
+            "padding-block-end": 8,
+            "padding-inline-start": 8,
+            "padding-inline-end": 8,
+            "facets_margin_bottom": 8,
+            "facets_margin_right": 20
+          },
+          "blocks": {}
+        },
+        "product-card": {
+          "type": "_product-card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 4,
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-1",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 8,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "card-gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "na_extras": {
+              "type": "custom-liquid",
+              "name": "NA Card Extras",
+              "settings": {
+                "custom_liquid": "{% render 'na-card-extras', product: closest.product %}"
+              }
+            },
+            "price_EzJzMm": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1.05rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 4,
+                "padding-block-end": 10,
+                "padding-inline-start": 10,
+                "padding-inline-end": 10
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "card-gallery",
+            "na_extras",
+            "price_EzJzMm"
+          ]
+        }
+      },
+      "settings": {
+        "layout_type": "grid",
+        "product_card_size": "medium",
+        "mobile_product_card_size": "small",
+        "enable_infinite_scroll": true,
+        "products_per_page": 24,
+        "product_grid_width": "centered",
+        "full_width_on_mobile": false,
+        "columns_gap_horizontal": 20,
+        "columns_gap_vertical": 24,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 32
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "skin",
+    "filters_chips",
+    "main"
+  ]
+}

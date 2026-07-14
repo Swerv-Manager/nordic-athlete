@@ -1,0 +1,125 @@
+{%- doc -%}
+  NA card extras: brand-eyebrow + renset titel, badge (Spar/Bundle/lav lager),
+  kropszone-linje og quick-add overlay.
+  Renderes fra et custom-liquid block inde i _product-card via:
+  {% render 'na-card-extras', product: closest.product %}
+  NB: Titel-splittet sker KUN ved rendering — produkttitlerne i Shopify ændres ikke.
+{%- enddoc -%}
+
+{%- liquid
+  if product == blank or product.id == empty
+    assign na_skip = true
+  endif
+-%}
+{%- unless na_skip -%}
+{%- liquid
+  assign v0 = product.selected_or_first_available_variant
+
+  comment
+    Brand-split: "GAMEPATCH ..." / "GAMEPATCH.DK ..." -> eyebrow + renset titel.
+  endcomment
+  assign raw_title = product.title | strip
+  assign title_down = raw_title | downcase
+  assign brand_label = ''
+  assign clean_title = raw_title
+  if title_down contains 'gamepatch.dk'
+    assign brand_label = 'GAMEPATCH.DK'
+    assign clean_title = raw_title | remove_first: 'GAMEPATCH.DK' | remove_first: 'GamePatch.dk' | remove_first: 'Gamepatch.dk' | remove_first: 'gamepatch.dk'
+  elsif title_down contains 'gamepatch'
+    assign brand_label = 'GAMEPATCH'
+    assign clean_title = raw_title | remove_first: 'GAMEPATCH' | remove_first: 'GamePatch' | remove_first: 'Gamepatch' | remove_first: 'gamepatch'
+  endif
+  assign clean_title = clean_title | strip
+  if clean_title == blank
+    assign clean_title = raw_title
+    assign brand_label = ''
+  endif
+
+  comment
+    Badge-prioritet: 1) Spar X kr (compare-at)  2) Bundle-tag  3) Kun X tilbage (lager <= 10)
+  endcomment
+  assign badge_text = blank
+  assign badge_tone = ''
+
+  if v0.compare_at_price > v0.price
+    assign na_saving = v0.compare_at_price | minus: v0.price
+    assign na_saving_fmt = na_saving | money_without_trailing_zeros
+    assign badge_text = 'Spar ' | append: na_saving_fmt
+    assign badge_tone = 'green'
+  elsif product.tags contains 'bundle'
+    assign badge_text = 'Bundle'
+    assign badge_tone = 'green'
+  else
+    assign na_inv = 0
+    assign na_tracked = false
+    for v in product.variants
+      if v.inventory_management != blank
+        assign na_tracked = true
+        assign na_inv = na_inv | plus: v.inventory_quantity
+      endif
+    endfor
+    if na_tracked and product.available and na_inv > 0 and na_inv <= 10
+      assign badge_text = 'Kun ' | append: na_inv | append: ' tilbage'
+      assign badge_tone = 'stock'
+    endif
+  endif
+
+  comment
+    Quick-add: kun direkte variant-knapper hvis produktet har praecis 1 option (typisk stoerrelse).
+    Flere options (fx stoerrelse + farve) -> link til produktside.
+  endcomment
+  assign qa_mode = 'link'
+  if product.has_only_default_variant
+    assign qa_mode = 'single'
+  elsif product.options.size == 1
+    assign qa_mode = 'sizes'
+  endif
+
+  assign zones = product.metafields.custom.kropszone.value
+-%}
+
+{%- if brand_label != blank -%}
+  <span class="na-cardx-brand">{{ brand_label }}</span>
+{%- endif -%}
+<h3 class="na-cardx-title">{{ clean_title }}</h3>
+
+{%- if zones != blank -%}
+  <span class="na-cardx-zone">{% for z in zones %}{{ z }}{% unless forloop.last %} / {% endunless %}{% endfor %}</span>
+{%- endif -%}
+
+<div class="na-cardx-media" data-na-media>
+  {%- if badge_text != blank -%}
+    <span class="na-cardx-badge na-cardx-badge--{{ badge_tone }}">{{ badge_text }}</span>
+  {%- endif -%}
+
+  {%- if product.available -%}
+    <div class="na-cardx-qa" data-na-qa>
+      {%- case qa_mode -%}
+        {%- when 'single' -%}
+          <span class="na-cardx-qa__hint" data-na-qa-hint>Quick-add</span>
+          <div class="na-cardx-qa__sizes">
+            <button type="button" class="na-qa-btn na-qa-btn--wide" data-variant-id="{{ v0.id }}">Tilf&oslash;j til kurv</button>
+          </div>
+        {%- when 'sizes' -%}
+          <span class="na-cardx-qa__hint" data-na-qa-hint>Quick-add &mdash; v&aelig;lg st&oslash;rrelse</span>
+          <div class="na-cardx-qa__sizes">
+            {%- for variant in product.variants -%}
+              <button
+                type="button"
+                class="na-qa-btn"
+                data-variant-id="{{ variant.id }}"
+                data-na-size="{{ variant.title | escape }}"
+                {% unless variant.available %}disabled{% endunless %}
+              >{{ variant.title }}</button>
+            {%- endfor -%}
+          </div>
+        {%- else -%}
+          <span class="na-cardx-qa__hint" data-na-qa-hint>Flere varianter</span>
+          <div class="na-cardx-qa__sizes">
+            <a class="na-qa-btn na-qa-btn--wide" href="{{ product.url }}">V&aelig;lg variant</a>
+          </div>
+      {%- endcase -%}
+    </div>
+  {%- endif -%}
+</div>
+{%- endunless -%}

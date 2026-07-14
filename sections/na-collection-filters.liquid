@@ -1,0 +1,313 @@
+{%- doc -%}
+  NA Collection Filters — chip-baserede filtre (2026-design).
+  Renderer Kategori- og Kropszone-grupperne fra Shopifys native collection.filters
+  (Search & Discovery skal have filtrene slået til). Chips er almindelige links
+  (url_to_add / url_to_remove). Ajax-laget henter den filtrerede side og udskifter
+  chip- og grid-sektionerne fra det parsede dokument — robust i preview og på
+  alternative templates. Uden JS virker alt som normale sidenavigationer.
+{%- enddoc -%}
+
+{%- liquid
+  assign sid = section.id
+
+  assign kat_filter = null
+  assign zone_filter = null
+  for f in collection.filters
+    if f.param_name contains 'custom.kategori'
+      assign kat_filter = f
+    elsif f.param_name contains 'custom.kropszone'
+      assign zone_filter = f
+    endif
+  endfor
+
+  assign g1_order = 'Tights,Knæbeskyttere,Shorts,Compression,Bundles,Merch' | split: ','
+  assign g2_order = 'Knæ,Hofte,Skulder,Albue' | split: ','
+
+  assign active_count = 0
+  capture summary_raw
+    for f in collection.filters
+      for v in f.active_values
+        echo v.label
+        echo '@@'
+      endfor
+    endfor
+  endcapture
+  assign summary_parts = summary_raw | split: '@@'
+  assign active_count = summary_parts | size
+  if summary_raw == blank
+    assign active_count = 0
+  endif
+-%}
+
+<section id="na-cf-{{ sid }}" class="na-cf">
+  <div class="na-cf__inner">
+
+    {%- if kat_filter and kat_filter.values.size > 0 -%}
+      <div class="na-cf__row">
+        <span class="na-cf__rowlabel">{{ section.settings.label_group1 }}</span>
+        <div class="na-cf__chips">
+          {%- for pref in g1_order -%}
+            {%- for v in kat_filter.values -%}
+              {%- if v.label == pref -%}
+                {%- render 'na-filter-chip', v: v -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+          {%- for v in kat_filter.values -%}
+            {%- unless g1_order contains v.label -%}
+              {%- render 'na-filter-chip', v: v -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if zone_filter and zone_filter.values.size > 0 -%}
+      <div class="na-cf__row">
+        <span class="na-cf__rowlabel">{{ section.settings.label_group2 }}</span>
+        <div class="na-cf__chips">
+          {%- for pref in g2_order -%}
+            {%- for v in zone_filter.values -%}
+              {%- if v.label == pref -%}
+                {%- render 'na-filter-chip', v: v -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+          {%- for v in zone_filter.values -%}
+            {%- unless g2_order contains v.label -%}
+              {%- render 'na-filter-chip', v: v -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="na-cf__bar">
+      <span class="na-cf__count">
+        {{ collection.products_count }} produkter
+        <span class="na-cf__summary">
+          &middot;
+          {%- if active_count > 0 %} {{ summary_parts | join: ' + ' }}{% else %} ingen filtre valgt{% endif -%}
+        </span>
+      </span>
+      {%- if active_count > 0 -%}
+        <a class="na-cf__clear" href="{{ collection.url }}" data-na-clear>Ryd filtre &#10005;</a>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .na-cf {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .na-cf__inner {
+    max-width: var(--page-width, 1280px);
+    margin: 0 auto;
+    width: 100%;
+    padding: 28px 32px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .na-cf__row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .na-cf__rowlabel {
+    flex: none;
+    width: 84px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #76837b;
+  }
+  .na-cf__chips {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .na-cf__chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #131c15;
+    color: #a8b8ae;
+    border: 1.5px solid #3a3a3a;
+    transition: all 140ms cubic-bezier(0.4, 0, 0.1, 1);
+  }
+  .na-cf__chip:hover,
+  .na-cf__chip:focus-visible {
+    border-color: #3d7a52;
+    color: #ffffff;
+  }
+  .na-cf__chip.is-active {
+    background: #3d7a52;
+    color: #131c15;
+    border-color: #3d7a52;
+  }
+  .na-cf__chip.is-empty {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  .na-cf__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0;
+    border-top: 1.5px solid #3a3a3a;
+    border-bottom: 1.5px solid #3a3a3a;
+  }
+  .na-cf__count {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  .na-cf__summary {
+    color: #76837b;
+    font-weight: 400;
+  }
+  .na-cf__clear {
+    flex: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: transparent;
+    color: #69E281;
+    border: 1.5px solid #3d7a52;
+    transition: all 140ms;
+  }
+  .na-cf__clear:hover,
+  .na-cf__clear:focus-visible {
+    background: #3d7a52;
+    color: #131c15;
+  }
+  .na-cf.is-loading { opacity: 0.55; pointer-events: none; transition: opacity 140ms; }
+
+  /* Skjul Horizons egne filter-rester (vi beholder kun sortering + grid) */
+  .facets .filter-remove-buttons { display: none !important; }
+  .facets--horizontal .products-count-wrapper { display: none !important; }
+  .facets__clear-all-link { display: none !important; }
+
+  @media screen and (max-width: 749px) {
+    .na-cf__inner { padding: 20px 20px 0; }
+    .na-cf__rowlabel { width: 100%; }
+    .na-cf__chip { padding: 8px 13px; font-size: 11px; }
+  }
+</style>
+
+{%- if section.settings.enable_ajax -%}
+<script>
+  (function () {
+    if (window.__naCfBound) return;
+    window.__naCfBound = true;
+
+    var controller = null;
+
+    function findGridSection(chipSection) {
+      var sections = document.querySelectorAll('.shopify-section');
+      for (var i = 0; i < sections.length; i++) {
+        if (sections[i] !== chipSection && sections[i].querySelector('product-card, .product-card')) {
+          return sections[i];
+        }
+      }
+      return null;
+    }
+
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('.na-cf__chip:not(.is-empty), [data-na-clear]');
+      if (!a) return;
+      var root = a.closest('.na-cf');
+      var chipSection = root ? root.closest('.shopify-section') : null;
+      var gridSection = chipSection ? findGridSection(chipSection) : null;
+      if (!chipSection || !gridSection || !window.fetch || !window.DOMParser) return; // normal navigation
+
+      e.preventDefault();
+      var url = new URL(a.getAttribute('href'), window.location.href);
+
+      if (controller) controller.abort();
+      controller = new AbortController();
+      root.classList.add('is-loading');
+
+      fetch(url.href, { signal: controller.signal })
+        .then(function (r) {
+          if (!r.ok) throw new Error('fetch failed');
+          return r.text();
+        })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var freshChips = doc.getElementById(chipSection.id);
+          var freshGrid = doc.getElementById(gridSection.id);
+          if (!freshChips || !freshGrid) throw new Error('sections not found in response');
+          chipSection.replaceWith(freshChips);
+          gridSection.replaceWith(freshGrid);
+          window.history.pushState({ naCf: true }, '', url.href);
+        })
+        .catch(function (err) {
+          if (err && err.name === 'AbortError') return;
+          window.location.href = url.href;
+        });
+    });
+
+    window.addEventListener('popstate', function () {
+      window.location.reload();
+    });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NA Collection Filters",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Chip-filtre drevet af Shopifys native filtre. Kræver at Kategori- og Kropszone-metafelterne er slået til som filtre i Search & Discovery-appen."
+    },
+    {
+      "type": "text",
+      "id": "label_group1",
+      "label": "Række 1 — label",
+      "default": "Kategori"
+    },
+    {
+      "type": "text",
+      "id": "label_group2",
+      "label": "Række 2 — label",
+      "default": "Kroppen"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_ajax",
+      "label": "Opdater uden sidegenindlæsning (ajax)",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Collection Filters",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

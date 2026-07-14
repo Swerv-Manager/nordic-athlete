@@ -1,0 +1,544 @@
+{% schema %}
+{
+  "name": "NA Collection Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "split",  "label": "Split (tekst + billede)" },
+        { "value": "banner", "label": "Banner (fuld bredde + stat-bar)" }
+      ],
+      "default": "split",
+      "info": "Banner-layoutet matcher 2026-designet: fuld bredde uden billede, med trust-statistikker i en kantlinje-bar nederst."
+    },
+    {
+      "type": "header",
+      "content": "Eyebrow & Titel"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tekst",
+      "default": "Officiel partner · Høj Elithåndbold & Magnus Stilling"
+    },
+    {
+      "type": "text",
+      "id": "title_line1",
+      "label": "Titel linje 1",
+      "default": "GAMEPATCH"
+    },
+    {
+      "type": "text",
+      "id": "title_line2",
+      "label": "Titel linje 2",
+      "default": "Kollektion"
+    },
+    {
+      "type": "select",
+      "id": "title_line2_style",
+      "label": "Titel linje 2 — farve",
+      "options": [
+        { "value": "green", "label": "Grøn accent (Atletgrøn)" },
+        { "value": "muted", "label": "Dæmpet grå" }
+      ],
+      "default": "green"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Beskrivelse",
+      "default": "Professionelt beskyttelsesudstyr til håndbold, basketball og kontaktsport. Udviklet med eliteatleter — fordi din krop skal holde i mange år."
+    },
+    {
+      "type": "select",
+      "id": "description_priority",
+      "label": "Beskrivelse — prioritet",
+      "options": [
+        { "value": "collection", "label": "Kollektionsbeskrivelse først" },
+        { "value": "setting",    "label": "Sektionens felt først" }
+      ],
+      "default": "collection",
+      "info": "Den anden kilde bruges automatisk som fallback, hvis den valgte er tom."
+    },
+    {
+      "type": "header",
+      "content": "Illustration / Billede (kun Split-layout)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero illustration / billede"
+    },
+    {
+      "type": "text",
+      "id": "hero_image_alt",
+      "label": "Billedets alt-tekst",
+      "default": "GAMEPATCH kollektion illustration"
+    },
+    {
+      "type": "header",
+      "content": "Trust-statistikker"
+    },
+    {
+      "type": "checkbox",
+      "id": "stat1_accent",
+      "label": "Fremhæv stat 1 med grøn (kun Banner)",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stat1_value",
+      "label": "Stat 1 — Værdi",
+      "default": "4.9★"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 — Label",
+      "default": "200+ anmeldelser"
+    },
+    {
+      "type": "text",
+      "id": "stat2_value",
+      "label": "Stat 2 — Værdi",
+      "default": "+20%"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 — Label",
+      "default": "Stødabsorbering"
+    },
+    {
+      "type": "text",
+      "id": "stat3_value",
+      "label": "Stat 3 — Værdi",
+      "default": "EU"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 — Label",
+      "default": "Håndlavet"
+    },
+    {
+      "type": "text",
+      "id": "stat4_value",
+      "label": "Stat 4 — Værdi"
+    },
+    {
+      "type": "text",
+      "id": "stat4_label",
+      "label": "Stat 4 — Label"
+    },
+    {
+      "type": "header",
+      "content": "Baggrund"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Baggrundsstil",
+      "options": [
+        { "value": "dark",   "label": "Mørk (#2a2a2a)" },
+        { "value": "darker", "label": "Mørkere (#131c15)" }
+      ],
+      "default": "dark"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Collection Hero",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}
+
+{%- liquid
+  assign sid    = section.id
+  assign bg     = section.settings.bg_style
+  assign layout = section.settings.layout | default: 'split'
+
+  if bg == 'darker'
+    assign bg_color = '#131c15'
+  else
+    assign bg_color = '#2a2a2a'
+  endif
+
+  comment
+    Description priority (styret af description_priority):
+    - collection: kollektionsbeskrivelse -> fallback til sektionsfeltet
+    - setting:    sektionsfeltet -> fallback til kollektionsbeskrivelse
+  endcomment
+  assign coll_desc = collection.description | strip_html | strip
+  if section.settings.description_priority == 'setting'
+    assign hero_desc = section.settings.description
+    if hero_desc == blank
+      assign hero_desc = coll_desc
+    endif
+  else
+    assign hero_desc = coll_desc
+    if hero_desc == blank
+      assign hero_desc = section.settings.description
+    endif
+  endif
+
+  assign stat_count = 0
+  if section.settings.stat1_value != blank
+    assign stat_count = stat_count | plus: 1
+  endif
+  if section.settings.stat2_value != blank
+    assign stat_count = stat_count | plus: 1
+  endif
+  if section.settings.stat3_value != blank
+    assign stat_count = stat_count | plus: 1
+  endif
+  if section.settings.stat4_value != blank
+    assign stat_count = stat_count | plus: 1
+  endif
+-%}
+
+<style>
+  /* ─── NA COLLECTION HERO ──────────────────────────────────────
+     Farver følger NA design-tokens:
+     #131c15 ink-deepest · #2a2a2a ink-bg · #3a3a3a border
+     #3d7a52 Atletgrøn · #69E281 Energigrøn
+     #ffffff tekst · #a8b8ae text-mid · #76837b text-dim
+  ─────────────────────────────────────────────────────────────── */
+  #na-ch-{{ sid }} {
+    background: {{ bg_color }};
+    border-bottom: 1.5px solid #3a3a3a;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #na-ch-{{ sid }} * { box-sizing: border-box; }
+
+  {%- if layout == 'split' -%}
+  /* ─── SPLIT LAYOUT ───────────────────────────────────────────── */
+  .na-ch-inner-{{ sid }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    min-height: 420px;
+  }
+  .na-ch-content-{{ sid }} { padding: 56px 56px 56px 0; }
+
+  .na-ch-eyebrow-{{ sid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #3d7a52;
+    margin-bottom: 18px;
+  }
+  .na-ch-eyebrow-{{ sid }}::before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: #3d7a52;
+    flex-shrink: 0;
+  }
+
+  .na-ch-title-{{ sid }} {
+    font-size: 54px;
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+  }
+  .na-ch-title-{{ sid }} .na-ch-l2--green { color: #3d7a52; }
+  .na-ch-title-{{ sid }} .na-ch-l2--muted { color: #a8b8ae; font-weight: 700; }
+
+  .na-ch-desc-{{ sid }} {
+    font-size: 15px;
+    color: #a8b8ae;
+    line-height: 1.7;
+    max-width: 440px;
+    margin: 0 0 28px 0;
+  }
+
+  .na-ch-trust-{{ sid }} {
+    display: flex;
+    gap: 28px;
+    padding-top: 28px;
+    border-top: 1.5px solid #3a3a3a;
+  }
+  .na-ch-stat-value-{{ sid }} {
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .na-ch-stat-label-{{ sid }} {
+    font-size: 10px;
+    font-weight: 600;
+    color: #76837b;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .na-ch-image-col-{{ sid }} {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+  }
+  .na-ch-image-col-{{ sid }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .na-ch-image-col-{{ sid }}::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 100px;
+    background: linear-gradient(to right, {{ bg_color }}, transparent);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 989px) {
+    .na-ch-inner-{{ sid }} {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding: 0 24px;
+    }
+    .na-ch-content-{{ sid }} { padding: 48px 0 32px; }
+    .na-ch-image-col-{{ sid }} { height: 260px; margin: 0 -24px; }
+    .na-ch-image-col-{{ sid }}::before { display: none; }
+    .na-ch-title-{{ sid }} { font-size: 40px; }
+  }
+  @media screen and (max-width: 749px) {
+    .na-ch-title-{{ sid }} { font-size: 32px; }
+    .na-ch-desc-{{ sid }} { font-size: 14px; }
+    .na-ch-trust-{{ sid }} { gap: 20px; }
+    .na-ch-stat-value-{{ sid }} { font-size: 18px; }
+    .na-ch-image-col-{{ sid }} { height: 200px; }
+  }
+
+  {%- else -%}
+  /* ─── BANNER LAYOUT (2026-design) ────────────────────────────── */
+  .na-chb-inner-{{ sid }} {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 56px 32px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .na-chb-eyebrow-{{ sid }} {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #69E281;
+    margin: 0;
+  }
+
+  .na-chb-title-{{ sid }} {
+    margin: 0;
+    font-size: 44px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1.1;
+  }
+  .na-chb-title-{{ sid }} .na-ch-l2--muted { color: #a8b8ae; font-weight: 700; }
+  .na-chb-title-{{ sid }} .na-ch-l2--green { color: #3d7a52; }
+
+  .na-chb-desc-{{ sid }} {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #a8b8ae;
+    max-width: 640px;
+  }
+
+  .na-chb-trust-{{ sid }} {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat({{ stat_count | at_least: 1 }}, 1fr);
+    border-top: 1.5px solid #3a3a3a;
+  }
+  .na-chb-stat-{{ sid }} {
+    padding: 18px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-right: 1.5px solid #3a3a3a;
+  }
+  .na-chb-stat-{{ sid }}:last-child { border-right: none; }
+  .na-chb-stat-value-{{ sid }} {
+    font-size: 16px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+  .na-chb-stat-value-{{ sid }}.is-accent { color: #69E281; }
+  .na-chb-stat-label-{{ sid }} {
+    font-size: 11px;
+    color: #a8b8ae;
+    line-height: 1.4;
+  }
+
+  @media screen and (max-width: 989px) {
+    .na-chb-title-{{ sid }} { font-size: 38px; }
+  }
+  @media screen and (max-width: 749px) {
+    .na-chb-inner-{{ sid }} { padding: 40px 20px 24px; }
+    .na-chb-title-{{ sid }} { font-size: 29px; }
+    .na-chb-trust-{{ sid }} { grid-template-columns: repeat(2, 1fr); }
+    .na-chb-stat-{{ sid }} { padding: 14px 20px; }
+    .na-chb-stat-{{ sid }}:nth-child(2n) { border-right: none; }
+    .na-chb-stat-{{ sid }}:nth-child(n+3) { border-top: 1.5px solid #3a3a3a; }
+  }
+  {%- endif -%}
+</style>
+
+<section id="na-ch-{{ sid }}">
+{%- if layout == 'banner' -%}
+
+  <div class="na-chb-inner-{{ sid }}">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="na-chb-eyebrow-{{ sid }}">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <h1 class="na-chb-title-{{ sid }}">
+      {%- if section.settings.title_line1 != blank -%}{{ section.settings.title_line1 }}{%- endif -%}
+      {%- if section.settings.title_line2 != blank -%}
+        <br><span class="{% if section.settings.title_line2_style == 'muted' %}na-ch-l2--muted{% else %}na-ch-l2--green{% endif %}">{{ section.settings.title_line2 }}</span>
+      {%- endif -%}
+    </h1>
+
+    {%- if hero_desc != blank -%}
+      <p class="na-chb-desc-{{ sid }}">{{ hero_desc }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if stat_count > 0 -%}
+    <div class="na-chb-trust-{{ sid }}">
+      {%- if section.settings.stat1_value != blank -%}
+        <div class="na-chb-stat-{{ sid }}">
+          <span class="na-chb-stat-value-{{ sid }}{% if section.settings.stat1_accent %} is-accent{% endif %}">{{ section.settings.stat1_value }}</span>
+          <span class="na-chb-stat-label-{{ sid }}">{{ section.settings.stat1_label }}</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat2_value != blank -%}
+        <div class="na-chb-stat-{{ sid }}">
+          <span class="na-chb-stat-value-{{ sid }}">{{ section.settings.stat2_value }}</span>
+          <span class="na-chb-stat-label-{{ sid }}">{{ section.settings.stat2_label }}</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat3_value != blank -%}
+        <div class="na-chb-stat-{{ sid }}">
+          <span class="na-chb-stat-value-{{ sid }}">{{ section.settings.stat3_value }}</span>
+          <span class="na-chb-stat-label-{{ sid }}">{{ section.settings.stat3_label }}</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.stat4_value != blank -%}
+        <div class="na-chb-stat-{{ sid }}">
+          <span class="na-chb-stat-value-{{ sid }}">{{ section.settings.stat4_value }}</span>
+          <span class="na-chb-stat-label-{{ sid }}">{{ section.settings.stat4_label }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+{%- else -%}
+
+  <div class="na-ch-inner-{{ sid }}">
+
+    <!-- LEFT: Content -->
+    <div class="na-ch-content-{{ sid }}">
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="na-ch-eyebrow-{{ sid }}">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      <h1 class="na-ch-title-{{ sid }}">
+        {%- if section.settings.title_line1 != blank -%}
+          {{ section.settings.title_line1 }}<br>
+        {%- endif -%}
+        {%- if section.settings.title_line2 != blank -%}
+          <span class="{% if section.settings.title_line2_style == 'muted' %}na-ch-l2--muted{% else %}na-ch-l2--green{% endif %}">{{ section.settings.title_line2 }}</span>
+        {%- endif -%}
+      </h1>
+
+      {%- if hero_desc != blank -%}
+        <p class="na-ch-desc-{{ sid }}">{{ hero_desc }}</p>
+      {%- endif -%}
+
+      <!-- Trust stats -->
+      {%- if stat_count > 0 -%}
+        <div class="na-ch-trust-{{ sid }}">
+          {%- if section.settings.stat1_value != blank -%}
+            <div>
+              <div class="na-ch-stat-value-{{ sid }}">{{ section.settings.stat1_value }}</div>
+              <div class="na-ch-stat-label-{{ sid }}">{{ section.settings.stat1_label }}</div>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.stat2_value != blank -%}
+            <div>
+              <div class="na-ch-stat-value-{{ sid }}">{{ section.settings.stat2_value }}</div>
+              <div class="na-ch-stat-label-{{ sid }}">{{ section.settings.stat2_label }}</div>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.stat3_value != blank -%}
+            <div>
+              <div class="na-ch-stat-value-{{ sid }}">{{ section.settings.stat3_value }}</div>
+              <div class="na-ch-stat-label-{{ sid }}">{{ section.settings.stat3_label }}</div>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.stat4_value != blank -%}
+            <div>
+              <div class="na-ch-stat-value-{{ sid }}">{{ section.settings.stat4_value }}</div>
+              <div class="na-ch-stat-label-{{ sid }}">{{ section.settings.stat4_label }}</div>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+    </div>
+
+    <!-- RIGHT: Illustration / Image -->
+    <div class="na-ch-image-col-{{ sid }}">
+      {%- if section.settings.hero_image != blank -%}
+        <img
+          src="{{ section.settings.hero_image | image_url: width: 1200 }}"
+          alt="{{ section.settings.hero_image_alt | escape }}"
+          width="1200"
+          height="800"
+          loading="eager"
+        >
+      {%- else -%}
+        {{- 'collection-1' | placeholder_svg_tag: 'na-ch-placeholder' -}}
+      {%- endif -%}
+    </div>
+
+  </div>
+
+{%- endif -%}
+</section>

@@ -1,0 +1,417 @@
+/* ═══════════════════════════════════════════════════════════════
+   NA PRODUCT PAGE — CSS OVERRIDES  v2
+   Fil: assets/na-product-page.css
+   Indlæses via: theme.liquid
+   Selektorer verificeret mod Alchemy 7 live DOM
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── BRAND TOKENS ─────────────────────────────────────────── */
+:root {
+  --na-green:      #3d7a52;
+  --na-green-dim:  #3d7a52;
+  --na-amber:      #3d7a52;
+  --na-bg:         #2a2a2a;
+  --na-bg-dark:    #131c15;
+  --na-bg-card:    #253020;
+  --na-border:     #3a3a3a;
+  --na-text-mid:   #a8b8ae;
+  --na-text-muted: #68706c;
+  --na-white:      #ffffff;
+}
+
+/* ─── PAGE BACKGROUND ───────────────────────────────────────── */
+.template-product .shopify-section,
+.template-product main {
+  background-color: var(--na-bg);
+}
+
+/* ─── PRODUCT TITLE ─────────────────────────────────────────── */
+/* Alchemy uses .view-product-title > h1 */
+.view-product-title h1,
+.view-product-title {
+  font-size: clamp(22px, 3vw, 34px) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
+  color: var(--na-white) !important;
+  line-height: 1.15 !important;
+}
+
+/* ─── PRICE ─────────────────────────────────────────────────── */
+/* Alchemy: .price__regular .price  (the <span class="price"> inside .price__regular) */
+.price__regular .price,
+.price__sale .price--sale {
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  color: var(--na-white) !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* Compare-at / was price */
+.price__regular .price--compare,
+.price__sale .price--compare,
+.price-item--compare {
+  color: var(--na-text-muted) !important;
+  text-decoration: line-through !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+
+/* Sale price in green */
+.price__sale .price--sale {
+  color: var(--na-green) !important;
+}
+
+/* Hide "Normalpris" / "Udsalgspris" label text */
+.price-item__group .visually-hidden,
+.price__label {
+  display: none !important;
+}
+
+/* ─── VARIANT PICKER ────────────────────────────────────────── */
+/* Alchemy: .variant-option__button-label */
+.variant-option__button-label {
+  background-color: var(--na-bg-card) !important;
+  border: 1.5px solid var(--na-border) !important;
+  color: var(--na-white) !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  border-radius: 6px !important;
+  transition: border-color 0.15s, background-color 0.15s !important;
+  min-width: 44px !important;
+  text-align: center !important;
+}
+
+.variant-option__button-label:hover {
+  border-color: var(--na-green) !important;
+  background-color: rgba(105, 226, 129, 0.08) !important;
+}
+
+/* Active/checked variant */
+input[type="radio"]:checked + .variant-option__button-label {
+  background-color: var(--na-green) !important;
+  border-color: var(--na-green) !important;
+  color: var(--na-bg-dark) !important;
+}
+
+/* Unavailable variant */
+.variant-option__button-label.is-unavailable,
+.variant-option__button-label[data-available="false"] {
+  opacity: 0.35 !important;
+  cursor: not-allowed !important;
+  text-decoration: line-through !important;
+}
+
+/* ─── ADD TO CART BUTTON ────────────────────────────────────── */
+/* Scoped to .template-product so it does NOT affect quick-add on collection pages.
+   The [name="add"] selector is intentionally restricted here. */
+.template-product .add-to-cart-button,
+.template-product button[name="add"],
+.template-product .button.add-to-cart-button {
+  background-color: var(--na-green) !important;
+  color: var(--na-bg-dark) !important;
+  font-weight: 900 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 16px 24px !important;
+  transition: background-color 0.15s, transform 0.1s !important;
+  width: 100% !important;
+  cursor: pointer !important;
+}
+
+.template-product .add-to-cart-button:hover,
+.template-product button[name="add"]:hover {
+  background-color: var(--na-green-dim) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ─── QUANTITY INPUT ────────────────────────────────────────── */
+quantity-input,
+.quantity-input {
+  background-color: var(--na-bg-card) !important;
+  border: 1.5px solid var(--na-border) !important;
+  border-radius: 8px !important;
+}
+
+quantity-input input,
+.quantity-input input {
+  color: var(--na-white) !important;
+  font-weight: 700 !important;
+  background: transparent !important;
+}
+
+quantity-input button,
+.quantity-input button {
+  color: var(--na-text-mid) !important;
+  background: transparent !important;
+}
+
+quantity-input button:hover,
+.quantity-input button:hover {
+  color: var(--na-green) !important;
+}
+
+/* ─── PRODUCT GALLERY ───────────────────────────────────────── */
+/* Alchemy: media-gallery custom element */
+media-gallery,
+.media-gallery {
+  background-color: var(--na-bg-card) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+/* Thumbnail strip */
+.media-gallery__nav button,
+.media-gallery__thumbnail {
+  border: 2px solid transparent !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  background-color: var(--na-bg-card) !important;
+  opacity: 0.6;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+
+.media-gallery__nav button[aria-current="true"],
+.media-gallery__thumbnail.is-active,
+.media-gallery__nav button:hover {
+  border-color: var(--na-green) !important;
+  opacity: 1 !important;
+}
+
+/* ─── ACCORDIONS (Custom Liquid block uses <details>) ───────── */
+.na-accordion {
+  border: 1.5px solid var(--na-border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  background: var(--na-bg-card);
+}
+
+.na-accordion summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--na-white);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.na-accordion summary::-webkit-details-marker { display: none; }
+
+.na-accordion summary .na-accordion-icon {
+  font-size: 18px;
+  color: var(--na-green);
+  transition: transform 0.2s;
+  line-height: 1;
+}
+
+.na-accordion[open] summary .na-accordion-icon {
+  transform: rotate(45deg);
+}
+
+.na-accordion[open] summary {
+  border-bottom: 1px solid var(--na-border);
+  color: var(--na-green);
+}
+
+.na-accordion-body {
+  padding: 16px 18px;
+  color: var(--na-text-mid);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.na-accordion-body h4 {
+  color: var(--na-white);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+
+.na-accordion-body ul {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.na-accordion-body ul li {
+  padding: 4px 0;
+}
+
+.na-accordion-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.na-accordion-body table th {
+  color: var(--na-white);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--na-border);
+  text-align: left;
+}
+
+.na-accordion-body table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(46, 61, 50, 0.5);
+  color: var(--na-text-mid);
+}
+
+.na-accordion-body table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ─── FREE SHIPPING BAR ─────────────────────────────────────── */
+.na-shipping-bar {
+  background: var(--na-bg-card);
+  border: 1.5px solid var(--na-border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.na-shipping-bar__text {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--na-text-mid);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.na-shipping-bar__text strong {
+  color: var(--na-white);
+}
+
+.na-shipping-bar__text .na-shipping-bar__label-right {
+  color: var(--na-green);
+  font-weight: 700;
+}
+
+.na-shipping-bar__track {
+  height: 6px;
+  background: var(--na-border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.na-shipping-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--na-green), #4ec966);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.na-shipping-bar--complete .na-shipping-bar__text {
+  color: var(--na-green);
+}
+
+.na-shipping-bar--complete .na-shipping-bar__fill {
+  background: var(--na-green);
+}
+
+/* ─── SOCIAL SHARE (hide default) ──────────────────────────── */
+.social-sharing,
+.product-share {
+  display: none !important;
+}
+
+/* ─── BREADCRUMB ────────────────────────────────────────────── */
+.breadcrumbs,
+.breadcrumb {
+  font-size: 12px !important;
+  color: var(--na-text-muted) !important;
+}
+
+.breadcrumbs a,
+.breadcrumb a {
+  color: var(--na-text-mid) !important;
+}
+
+.breadcrumbs a:hover,
+.breadcrumb a:hover {
+  color: var(--na-green) !important;
+}
+
+/* ─── STICKY ATC BAR ────────────────────────────────────────── */
+.na-sticky-atc {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--na-bg-dark);
+  border-top: 1px solid var(--na-border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.na-sticky-atc.is-visible {
+  transform: translateY(0);
+}
+
+.na-sticky-atc__title {
+  flex: 1;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--na-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.na-sticky-atc__price {
+  font-weight: 900;
+  font-size: 16px;
+  color: var(--na-white);
+  white-space: nowrap;
+}
+
+.na-sticky-atc__btn {
+  background: var(--na-green);
+  color: var(--na-bg-dark);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.na-sticky-atc__btn:hover {
+  background: var(--na-green-dim);
+}
+
+@media (max-width: 749px) {
+  .na-sticky-atc__title { display: none; }
+  .na-sticky-atc__btn { flex: 1; }
+}

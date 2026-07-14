@@ -1,0 +1,606 @@
+{%- liquid
+  assign sid         = section.id | replace: '__', '-'
+  assign eyebrow     = section.settings.eyebrow
+  assign heading_1   = section.settings.heading_line1
+  assign heading_hl  = section.settings.heading_line2
+  assign bg_style    = section.settings.bg_style
+  assign show_summary = section.settings.show_summary
+  assign link_label  = section.settings.link_label
+  assign link_url    = section.settings.link_url
+  assign score       = section.settings.score
+  assign score_count = section.settings.score_count
+  assign bar5        = section.settings.bar5 | default: 88
+  assign bar4        = section.settings.bar4 | default: 9
+  assign bar3        = section.settings.bar3 | default: 2
+  assign bar2        = section.settings.bar2 | default: 1
+  assign bar1        = section.settings.bar1 | default: 0
+  assign count5      = section.settings.count5 | default: 176
+  assign count4      = section.settings.count4 | default: 18
+  assign count3      = section.settings.count3 | default: 4
+  assign count2      = section.settings.count2 | default: 2
+  assign count1      = section.settings.count1 | default: 0
+-%}
+
+<style>
+  /* ── SECTION ── */
+  #na-rev-{{ sid }} {
+    background: {% if bg_style == 'dark' %}#2a2a2a{% else %}#000000{% endif %};
+    border-top: 1px solid #2e3d32;
+    padding: {{ section.settings.padding_top | default: 80 }}px 0 {{ section.settings.padding_bottom | default: 80 }}px;
+  }
+  .na-rev-inner-{{ sid }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ── HEADER ROW ── */
+  .na-rev-header-{{ sid }} {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .na-rev-eyebrow-{{ sid }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #3d7a52;
+    margin-bottom: 12px;
+  }
+  .na-rev-eyebrow-{{ sid }}::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: #3d7a52;
+    border-radius: 1px;
+  }
+  .na-rev-heading-{{ sid }} {
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  .na-rev-heading-hl-{{ sid }} { color: #3d7a52; }
+  .na-rev-link-{{ sid }} {
+    font-size: 13px;
+    font-weight: 700;
+    color: #3d7a52;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .na-rev-link-{{ sid }}:hover { color: #7ded93; }
+
+  /* ── SUMMARY PANEL ── */
+  .na-rev-summary-{{ sid }} {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 40px;
+    padding: 28px 32px;
+    background: #253020;
+    border: 1px solid #2e3d32;
+    border-radius: 14px;
+    flex-wrap: wrap;
+  }
+  .na-rev-score-{{ sid }} {
+    text-align: center;
+    flex-shrink: 0;
+    min-width: 90px;
+  }
+  .na-rev-score-big-{{ sid }} {
+    font-size: 56px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1;
+  }
+  .na-rev-score-stars-{{ sid }} {
+    color: #e7ad50;
+    font-size: 20px;
+    letter-spacing: 2px;
+    margin: 6px 0;
+  }
+  .na-rev-score-count-{{ sid }} {
+    font-size: 12px;
+    color: #4a5a4f;
+    font-weight: 600;
+  }
+  .na-rev-bars-{{ sid }} { flex: 1; min-width: 160px; }
+  .na-rev-bar-row-{{ sid }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .na-rev-bar-label-{{ sid }} {
+    font-size: 11px;
+    color: #4a5a4f;
+    width: 40px;
+    text-align: right;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .na-rev-bar-track-{{ sid }} {
+    flex: 1;
+    height: 6px;
+    background: #2e3d32;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .na-rev-bar-fill-{{ sid }} {
+    height: 100%;
+    background: #e7ad50;
+    border-radius: 3px;
+  }
+  .na-rev-bar-count-{{ sid }} {
+    font-size: 11px;
+    color: #4a5a4f;
+    width: 24px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  /* ── REVIEWS GRID ── */
+  .na-rev-grid-{{ sid }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  /* ── REVIEW CARD ── */
+  .na-rev-card-{{ sid }} {
+    background: #253020;
+    border: 1px solid #2e3d32;
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+  }
+  .na-rev-card-stars-{{ sid }} {
+    color: #3d7a52;
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .na-rev-card-text-{{ sid }} {
+    font-size: 14px;
+    color: #a8b8ae;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 18px;
+    flex: 1;
+  }
+  .na-rev-author-{{ sid }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+  }
+  .na-rev-avatar-{{ sid }} {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #3d7a52;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: #000000;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .na-rev-avatar-{{ sid }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .na-rev-name-{{ sid }} {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  .na-rev-role-{{ sid }} {
+    font-size: 11px;
+    color: #4a5a4f;
+    margin-top: 2px;
+  }
+  .na-rev-verified-{{ sid }} {
+    font-size: 10px;
+    font-weight: 700;
+    color: #3d7a52;
+    margin-top: 3px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .na-rev-grid-{{ sid }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .na-rev-summary-{{ sid }} {
+      padding: 20px;
+    }
+  }
+  @media (max-width: 600px) {
+    .na-rev-inner-{{ sid }} { padding: 0 16px; }
+    .na-rev-grid-{{ sid }} {
+      grid-template-columns: 1fr;
+    }
+    .na-rev-score-big-{{ sid }} { font-size: 40px; }
+  }
+</style>
+
+<section id="na-rev-{{ sid }}">
+  <div class="na-rev-inner-{{ sid }}">
+
+    {%- comment -%}── HEADER ──{%- endcomment -%}
+    <div class="na-rev-header-{{ sid }}">
+      <div>
+        {%- if eyebrow != blank -%}
+          <p class="na-rev-eyebrow-{{ sid }}">{{ eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="na-rev-heading-{{ sid }}">
+          {{- heading_1 -}}
+          {%- if heading_hl != blank -%}
+            <span class="na-rev-heading-hl-{{ sid }}"> {{ heading_hl }}</span>
+          {%- endif -%}
+        </h2>
+      </div>
+      {%- if link_label != blank and link_url != blank -%}
+        <a href="{{ link_url }}" class="na-rev-link-{{ sid }}">{{ link_label }}</a>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%}── SUMMARY PANEL ──{%- endcomment -%}
+    {%- if show_summary -%}
+      <div class="na-rev-summary-{{ sid }}">
+        <div class="na-rev-score-{{ sid }}">
+          <div class="na-rev-score-big-{{ sid }}">{{ score }}</div>
+          <div class="na-rev-score-stars-{{ sid }}">★★★★★</div>
+          <div class="na-rev-score-count-{{ sid }}">{{ score_count }}</div>
+        </div>
+        <div class="na-rev-bars-{{ sid }}">
+          {%- assign bar_rows = '5,4,3,2,1' | split: ',' -%}
+          {%- for star in bar_rows -%}
+            {%- assign bar_pct_key   = 'bar'   | append: star -%}
+            {%- assign bar_count_key = 'count' | append: star -%}
+            {%- assign bar_pct   = section.settings[bar_pct_key]   | default: 0 -%}
+            {%- assign bar_count = section.settings[bar_count_key] | default: 0 -%}
+            <div class="na-rev-bar-row-{{ sid }}">
+              <span class="na-rev-bar-label-{{ sid }}">{{ star }} ★</span>
+              <div class="na-rev-bar-track-{{ sid }}">
+                <div class="na-rev-bar-fill-{{ sid }}" style="width:{{ bar_pct }}%"></div>
+              </div>
+              <span class="na-rev-bar-count-{{ sid }}">{{ bar_count }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}── REVIEW CARDS ──{%- endcomment -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="na-rev-grid-{{ sid }}">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review' -%}
+            {%- assign stars_int = block.settings.stars | default: 5 -%}
+            <div class="na-rev-card-{{ sid }}" {{ block.shopify_attributes }}>
+
+              {%- comment -%}Stars{%- endcomment -%}
+              <div class="na-rev-card-stars-{{ sid }}">
+                {%- for i in (1..5) -%}
+                  {%- if i <= stars_int -%}★{%- else -%}☆{%- endif -%}
+                {%- endfor -%}
+              </div>
+
+              {%- comment -%}Review text{%- endcomment -%}
+              {%- if block.settings.text != blank -%}
+                <p class="na-rev-card-text-{{ sid }}">"{{ block.settings.text }}"</p>
+              {%- endif -%}
+
+              {%- comment -%}Author{%- endcomment -%}
+              <div class="na-rev-author-{{ sid }}">
+                <div class="na-rev-avatar-{{ sid }}">
+                  {%- if block.settings.avatar != blank -%}
+                    <img
+                      src="{{ block.settings.avatar | image_url: width: 80 }}"
+                      alt="{{ block.settings.name | escape }}"
+                      width="38"
+                      height="38"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    {{- block.settings.initials | default: '?' -}}
+                  {%- endif -%}
+                </div>
+                <div>
+                  {%- if block.settings.name != blank -%}
+                    <div class="na-rev-name-{{ sid }}">{{ block.settings.name }}</div>
+                  {%- endif -%}
+                  {%- if block.settings.role != blank -%}
+                    <div class="na-rev-role-{{ sid }}">{{ block.settings.role }}</div>
+                  {%- endif -%}
+                  {%- if block.settings.verified -%}
+                    <div class="na-rev-verified-{{ sid }}">✓ Verificeret køb</div>
+                  {%- endif -%}
+                </div>
+              </div>
+
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "NA Multicolumn — Review",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Baggrund & Layout"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Baggrundsstil",
+      "options": [
+        { "value": "darker", "label": "Mørkere (#000000)" },
+        { "value": "dark",   "label": "Mørk (#2a2a2a)" }
+      ],
+      "default": "darker"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Afstand top (px)",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Afstand bund (px)",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Tekst"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Kundeanmeldelser"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Overskrift linje 1",
+      "default": "Hvad siger"
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "Overskrift linje 2 (grøn)",
+      "default": "vores kunder?"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link tekst",
+      "default": "Se alle anmeldelser →"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Samlet bedømmelse (panel)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_summary",
+      "label": "Vis samlet bedømmelsespanel",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "score",
+      "label": "Samlet score (tal)",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "score_count",
+      "label": "Antal anmeldelser (tekst)",
+      "default": "200+ anmeldelser"
+    },
+    {
+      "type": "header",
+      "content": "Søjlediagram — procent (0–100)"
+    },
+    {
+      "type": "range",
+      "id": "bar5",
+      "label": "5 stjerner %",
+      "min": 0, "max": 100, "step": 1,
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "bar4",
+      "label": "4 stjerner %",
+      "min": 0, "max": 100, "step": 1,
+      "default": 9
+    },
+    {
+      "type": "range",
+      "id": "bar3",
+      "label": "3 stjerner %",
+      "min": 0, "max": 100, "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "bar2",
+      "label": "2 stjerner %",
+      "min": 0, "max": 100, "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "bar1",
+      "label": "1 stjerne %",
+      "min": 0, "max": 100, "step": 1,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Søjlediagram — antal"
+    },
+    {
+      "type": "number",
+      "id": "count5",
+      "label": "5 stjerner antal",
+      "default": 176
+    },
+    {
+      "type": "number",
+      "id": "count4",
+      "label": "4 stjerner antal",
+      "default": 18
+    },
+    {
+      "type": "number",
+      "id": "count3",
+      "label": "3 stjerner antal",
+      "default": 4
+    },
+    {
+      "type": "number",
+      "id": "count2",
+      "label": "2 stjerner antal",
+      "default": 2
+    },
+    {
+      "type": "number",
+      "id": "count1",
+      "label": "1 stjerne antal",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Anmeldelse",
+      "settings": [
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Stjerner",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Anmeldelsestekst",
+          "default": "Endeligt et produkt der faktisk holder, hvad det lover. Har brugt Gamepatch tights i hele sæsonen og mærker en klar forskel på mine knæ."
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Profilbillede (valgfrit)"
+        },
+        {
+          "type": "text",
+          "id": "initials",
+          "label": "Initialer (hvis intet profilbillede)",
+          "default": "MS"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Navn",
+          "default": "Mikkel S."
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Rolle / klub",
+          "default": "Håndboldsspiller"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Vis \"Verificeret køb\"",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Multicolumn — Kundeanmeldelser",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Endeligt et produkt der faktisk holder, hvad det lover. Har brugt Gamepatch tights i hele sæsonen og mærker en klar forskel på mine knæ.",
+            "initials": "MS",
+            "name": "Mikkel S.",
+            "role": "Håndboldsspiller",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Bruger dem til basketball. Sidder perfekt og giver god støtte uden at føles tunge. Vil klart anbefale til alle holdspillere.",
+            "initials": "BF",
+            "name": "Bastian F.",
+            "role": "Basketballspiller · BK Vejen",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "text": "Har prøvet mange beskyttende tights, men intet matcher kvaliteten fra Nordic Athlete. Hoftepadding sidder præcis, hvor den skal.",
+            "initials": "LK",
+            "name": "Louise K.",
+            "role": "Håndboldsspiller · Høj Elithåndbold",
+            "verified": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
