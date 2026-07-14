@@ -1,121 +1,40 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "na_collection_hero_gVJV4C": {
+    "hero": {
       "type": "na-collection-hero",
       "name": "NA Collection Hero",
       "settings": {
+        "layout": "banner",
         "eyebrow": "{{ collection.metafields.custom.hero_banner_tagline.value }}",
-        "title_line1": "{{ collection.title }}",
+        "title_line1": "",
         "title_line2": "",
-        "description": "Professionelt beskyttelsesudstyr til håndbold, basketball og kontaktsport. Udviklet med eliteatleter — fordi din krop skal holde i mange år.",
-        "hero_image": "{{ collection.image }}",
-        "hero_image_alt": "GAMEPATCH kollektion illustration",
-        "stat1_value": "",
-        "stat1_label": "",
-        "stat2_value": "",
-        "stat2_label": "",
-        "stat3_value": "",
-        "stat3_label": "",
-        "bg_style": "dark"
+        "title_line2_style": "green",
+        "description": "",
+        "description_priority": "collection",
+        "stat1_accent": true,
+        "stat1_value": "4,9 / 5",
+        "stat1_label": "1.200+ anmeldelser",
+        "stat2_value": "1–2 dage",
+        "stat2_label": "Dag-til-dag levering",
+        "stat3_value": "Fri fragt",
+        "stat3_label": "Ved køb over 600 kr",
+        "stat4_value": "30 dage",
+        "stat4_label": "Fri retur",
+        "bg_style": "darker"
       }
     },
-    "section": {
-      "type": "section",
-      "blocks": {
-        "text_tqQTNE": {
-          "type": "text",
-          "name": "Title",
-          "settings": {
-            "text": "<h1>{{ closest.collection.title }}</h1>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-primary--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "text_twGGkJ": {
-          "type": "text",
-          "name": "Description",
-          "settings": {
-            "text": "{{ closest.collection.description }}",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-primary--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_tqQTNE",
-        "text_twGGkJ"
-      ],
-      "disabled": true,
-      "name": "Collection heading",
+    "skin": {
+      "type": "na-gamepatch-skin",
+      "name": "NA GAMEPATCH Skin",
+      "settings": {}
+    },
+    "filters_chips": {
+      "type": "na-collection-filters",
+      "name": "NA Collection Filters",
       "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-1",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "label_group1": "Kategori",
+        "label_group2": "Kroppen",
+        "enable_ajax": true
       }
     },
     "main": {
@@ -125,7 +44,7 @@
           "type": "filters",
           "static": true,
           "settings": {
-            "enable_filtering": true,
+            "enable_filtering": false,
             "filter_style": "horizontal",
             "filter_width": "centered",
             "text_label_case": "default",
@@ -154,7 +73,7 @@
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
-            "border_radius": 0,
+            "border_radius": 8,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -168,7 +87,7 @@
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
-                "border_radius": 10,
+                "border_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -176,30 +95,12 @@
               },
               "blocks": {}
             },
-            "product_title_4nY4eT": {
-              "type": "product-title",
-              "name": "t:names.product_title",
+            "na_extras": {
+              "type": "custom-liquid",
+              "name": "NA Card Extras",
               "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h5",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 10,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
+                "custom_liquid": "{% render 'na-card-extras', product: closest.product %}"
+              }
             },
             "price_EzJzMm": {
               "type": "price",
@@ -211,22 +112,22 @@
                 "width": "100%",
                 "alignment": "left",
                 "font": "var(--font-body--family)",
-                "font_size": "1rem",
+                "font_size": "1.05rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
                 "color": "var(--color-foreground)",
-                "padding-block-start": 0,
-                "padding-block-end": 5,
+                "padding-block-start": 4,
+                "padding-block-end": 10,
                 "padding-inline-start": 10,
-                "padding-inline-end": 0
+                "padding-inline-end": 10
               },
               "blocks": {}
             }
           },
           "block_order": [
             "card-gallery",
-            "product_title_4nY4eT",
+            "na_extras",
             "price_EzJzMm"
           ]
         }
@@ -239,7 +140,7 @@
         "products_per_page": 24,
         "product_grid_width": "centered",
         "full_width_on_mobile": false,
-        "columns_gap_horizontal": 16,
+        "columns_gap_horizontal": 20,
         "columns_gap_vertical": 24,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
@@ -250,8 +151,9 @@
     }
   },
   "order": [
-    "na_collection_hero_gVJV4C",
-    "section",
+    "hero",
+    "skin",
+    "filters_chips",
     "main"
   ]
 }

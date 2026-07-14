@@ -1,41 +1,82 @@
 {%- liquid
+  # Produkt-metafelter (custom.pdp_tech_*) har forrang over sektionens
+  # indstillinger/blokke — én skabelon kan dermed dække alle produkter.
+  # Zone-format: "x%|y%|Titel|Tekst" (list.single_line_text_field).
+  assign mf_zones = product.metafields.custom.pdp_tech_zones.value
+  assign zone_count = 0
+  if mf_zones
+    assign zone_count = mf_zones.size
+  endif
+  if zone_count == 0
+    assign zone_count = section.blocks.size
+    assign mf_zones = blank
+  endif
+
+  assign tech_heading = product.metafields.custom.pdp_tech_heading.value | default: section.settings.heading
+  assign tech_text = product.metafields.custom.pdp_tech_intro.value | default: section.settings.text
+
   assign tech_image = section.settings.image
   if tech_image == blank and product.media.size > 1
     assign tech_image = product.media[1].preview_image
   endif
 -%}
 
+{%- if zone_count > 0 -%}
 <section class="na-tech" id="teknologi">
   <div class="na-tech__inner">
     <div class="na-tech__media">
       {%- if tech_image -%}
-        {{ tech_image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'na-tech__img', alt: section.settings.heading }}
+        {{ tech_image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'na-tech__img', alt: tech_heading }}
       {%- endif -%}
-      {%- for block in section.blocks -%}
-        <span
-          class="na-tech__dot"
-          style="top: {{ block.settings.dot_y }}%; left: {{ block.settings.dot_x }}%;"
-          {{ block.shopify_attributes }}
-        >
-          {{- forloop.index -}}
-        </span>
-      {%- endfor -%}
+      {%- if mf_zones != blank -%}
+        {%- for z in mf_zones -%}
+          {%- assign zp = z | split: '|' -%}
+          <span
+            class="na-tech__dot"
+            style="top: {{ zp[1] | strip }}%; left: {{ zp[0] | strip }}%;"
+          >
+            {{- forloop.index -}}
+          </span>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          <span
+            class="na-tech__dot"
+            style="top: {{ block.settings.dot_y }}%; left: {{ block.settings.dot_x }}%;"
+            {{ block.shopify_attributes }}
+          >
+            {{- forloop.index -}}
+          </span>
+        {%- endfor -%}
+      {%- endif -%}
     </div>
     <div class="na-tech__content">
       <span class="na-tech__eyebrow">{{ section.settings.eyebrow }}</span>
-      <h2 class="na-tech__heading">{{ section.settings.heading }}</h2>
-      {%- if section.settings.text != blank -%}
-        <p class="na-tech__text">{{ section.settings.text }}</p>
+      <h2 class="na-tech__heading">{{ tech_heading }}</h2>
+      {%- if tech_text != blank -%}
+        <p class="na-tech__text">{{ tech_text }}</p>
       {%- endif -%}
       <div class="na-tech__zones">
-        {%- for block in section.blocks -%}
-          <div class="na-tech__zone" {{ block.shopify_attributes }}>
-            <span class="na-tech__zone-num">{{ forloop.index }}</span>
-            <p class="na-tech__zone-text">
-              <strong>{{ block.settings.title }}</strong> — {{ block.settings.text }}
-            </p>
-          </div>
-        {%- endfor -%}
+        {%- if mf_zones != blank -%}
+          {%- for z in mf_zones -%}
+            {%- assign zp = z | split: '|' -%}
+            <div class="na-tech__zone">
+              <span class="na-tech__zone-num">{{ forloop.index }}</span>
+              <p class="na-tech__zone-text">
+                <strong>{{ zp[2] | strip }}</strong> — {{ zp[3] | strip }}
+              </p>
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for block in section.blocks -%}
+            <div class="na-tech__zone" {{ block.shopify_attributes }}>
+              <span class="na-tech__zone-num">{{ forloop.index }}</span>
+              <p class="na-tech__zone-text">
+                <strong>{{ block.settings.title }}</strong> — {{ block.settings.text }}
+              </p>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
       </div>
       {%- if section.settings.stat_number != blank -%}
         <div class="na-tech__stat">
@@ -152,6 +193,7 @@
     .na-tech__content { padding: 40px 20px; gap: 18px; }
   }
 </style>
+{%- endif -%}
 
 {% schema %}
 {

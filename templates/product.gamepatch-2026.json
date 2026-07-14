@@ -406,96 +406,18 @@
       "settings": {
         "eyebrow": "Body Adjust Technology",
         "heading": "Beskyttelsen bliver, hvor kampen rammer",
-        "text": "Tightsene tilpasser sig din kropstemperatur og former sig naturligt efter kroppen. Pasformen føles intuitiv og tætsiddende uden at stramme — så du kan fokusere fuldt ud på dit spil, ikke på dit udstyr.",
+        "text": "",
         "stat_number": "20%",
         "stat_text": "mere effektiv stødabsorbering — håndlavet i Europa i premium kvalitet."
-      },
-      "blocks": {
-        "zone1": {
-          "type": "zone",
-          "settings": {
-            "title": "Integreret hoftebeskyttelse",
-            "text": "dækket på de vitale punkter ved fald og sammenstød.",
-            "dot_x": 32,
-            "dot_y": 26
-          }
-        },
-        "zone2": {
-          "type": "zone",
-          "settings": {
-            "title": "Stabil kompression",
-            "text": "støtter musklerne under pres og reducerer træthed ved intensiv træning.",
-            "dot_x": 60,
-            "dot_y": 50
-          }
-        },
-        "zone3": {
-          "type": "zone",
-          "settings": {
-            "title": "Knæbeskyttelse",
-            "text": "stødabsorberende teknologi der hurtigt vender tilbage til sin oprindelige form.",
-            "dot_x": 40,
-            "dot_y": 76
-          }
-        }
-      },
-      "block_order": [
-        "zone1",
-        "zone2",
-        "zone3"
-      ]
+      }
     },
     "sizeguide": {
       "type": "na-pdp-size-guide",
       "settings": {
         "eyebrow": "Find din størrelse",
         "heading": "Vælg din normale spillestørrelse",
-        "note": "Tights sidder tæt med kompression. 9 ud af 10 spillere passer deres normale størrelse — er du i tvivl mellem to størrelser, så vælg den større. Sidder den forkert, bytter vi gratis."
-      },
-      "blocks": {
-        "s": {
-          "type": "column",
-          "settings": {
-            "size": "S",
-            "range": "165–172 cm"
-          }
-        },
-        "m": {
-          "type": "column",
-          "settings": {
-            "size": "M",
-            "range": "170–178 cm"
-          }
-        },
-        "l": {
-          "type": "column",
-          "settings": {
-            "size": "L",
-            "range": "176–186 cm"
-          }
-        },
-        "xl": {
-          "type": "column",
-          "settings": {
-            "size": "XL",
-            "range": "184–194 cm"
-          }
-        },
-        "xxl": {
-          "type": "column",
-          "settings": {
-            "size": "2XL",
-            "range": "192–202 cm"
-          }
-        }
-      },
-      "block_order": [
-        "s",
-        "m",
-        "l",
-        "xl",
-        "xxl"
-      ]
+        "note": ""
+      }
     },
     "reviews": {
       "type": "na-pdp-reviews",
@@ -547,7 +469,6 @@
       "type": "na-pdp-bundle",
       "settings": {
         "heading": "Komplet beskyttelse — køb samlet",
-        "companion_product": "gamepatch-knee-pads",
         "savings_amount": 0
       }
     },

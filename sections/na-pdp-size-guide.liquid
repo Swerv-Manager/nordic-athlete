@@ -1,4 +1,20 @@
 {%- liquid
+  # Produkt-metafelter (custom.pdp_size_*) har forrang over sektionens blokke —
+  # én skabelon kan dermed dække alle produkter. Sektionen skjules helt, når
+  # hverken metafelt eller blokke findes (fx tilbehør uden størrelser).
+  # Kolonne-format: "Størrelse|Interval", fx "M|170–178 cm" (list.single_line_text_field).
+  assign mf_cols = product.metafields.custom.pdp_size_columns.value
+  assign col_count = 0
+  if mf_cols
+    assign col_count = mf_cols.size
+  endif
+  if col_count == 0
+    assign col_count = section.blocks.size
+    assign mf_cols = blank
+  endif
+
+  assign guide_note = product.metafields.custom.pdp_size_note.value | default: section.settings.note
+
   # Størrelsesguide-billede: indstilling → ellers produktmedie med 'size' i filnavnet → ellers sidste produktbillede
   assign guide_image = section.settings.image
   if guide_image == blank
@@ -12,12 +28,26 @@
   endif
 -%}
 
+{%- if col_count > 0 -%}
 <section class="na-sizeguide" id="guide">
   <div class="na-sizeguide__col">
     <span class="na-sizeguide__eyebrow">{{ section.settings.eyebrow }}</span>
     <h2 class="na-sizeguide__heading">{{ section.settings.heading }}</h2>
-    {%- if section.blocks.size > 0 -%}
-      <div class="na-sizeguide__table" style="grid-template-columns: repeat({{ section.blocks.size }}, 1fr);">
+    <div class="na-sizeguide__table" style="grid-template-columns: repeat({{ col_count }}, 1fr);">
+      {%- if mf_cols != blank -%}
+        {%- for col in mf_cols -%}
+          {%- assign cp = col | split: '|' -%}
+          <div class="na-sizeguide__cell na-sizeguide__cell--head{% unless forloop.last %} na-sizeguide__cell--divide{% endunless %}">
+            {{- cp[0] | strip -}}
+          </div>
+        {%- endfor -%}
+        {%- for col in mf_cols -%}
+          {%- assign cp = col | split: '|' -%}
+          <div class="na-sizeguide__cell na-sizeguide__cell--body{% unless forloop.last %} na-sizeguide__cell--divide{% endunless %}">
+            {{- cp[1] | strip -}}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
         {%- for block in section.blocks -%}
           <div class="na-sizeguide__cell na-sizeguide__cell--head{% unless forloop.last %} na-sizeguide__cell--divide{% endunless %}" {{ block.shopify_attributes }}>
             {{- block.settings.size -}}
@@ -28,10 +58,10 @@
             {{- block.settings.range -}}
           </div>
         {%- endfor -%}
-      </div>
-    {%- endif -%}
-    {%- if section.settings.note != blank -%}
-      <p class="na-sizeguide__note">💡 {{ section.settings.note }}</p>
+      {%- endif -%}
+    </div>
+    {%- if guide_note != blank -%}
+      <p class="na-sizeguide__note">💡 {{ guide_note }}</p>
     {%- endif -%}
     <div class="na-sizeguide__badges">
       <span class="na-sizeguide__badge">✓ Gratis ombytning</span>
@@ -123,6 +153,7 @@
     .na-sizeguide { grid-template-columns: 1fr; padding: 40px 20px; gap: 28px; }
   }
 </style>
+{%- endif -%}
 
 {% schema %}
 {

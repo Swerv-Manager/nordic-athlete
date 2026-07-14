@@ -32,7 +32,7 @@
       endif
     -%}
     <div class="na-pdpx-badges" data-na-stock-badges>
-      <span class="na-pdpx-badge na-pdpx-badge--green">Officiel partner</span>
+      <span class="na-pdpx-badge na-pdpx-badge--green">{{ product.metafields.custom.pdp_badge.value | default: 'Officiel partner' }}</span>
       <span
         class="na-pdpx-badge na-pdpx-badge--stock"
         data-na-stock-badge
@@ -76,7 +76,7 @@
     </script>
 
   {%- when 'eyebrow' -%}
-    <span class="na-pdpx-eyebrow">{{ text | default: 'Pas på din krop — den skal holde i mange år' }}</span>
+    <span class="na-pdpx-eyebrow">{{ product.metafields.custom.pdp_eyebrow.value | default: text | default: 'Pas på din krop — den skal holde i mange år' }}</span>
 
   {%- when 'rating' -%}
     <a class="na-pdpx-rating" href="#anmeldelser">★★★★★ <span class="na-pdpx-rating__score">{{ rating | default: '4,9/5' }}</span> · {{ count | default: '1.200+ anmeldelser' }} →</a>
@@ -95,7 +95,7 @@
     </div>
 
   {%- when 'fit' -%}
-    <p class="na-pdpx-fit">{{ text | default: 'Sidder tæt med kompression. Er du i tvivl mellem to størrelser, så vælg den større.' }}</p>
+    <p class="na-pdpx-fit">{{ product.metafields.custom.pdp_fit_note.value | default: text | default: 'Sidder tæt med kompression. Er du i tvivl mellem to størrelser, så vælg den større.' }}</p>
 
   {%- when 'delivery' -%}
     <div class="na-pdpx-delivery">
@@ -109,5 +109,5 @@
     </div>
 
   {%- when 'desc' -%}
-    <p class="na-pdpx-desc">{{ text | default: product.description | strip_html | truncate: 220 }}</p>
+    <p class="na-pdpx-desc">{{ product.metafields.custom.pdp_short_desc.value | default: text | default: product.description | strip_html | truncate: 220 }}</p>
 {%- endcase -%}

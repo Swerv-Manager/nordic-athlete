@@ -1,5 +1,8 @@
 {%- liquid
-  assign companion = section.settings.companion_product
+  # Produkt-metafeltet custom.pdp_bundle_product har forrang over sektionens
+  # indstilling — én skabelon kan dermed dække alle produkter. Sektionen
+  # skjules helt (eksisterende if), når ingen companion findes.
+  assign companion = product.metafields.custom.pdp_bundle_product.value | default: section.settings.companion_product
   assign main_product = product
   assign combined = main_product.price | plus: companion.price
   assign savings = section.settings.savings_amount | times: 100

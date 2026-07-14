@@ -10,8 +10,12 @@
         {%- assign amb_first_name = amb.name.value | split: ' ' | first -%}
         {%- assign story_eyebrow = section.settings.story_eyebrow | replace: '[navn]', amb_first_name -%}
         <span class="na-amb-story__eyebrow">{{ story_eyebrow }}</span>
-        <p class="na-amb-story__quote">"{{ amb.quote.value }}"</p>
-        <span class="na-amb-story__attribution"><strong>{{ amb.name.value }}</strong> · {{ amb.club.value }}</span>
+        {%- if amb.quote.value != blank -%}
+          <p class="na-amb-story__quote">"{{ amb.quote.value }}"</p>
+        {%- elsif amb.intro.value != blank -%}
+          <p class="na-amb-story__quote">{{ amb.intro.value }}</p>
+        {%- endif -%}
+        <span class="na-amb-story__attribution"><strong>{{ amb.name.value }}</strong>{% if amb.club.value != blank %} · {{ amb.club.value }}{% endif %}</span>
       </div>
       <div class="na-amb-story__col">
         <span class="na-amb-story__eyebrow">{{ section.settings.founder_eyebrow }}</span>

@@ -173,9 +173,19 @@
   endif
 
   comment
+    Kollektions-metafelter (custom.hero_*) har forrang over sektionens
+    indstillinger — én skabelon kan dermed dække alle kollektioner:
+    hero_heading (titel linje 1), hero_accent (linje 2), hero_intro (tekst).
+    Fallback-kæde: metafelt -> sektionsindstilling -> collection.title/description.
+  endcomment
+  assign hero_title1 = collection.metafields.custom.hero_heading.value | default: section.settings.title_line1 | default: collection.title
+  assign hero_title2 = collection.metafields.custom.hero_accent.value | default: section.settings.title_line2
+
+  comment
     Description priority (styret af description_priority):
     - collection: kollektionsbeskrivelse -> fallback til sektionsfeltet
     - setting:    sektionsfeltet -> fallback til kollektionsbeskrivelse
+    Metafeltet hero_intro vinder altid, når det er sat.
   endcomment
   assign coll_desc = collection.description | strip_html | strip
   if section.settings.description_priority == 'setting'
@@ -189,6 +199,7 @@
       assign hero_desc = section.settings.description
     endif
   endif
+  assign hero_desc = collection.metafields.custom.hero_intro.value | default: hero_desc
 
   assign stat_count = 0
   if section.settings.stat1_value != blank
@@ -427,9 +438,9 @@
     {%- endif -%}
 
     <h1 class="na-chb-title-{{ sid }}">
-      {%- if section.settings.title_line1 != blank -%}{{ section.settings.title_line1 }}{%- endif -%}
-      {%- if section.settings.title_line2 != blank -%}
-        <br><span class="{% if section.settings.title_line2_style == 'muted' %}na-ch-l2--muted{% else %}na-ch-l2--green{% endif %}">{{ section.settings.title_line2 }}</span>
+      {%- if hero_title1 != blank -%}{{ hero_title1 }}{%- endif -%}
+      {%- if hero_title2 != blank -%}
+        <br><span class="{% if section.settings.title_line2_style == 'muted' %}na-ch-l2--muted{% else %}na-ch-l2--green{% endif %}">{{ hero_title2 }}</span>
       {%- endif -%}
     </h1>
 
@@ -479,11 +490,11 @@
       {%- endif -%}
 
       <h1 class="na-ch-title-{{ sid }}">
-        {%- if section.settings.title_line1 != blank -%}
-          {{ section.settings.title_line1 }}<br>
+        {%- if hero_title1 != blank -%}
+          {{ hero_title1 }}{% if hero_title2 != blank %}<br>{% endif %}
         {%- endif -%}
-        {%- if section.settings.title_line2 != blank -%}
-          <span class="{% if section.settings.title_line2_style == 'muted' %}na-ch-l2--muted{% else %}na-ch-l2--green{% endif %}">{{ section.settings.title_line2 }}</span>
+        {%- if hero_title2 != blank -%}
+          <span class="{% if section.settings.title_line2_style == 'muted' %}na-ch-l2--muted{% else %}na-ch-l2--green{% endif %}">{{ hero_title2 }}</span>
         {%- endif -%}
       </h1>
 
