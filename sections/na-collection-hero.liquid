@@ -217,12 +217,12 @@
 -%}
 
 <style>
-  /* ─── NA COLLECTION HERO ──────────────────────────────────────
+  /* ─── NA COLLECTION HERO ───────────────────────────────────────────────
      Farver følger NA design-tokens:
      #131c15 ink-deepest · #2a2a2a ink-bg · #3a3a3a border
      #3d7a52 Atletgrøn · #69E281 Energigrøn
      #ffffff tekst · #a8b8ae text-mid · #76837b text-dim
-  ─────────────────────────────────────────────────────────────── */
+  ──────────────────────────────────────────────────────────────────────── */
   #na-ch-{{ sid }} {
     background: {{ bg_color }};
     border-bottom: 1.5px solid #3a3a3a;
@@ -233,7 +233,7 @@
   #na-ch-{{ sid }} * { box-sizing: border-box; }
 
   {%- if layout == 'split' -%}
-  /* ─── SPLIT LAYOUT ───────────────────────────────────────────── */
+  /* ─── SPLIT LAYOUT ─────────────────────────────────────────────────────── */
   .na-ch-inner-{{ sid }} {
     max-width: 1200px;
     margin: 0 auto;
@@ -348,7 +348,7 @@
   }
 
   {%- else -%}
-  /* ─── BANNER LAYOUT (2026-design) ────────────────────────────── */
+  /* ─── BANNER LAYOUT (2026-design) ─────────────────────────────────────── */
   .na-chb-inner-{{ sid }} {
     max-width: 1280px;
     margin: 0 auto;
