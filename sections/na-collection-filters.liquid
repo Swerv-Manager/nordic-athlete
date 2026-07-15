@@ -40,6 +40,8 @@
 
     {%- for f in collection.filters -%}
       {%- if f.type != 'list' or f.values.size == 0 -%}{%- continue -%}{%- endif -%}
+      {%- comment -%} Skjul lager-filteret (På lager / Ikke på lager) — merchant-ønske {%- endcomment -%}
+      {%- if f.param_name contains 'availability' -%}{%- continue -%}{%- endif -%}
       {%- liquid
         # Foretrukken rækkefølge + dansk label for de kendte grupper
         assign pref_order = blank

@@ -164,7 +164,7 @@
                 "na_rating": {
                   "type": "custom-liquid",
                   "settings": {
-                    "custom_liquid": "{% render 'na-pdp-extras', part: 'rating', product: closest.product, rating: '4,9/5', count: '1.200+ anmeldelser' %}",
+                    "custom_liquid": "{% render 'na-pdp-extras', part: 'rating', product: closest.product, rating: '4,9/5', count: 'Verificerede anmeldelser' %}",
                     "width": "100%",
                     "padding-block-start": 0,
                     "padding-block-end": 0,
@@ -423,7 +423,7 @@
       "type": "na-pdp-reviews",
       "settings": {
         "rating": "4,9",
-        "count_text": "1.200+ anmeldelser · verificerede køb",
+        "count_text": "Verificerede køb",
         "pct_5": 91,
         "pct_4": 7,
         "pct_3": 2,

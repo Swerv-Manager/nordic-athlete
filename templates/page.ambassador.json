@@ -3,7 +3,7 @@
     "hero": {
       "type": "na-ambassador-hero",
       "settings": {
-        "trust_line": "4,9/5 · 1.200+ anmeldelser · Fri fragt over 600 kr"
+        "trust_line": "4,9/5 · Verificerede anmeldelser · Fri fragt over 600 kr"
       }
     },
     "setup": {
@@ -22,7 +22,7 @@
         "founder_name": "Jonas Ostenfeldt",
         "founder_title": "Ejer & daglig leder",
         "stat1_num": "4,9 / 5",
-        "stat1_label": "1.200+ anmeldelser",
+        "stat1_label": "Verificerede anmeldelser",
         "stat2_num": "40+",
         "stat2_label": "Kampe pr. sæson i udstyret",
         "stat3_num": "20%",
