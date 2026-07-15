@@ -371,13 +371,39 @@ header-component .header,
 }
 
 /* ── Fri fragt-bar + trust-række (snippets/na-cart-drawer-extras) ──
-   Blender ind i drawer'en (ingen kontrastboks): gennemsigtig baggrund,
-   ingen top-ramme, kun én tynd skillelinje ned mod produkterne. */
-.na-cdx {
+   Ligger som første flex-barn i .cart-drawer__content (før varelisten),
+   så drawer'ens højde-regnestykke passer og der er ren luft ned til
+   første kort. flex-shrink:0 så den ikke klemmes. */
+.cart-drawer__dialog .na-cdx {
+  flex: 0 0 auto;
   padding: 4px 16px 16px;
-  margin-bottom: 16px;
   background: transparent;
   border-bottom: 1px solid #2e3d32;
+}
+
+/* ── Varelinjer som kort (mindre flade end temaets rene rækker) ── */
+.cart-drawer__dialog .cart-drawer__items {
+  padding-top: 16px;
+  padding-bottom: 4px;
+}
+.cart-drawer__dialog .cart-drawer__items .cart-items__table-row {
+  background: #1a231c !important;
+  border: 1.5px solid #2e3d32 !important;
+  border-radius: 10px;
+  padding: 14px !important;
+  margin-bottom: 12px !important;
+  column-gap: 14px;
+  transition: border-color 0.18s ease;
+}
+.cart-drawer__dialog .cart-drawer__items .cart-items__table-row:hover {
+  border-color: #3d7a52 !important;
+}
+.cart-drawer__dialog .cart-drawer__items .cart-items__table-row:last-child {
+  margin-bottom: 0 !important;
+}
+/* Lidt større, rundet medie-flise i kortet */
+.cart-drawer__dialog .cart-items__media-container {
+  border-radius: 8px;
 }
 .na-cdx__ship-row {
   display: flex;
