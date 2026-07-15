@@ -1,0 +1,441 @@
+{%- comment -%}
+  NA Hero (forside) — settings-drevet erstatning for den gamle
+  custom-liquid hero. 2026-design: dyb mørk baggrund, 2-spaltet
+  (tekst + atletfoto), grøn accent, stats-række og atlet-badge.
+{%- endcomment -%}
+
+{%- liquid
+  assign sid = section.id | replace: '__', '-'
+-%}
+
+<style>
+  #na-hero-{{ sid }} {
+    background-color: #131c15;
+    border-bottom: 1px solid #2e3d32;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .na-hero-inner-{{ sid }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    min-height: 600px;
+  }
+  .na-hero-content-{{ sid }} {
+    padding: 64px 56px 64px 0;
+  }
+  .na-hero-eyebrow-{{ sid }} {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #3d7a52;
+    margin: 0 0 20px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .na-hero-eyebrow-{{ sid }}::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #3d7a52;
+    flex-shrink: 0;
+  }
+  .na-hero-title-{{ sid }} {
+    font-size: 62px;
+    font-weight: 900;
+    line-height: 1.0;
+    color: #ffffff;
+    margin: 0 0 20px 0;
+    letter-spacing: -0.02em;
+  }
+  .na-hero-title-{{ sid }} p { margin: 0; }
+  .na-hero-title-{{ sid }} em {
+    font-style: normal;
+    color: #3d7a52;
+  }
+  .na-hero-subtitle-{{ sid }} {
+    font-size: 15px;
+    color: #a8b8ae;
+    line-height: 1.75;
+    margin: 0 0 36px 0;
+    max-width: 400px;
+  }
+  .na-hero-cta-{{ sid }} {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 44px;
+  }
+  .na-hero-btn-primary-{{ sid }} {
+    background: #3d7a52;
+    color: #ffffff;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+  .na-hero-btn-primary-{{ sid }}:hover { background: #69E281; color: #131c15; }
+  .na-hero-btn-outline-{{ sid }} {
+    background: transparent;
+    color: #ffffff;
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 13px 28px;
+    border-radius: 6px;
+    border: 1.5px solid #3a3a3a;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s;
+  }
+  .na-hero-btn-outline-{{ sid }}:hover { border-color: #3d7a52; }
+  .na-hero-stats-{{ sid }} {
+    display: flex;
+    gap: 28px;
+    padding-top: 28px;
+    border-top: 1px solid #2e3d32;
+    flex-wrap: wrap;
+  }
+  .na-hero-stat-val-{{ sid }} {
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1;
+  }
+  .na-hero-stat-val-{{ sid }}.na-accent { color: #3d7a52; }
+  .na-hero-stat-lbl-{{ sid }} {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #76837b;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .na-hero-image-col-{{ sid }} {
+    position: relative;
+    height: 600px;
+    overflow: hidden;
+  }
+  .na-hero-image-col-{{ sid }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  .na-hero-image-col-{{ sid }}::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    background: linear-gradient(to right, #131c15, transparent);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .na-hero-badge-{{ sid }} {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    background: rgba(19, 28, 21, 0.92);
+    border: 1px solid #2e3d32;
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 2;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    max-width: 240px;
+  }
+  .na-hero-badge-icon-{{ sid }} {
+    width: 38px;
+    height: 38px;
+    background: #3d7a52;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .na-hero-badge-name-{{ sid }} {
+    font-size: 12px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+  }
+  .na-hero-badge-sub-{{ sid }} {
+    font-size: 10.5px;
+    color: #76837b;
+    margin: 2px 0 0 0;
+  }
+
+  @media screen and (max-width: 900px) {
+    .na-hero-inner-{{ sid }} {
+      grid-template-columns: 1fr;
+      padding: 0 24px;
+    }
+    .na-hero-content-{{ sid }} {
+      padding: 40px 0 32px;
+    }
+    .na-hero-title-{{ sid }} {
+      font-size: 42px;
+    }
+    .na-hero-image-col-{{ sid }} {
+      height: 420px;
+    }
+    .na-hero-image-col-{{ sid }}::before {
+      display: none;
+    }
+  }
+</style>
+
+<section id="na-hero-{{ sid }}">
+  <div class="na-hero-inner-{{ sid }}">
+
+    <div class="na-hero-content-{{ sid }}">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="na-hero-eyebrow-{{ sid }}">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h1 class="na-hero-title-{{ sid }}">{{ section.settings.title }}</h1>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="na-hero-subtitle-{{ sid }}">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.cta1_label != blank or section.settings.cta2_label != blank -%}
+        <div class="na-hero-cta-{{ sid }}">
+          {%- if section.settings.cta1_label != blank and section.settings.cta1_url != blank -%}
+            <a href="{{ section.settings.cta1_url }}" class="na-hero-btn-primary-{{ sid }}">{{ section.settings.cta1_label }}</a>
+          {%- endif -%}
+          {%- if section.settings.cta2_label != blank and section.settings.cta2_url != blank -%}
+            <a href="{{ section.settings.cta2_url }}" class="na-hero-btn-outline-{{ sid }}">{{ section.settings.cta2_label }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- capture stats_html -%}
+        {%- for i in (1..3) -%}
+          {%- assign vkey = 'stat' | append: i | append: '_value' -%}
+          {%- assign lkey = 'stat' | append: i | append: '_label' -%}
+          {%- assign vval = section.settings[vkey] -%}
+          {%- assign lval = section.settings[lkey] -%}
+          {%- if vval != blank -%}
+            <div>
+              <div class="na-hero-stat-val-{{ sid }}{% if i == 1 %} na-accent{% endif %}">{{ vval }}</div>
+              {%- if lval != blank -%}
+                <div class="na-hero-stat-lbl-{{ sid }}">{{ lval }}</div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- if stats_html contains 'div' -%}
+        <div class="na-hero-stats-{{ sid }}">{{ stats_html }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="na-hero-image-col-{{ sid }}">
+      {%- liquid
+        assign hero_alt = section.settings.image_alt
+        if hero_alt == blank
+          assign hero_alt = section.settings.badge_name | default: 'Nordic Athlete'
+        endif
+      -%}
+      {%- if section.settings.image != blank -%}
+        {{- section.settings.image | image_url: width: 1400 | image_tag:
+          alt: hero_alt,
+          loading: 'eager',
+          widths: '600, 900, 1200, 1400'
+        -}}
+      {%- elsif section.settings.image_url_fallback != blank -%}
+        <img
+          src="{{ section.settings.image_url_fallback }}"
+          alt="{{ hero_alt | escape }}"
+          width="700"
+          height="600"
+          loading="eager"
+        >
+      {%- endif -%}
+
+      {%- if section.settings.badge_name != blank -%}
+        <div class="na-hero-badge-{{ sid }}">
+          {%- if section.settings.badge_icon != blank -%}
+            <div class="na-hero-badge-icon-{{ sid }}">{{ section.settings.badge_icon }}</div>
+          {%- endif -%}
+          <div>
+            <p class="na-hero-badge-name-{{ sid }}">{{ section.settings.badge_name }}</p>
+            {%- if section.settings.badge_sub1 != blank -%}
+              <p class="na-hero-badge-sub-{{ sid }}">{{ section.settings.badge_sub1 }}</p>
+            {%- endif -%}
+            {%- if section.settings.badge_sub2 != blank -%}
+              <p class="na-hero-badge-sub-{{ sid }}">{{ section.settings.badge_sub2 }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "NA Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Officiel partner · Gamepatch & Høj Elitehåndbold"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Overskrift",
+      "info": "Brug kursiv (italic) for at gøre teksten grøn.",
+      "default": "<p>Beskyt din <em>krop.</em><br/>Spil frit.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Undertekst",
+      "default": "Professionelt beskyttelsesudstyr udviklet i samarbejde med eliteatleter. Fordi din krop skal holde i mange år — sæson efter sæson."
+    },
+    {
+      "type": "header",
+      "content": "Knapper"
+    },
+    {
+      "type": "text",
+      "id": "cta1_label",
+      "label": "Primær knap — tekst",
+      "default": "Shop GAMEPATCH"
+    },
+    {
+      "type": "url",
+      "id": "cta1_url",
+      "label": "Primær knap — link"
+    },
+    {
+      "type": "text",
+      "id": "cta2_label",
+      "label": "Sekundær knap — tekst",
+      "default": "Vælg din sport"
+    },
+    {
+      "type": "url",
+      "id": "cta2_url",
+      "label": "Sekundær knap — link"
+    },
+    {
+      "type": "header",
+      "content": "Stats-række (tom værdi = skjules)"
+    },
+    {
+      "type": "text",
+      "id": "stat1_value",
+      "label": "Stat 1 — værdi (grøn)",
+      "default": "+20%"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 — etiket",
+      "default": "Stødabsorbering"
+    },
+    {
+      "type": "text",
+      "id": "stat2_value",
+      "label": "Stat 2 — værdi",
+      "default": "1–2 dage"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 — etiket",
+      "default": "Dag-til-dag levering"
+    },
+    {
+      "type": "text",
+      "id": "stat3_value",
+      "label": "Stat 3 — værdi",
+      "default": "4,9 / 5"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 — etiket",
+      "default": "1.200+ anmeldelser"
+    },
+    {
+      "type": "header",
+      "content": "Billede"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero-billede (atletfoto)"
+    },
+    {
+      "type": "text",
+      "id": "image_url_fallback",
+      "label": "Fallback billed-URL (bruges kun hvis intet billede er valgt)"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Billede alt-tekst"
+    },
+    {
+      "type": "header",
+      "content": "Atlet-badge på billedet"
+    },
+    {
+      "type": "text",
+      "id": "badge_icon",
+      "label": "Badge-ikon (emoji)",
+      "default": "🏆"
+    },
+    {
+      "type": "text",
+      "id": "badge_name",
+      "label": "Badge — navn"
+    },
+    {
+      "type": "text",
+      "id": "badge_sub1",
+      "label": "Badge — linje 2"
+    },
+    {
+      "type": "text",
+      "id": "badge_sub2",
+      "label": "Badge — linje 3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Hero",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

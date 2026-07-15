@@ -1,5 +1,11 @@
 # NORDIC ATHLETE — Handoff til fase 4 (fortsæt her)
 
+> **STATUS (fase 4-sessionen, 15/7):** Alle fire opgaver (§0) er GENNEMFØRT og
+> uploadet til duplikat-temaet — se `docs/PHASE4-NOTES.md` for hvad der blev
+> lavet, bevidste valg og de resterende menneskelige beslutninger (merchant-
+> review af preview-URL'er, cover/contain-valget, hero-/team-fotos, sociale
+> medier-URL'er). Dette dokument er bevaret som opgavebeskrivelse/reference.
+
 Ny session: læs dette dokument top til bund før du rører noget. Fase 1–3 er
 færdige og beskrevet i `docs/PHASE2-NOTES.md` og `docs/PHASE3-NOTES.md` — læs dem
 også. Dette dokument dækker det, der er tilbage.

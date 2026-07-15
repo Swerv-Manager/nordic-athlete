@@ -14,43 +14,41 @@
     "na_footer_xJPTkc": {
       "type": "na-footer",
       "blocks": {
-        "link_column_BiCaew": {
+        "col_shop": {
+          "type": "link_column",
+          "settings": {
+            "menu": "sidefods-menu-2",
+            "title": "Shop"
+          }
+        },
+        "col_help": {
           "type": "link_column",
           "settings": {
             "menu": "help-support",
-            "title": "Hjælp & Support"
+            "title": "Hjælp & support"
           }
         },
-        "link_column_8BJVDc": {
+        "col_policy": {
           "type": "link_column",
           "settings": {
             "menu": "our-policy",
-            "title": "Vores Politik"
-          }
-        },
-        "link_column_LMXz97": {
-          "type": "link_column",
-          "disabled": true,
-          "settings": {
-            "menu": "ny-header-menu-horizon-tema",
-            "title": "Shop"
+            "title": "Vores politik"
           }
         }
       },
       "block_order": [
-        "link_column_BiCaew",
-        "link_column_8BJVDc",
-        "link_column_LMXz97"
+        "col_shop",
+        "col_help",
+        "col_policy"
       ],
-      "disabled": true,
       "name": "NA Footer",
       "settings": {
-        "logo_height": 24,
-        "tagline": "Beskyt din krop. Den skal holde i mange år. Professionelt beskyttelsesudstyr til seriøse atleter.<br><br>\n\nTelefon: +45 53 53 11 11<br>\nE-mail: support@nordic-athlete.dk<br>\nAdresse: Hareskovvej 17H, 4400 Kalundborg, Danmark",
-        "phone": "",
-        "email": "",
-        "address": "",
-        "hours": "",
+        "logo_height": 36,
+        "tagline": "Beskyt din krop. Den skal holde i mange år. Professionelt beskyttelsesudstyr til seriøse atleter.",
+        "phone": "+45 53 53 11 11",
+        "email": "support@nordic-athlete.dk",
+        "address": "Hareskovvej 17H, 4400 Kalundborg",
+        "hours": "Kundeservice: Man–fre kl. 9–15",
         "social_instagram": "",
         "social_facebook": "",
         "social_tiktok": "",
@@ -380,7 +378,8 @@
         "color_scheme": "scheme-2",
         "padding-block-start": 30,
         "padding-block-end": 30
-      }
+      },
+      "disabled": true
     },
     "footer_utilities_jLGE8U": {
       "type": "footer-utilities",
@@ -436,7 +435,8 @@
         "color_scheme": "scheme-2",
         "padding-block-start": 20,
         "padding-block-end": 48
-      }
+      },
+      "disabled": true
     }
   },
   "order": [

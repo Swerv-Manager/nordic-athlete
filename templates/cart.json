@@ -15,7 +15,7 @@
           "type": "_cart-title",
           "static": true,
           "settings": {
-            "title": "Cart",
+            "title": "Kurv",
             "show_count": true,
             "type_preset": "h4",
             "alignment": "left",
@@ -104,7 +104,7 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>You may also like</h3>",
+                "text": "<h3>Måske mangler du</h3>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -256,9 +256,22 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "na_cart_skin": {
+      "type": "na-cart-skin",
+      "name": "NA Cart Skin",
+      "settings": {
+        "show_shipping_bar": true,
+        "free_shipping_threshold": 600,
+        "show_trust": true,
+        "trust_1": "1–2 dages levering",
+        "trust_2": "30 dages fri retur",
+        "trust_3": "Sikker betaling"
+      }
     }
   },
   "order": [
+    "na_cart_skin",
     "cart-section",
     "product_list_NNFgcy"
   ]

@@ -1,0 +1,1082 @@
+{% schema %}
+{
+  "name": "NA Featured Collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Sektion header"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tekst",
+      "default": "Hele sortimentet"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift",
+      "default": "Shop GAMEPATCH"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_highlight",
+      "label": "Fremhæv sidste ord i overskrift (grøn farve)",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "\"Se alle\"-link tekst",
+      "default": "SE ALLE PRODUKTER →"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "\"Se alle\"-link URL"
+    },
+    {
+      "type": "header",
+      "content": "Kollektion"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Vælg kollektion"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Antal produkter (maks.)",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Kolonner (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Produktkort"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Vis stjernebedømmelse",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subline",
+      "label": "Vis sub-linje over produkttitel",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "Vis knap på produktkort",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "card_action",
+      "label": "Knap-handling",
+      "options": [
+        { "value": "atc",  "label": "Læg i kurv (AJAX)" },
+        { "value": "link", "label": "Se produkt (link til produktside)" }
+      ],
+      "default": "atc"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatches",
+      "label": "Vis farvedots",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Badges (via produkt-tags)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Badges vises automatisk baseret på produkt-tags. Tilføj disse tags til dine produkter i Shopify Admin: 'bestseller', 'ny' / 'new', 'bundle', 'tilbud' / 'sale'."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badges",
+      "label": "Vis badges",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Filter og sortering"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Vis filter-knapper",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "Filter-knapper filtrerer på produkt-tags. Skriv det tag du vil filtrere på (fx 'tights', 'bundle'). Første filter viser altid alle produkter."
+    },
+    {
+      "type": "text",
+      "id": "filter_1_label",
+      "label": "Filter 1 — label",
+      "default": "Alle"
+    },
+    {
+      "type": "text",
+      "id": "filter_2_label",
+      "label": "Filter 2 — label",
+      "default": "Tights"
+    },
+    {
+      "type": "text",
+      "id": "filter_2_tag",
+      "label": "Filter 2 — tag",
+      "default": "tights"
+    },
+    {
+      "type": "text",
+      "id": "filter_3_label",
+      "label": "Filter 3 — label",
+      "default": "Knæbeskyttere"
+    },
+    {
+      "type": "text",
+      "id": "filter_3_tag",
+      "label": "Filter 3 — tag",
+      "default": "knæbeskyttere"
+    },
+    {
+      "type": "text",
+      "id": "filter_4_label",
+      "label": "Filter 4 — label",
+      "default": "Shorts"
+    },
+    {
+      "type": "text",
+      "id": "filter_4_tag",
+      "label": "Filter 4 — tag",
+      "default": "shorts"
+    },
+    {
+      "type": "text",
+      "id": "filter_5_label",
+      "label": "Filter 5 — label",
+      "default": "Compression"
+    },
+    {
+      "type": "text",
+      "id": "filter_5_tag",
+      "label": "Filter 5 — tag",
+      "default": "compression"
+    },
+    {
+      "type": "text",
+      "id": "filter_6_label",
+      "label": "Filter 6 — label",
+      "default": "Bundles"
+    },
+    {
+      "type": "text",
+      "id": "filter_6_tag",
+      "label": "Filter 6 — tag",
+      "default": "bundle"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Vis sorterings-dropdown",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Baggrund"
+    },
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Baggrundsstil",
+      "options": [
+        { "value": "dark",   "label": "Mørk (#2a2a2a)" },
+        { "value": "darker", "label": "Mørkere (#131c15)" }
+      ],
+      "default": "dark"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Featured Collection",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}
+
+{%- liquid
+  assign collection   = section.settings.collection
+  assign max_products = section.settings.products_to_show
+  assign cols         = section.settings.columns_desktop
+  assign cols_minus_1 = cols | minus: 1
+  assign bg           = section.settings.bg_style
+  assign sid          = section.id
+
+  assign heading_words        = section.settings.heading | split: ' '
+  assign last_word            = heading_words | last
+  assign heading_without_last = section.settings.heading | remove_last: last_word | strip
+-%}
+
+<style>
+  /* ─── WRAPPER ─────────────────────────────────────────── */
+  #na-fc-{{ sid }} {
+    background: {% if bg == 'darker' %}#131c15{% else %}#2a2a2a{% endif %};
+    border-top: 1px solid #3a3a3a;
+    border-bottom: 1px solid #3a3a3a;
+    padding: 72px 40px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #na-fc-{{ sid }} * { box-sizing: border-box; }
+  .na-fc-inner-{{ sid }} { max-width: 1200px; margin: 0 auto; }
+
+  /* ─── SECTION HEADER ──────────────────────────────────── */
+  .na-fc-header-{{ sid }} {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .na-fc-eyebrow-{{ sid }} {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #3d7a52;
+    margin: 0 0 10px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .na-fc-eyebrow-{{ sid }}::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #3d7a52;
+    flex-shrink: 0;
+  }
+  .na-fc-heading-{{ sid }} {
+    font-size: 36px;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .na-fc-hl { color: #3d7a52; }
+  .na-fc-link-{{ sid }} {
+    font-size: 11px;
+    font-weight: 800;
+    color: #3d7a52;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid #3d7a52;
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+    align-self: center;
+    margin-top: 8px;
+  }
+  .na-fc-link-{{ sid }}:hover { color: #3d7a52; border-color: #3d7a52; }
+
+  /* ─── TOOLBAR (filters + sort) ────────────────────────── */
+  .na-fc-toolbar-{{ sid }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .na-fc-filter-{{ sid }} {
+    background: #253020;
+    border: 1px solid #3a3a3a;
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #a8b8ae;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.04em;
+    font-family: inherit;
+  }
+  .na-fc-filter-{{ sid }}:hover,
+  .na-fc-filter-{{ sid }}.na-active {
+    background: rgba(105,226,129,0.12);
+    border-color: #3d7a52;
+    color: #3d7a52;
+  }
+  .na-fc-toolbar-sep-{{ sid }} { flex: 1; }
+  .na-fc-sort-{{ sid }} {
+    background: #253020;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #a8b8ae;
+    cursor: pointer;
+    font-family: inherit;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2368706c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .na-fc-sort-{{ sid }}:hover,
+  .na-fc-sort-{{ sid }}:focus { border-color: #3d7a52; color: #ffffff; }
+
+  /* ─── CAROUSEL ─────────────────────────────────────────── */
+  .na-fc-carousel-wrap-{{ sid }} { position: relative; }
+  .na-fc-grid-{{ sid }} {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+    scrollbar-width: none;
+  }
+  .na-fc-grid-{{ sid }}::-webkit-scrollbar { display: none; }
+
+  /* Arrow buttons */
+  .na-fc-arrow-{{ sid }} {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #253020;
+    border: 1px solid #3a3a3a;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: background 0.15s, border-color 0.15s;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+    font-family: inherit;
+  }
+  .na-fc-arrow-{{ sid }}:hover { background: rgba(105,226,129,0.15); border-color: #63d67b; color: #3d7a52; }
+  .na-fc-arrow-{{ sid }}.na-fc-arrow-prev { left: -20px; }
+  .na-fc-arrow-{{ sid }}.na-fc-arrow-next { right: -20px; }
+  .na-fc-arrow-{{ sid }}[disabled] { opacity: 0.3; cursor: default; pointer-events: none; }
+
+  /* ─── PRODUCT CARD ─────────────────────────────────────── */
+  /*
+    Card is a <div> — contains two <a> children:
+      1. .na-fc-img-wrap  (image + badge + quick-add form)
+      2. .na-fc-info      (subline + title + price + swatches)
+    This avoids the invalid HTML of <form> inside <a>.
+  */
+  .na-fc-card-{{ sid }} {
+    flex: 0 0 calc((100% - {{ cols_minus_1 }} * 16px) / {{ cols }});
+    min-width: 200px;
+    scroll-snap-align: start;
+    background: #253020;
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.25s, box-shadow 0.25s;
+    display: flex;
+    flex-direction: column;
+  }
+  .na-fc-card-{{ sid }}:hover {
+    border-color: #63d67b;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+  }
+  .na-fc-card-{{ sid }}.na-hidden { display: none; }
+
+  /* Image area — ensartet medie-flise (fase 4, opgave 1):
+     kvadratisk, object-fit: cover og samme lyse flisebaggrund som de
+     globale Horizon-kort (assets/na-cards.css). mix-blend-mode: multiply
+     får hvide pakshots til at smelte sammen med flisen i stedet for at
+     stå som hvide kasser i en mørk ramme. */
+  .na-fc-img-wrap-{{ sid }} {
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #f5f5f3;
+    position: relative;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .na-fc-img-inner-{{ sid }} {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    position: relative;
+    background: #f5f5f3;
+  }
+  .na-fc-img-{{ sid }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+    transition: transform 0.4s;
+    display: block;
+  }
+  .na-fc-card-{{ sid }}:hover .na-fc-img-{{ sid }} { transform: scale(1.06); }
+  .na-fc-img-placeholder-{{ sid }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3a3a3a;
+  }
+  .na-fc-img-placeholder-{{ sid }} svg { width: 64px; height: 64px; }
+
+  /* Badge */
+  .na-fc-badge-{{ sid }} {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border-radius: 4px;
+    z-index: 2;
+    line-height: 1.4;
+    pointer-events: none;
+  }
+  .na-fc-badge--bestseller { background: #3d7a52; color: #000000; }
+  .na-fc-badge--ny         { background: #e7ad50; color: #000000; }
+  .na-fc-badge--bundle     { background: #7c6af0; color: #ffffff; }
+  .na-fc-badge--tilbud     { background: #3d7a52; color: #000000; }
+  .na-fc-badge--udsolgt    { background: #3a3a3a; color: #68706c; }
+
+  /* Quick-add / Se produkt button — always visible below info area */
+  .na-fc-quick-add-{{ sid }} {
+    display: block;
+    width: calc(100% - 32px);
+    margin: 0 16px 16px;
+    background: #ffffff;
+    color: #000000;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 11px 12px;
+    text-align: center;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    opacity: 1;
+    transform: translateY(0);
+    transition: background 0.18s, color 0.18s;
+    pointer-events: auto;
+    text-decoration: none;
+    line-height: normal;
+  }
+  .na-fc-quick-add-{{ sid }}:hover { background: #e0e0e0; color: #000000; }
+
+  /* Info area */
+  .na-fc-info-{{ sid }} {
+    display: block;
+    padding: 16px 18px 20px;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+  }
+  .na-fc-info-{{ sid }}:hover { text-decoration: none; color: inherit; }
+  .na-fc-subline-{{ sid }} {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4a5a4f;
+    margin-bottom: 6px;
+  }
+  .na-fc-title-{{ sid }} {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.35;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .na-fc-rating-{{ sid }} { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+  .na-fc-stars-{{ sid }} { color: #e7ad50; font-size: 11px; letter-spacing: 1px; }
+  .na-fc-review-count-{{ sid }} { font-size: 11px; color: #4a5a4f; }
+  .na-fc-price-row-{{ sid }} { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .na-fc-price-{{ sid }} { font-size: 17px; font-weight: 900; color: #ffffff; }
+  .na-fc-price--sale-{{ sid }} { color: #ffffff; }
+  .na-fc-price-old-{{ sid }} { font-size: 12.5px; color: #4a5a4f; text-decoration: line-through; }
+  .na-fc-color-dots-{{ sid }} { display: flex; gap: 5px; margin-top: 10px; }
+  .na-fc-color-dot-{{ sid }} {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 1.5px solid #3a3a3a;
+    pointer-events: none;
+  }
+
+  /* No-results */
+  .na-fc-no-results-{{ sid }} {
+    display: none;
+    width: 100%;
+    text-align: center;
+    padding: 48px 24px;
+    color: #4a5a4f;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .na-fc-no-results-{{ sid }}.na-visible { display: block; }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────── */
+  @media screen and (max-width: 989px) {
+    .na-fc-card-{{ sid }} { flex: 0 0 calc((100% - 2 * 16px) / 2.3); }
+    .na-fc-heading-{{ sid }} { font-size: 28px; }
+    #na-fc-{{ sid }} { padding: 56px 24px; }
+    .na-fc-arrow-{{ sid }} { display: none; }
+  }
+  @media screen and (max-width: 749px) {
+    .na-fc-card-{{ sid }} { flex: 0 0 calc(100% - 40px); }
+    .na-fc-heading-{{ sid }} { font-size: 24px; }
+    #na-fc-{{ sid }} { padding: 48px 16px; }
+    .na-fc-toolbar-sep-{{ sid }} { display: none; }
+    .na-fc-sort-{{ sid }} { width: 100%; }
+    .na-fc-filter-{{ sid }} { padding: 6px 12px; font-size: 11px; }
+    .na-fc-info-{{ sid }} { padding: 12px 14px 16px; }
+    .na-fc-title-{{ sid }} { font-size: 12.5px; }
+    .na-fc-price-{{ sid }} { font-size: 15px; }
+    .na-fc-arrow-{{ sid }} { display: none; }
+  }
+</style>
+
+<section id="na-fc-{{ sid }}">
+  <div class="na-fc-inner-{{ sid }}">
+
+    {%- comment -%}── SECTION HEADER ──{%- endcomment -%}
+    <div class="na-fc-header-{{ sid }}">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="na-fc-eyebrow-{{ sid }}">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="na-fc-heading-{{ sid }}">
+          {%- if section.settings.heading_highlight and heading_words.size > 1 -%}
+            {{ heading_without_last }} <span class="na-fc-hl">{{ last_word }}</span>
+          {%- else -%}
+            {{ section.settings.heading }}
+          {%- endif -%}
+        </h2>
+      </div>
+      {%- if section.settings.link_label != blank and section.settings.link_url != blank -%}
+        <a href="{{ section.settings.link_url }}" class="na-fc-link-{{ sid }}">
+          {{ section.settings.link_label }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%}── TOOLBAR ──{%- endcomment -%}
+    {%- if section.settings.show_filters or section.settings.show_sort -%}
+      <div class="na-fc-toolbar-{{ sid }}">
+
+        {%- if section.settings.show_filters -%}
+          {%- for i in (1..6) -%}
+            {%- assign lkey = 'filter_' | append: i | append: '_label' -%}
+            {%- assign tkey = 'filter_' | append: i | append: '_tag' -%}
+            {%- assign lval = section.settings[lkey] -%}
+            {%- assign tval = section.settings[tkey] | default: '' -%}
+            {%- if lval != blank -%}
+              <button
+                class="na-fc-filter-{{ sid }}{% if i == 1 %} na-active{% endif %}"
+                type="button"
+                data-tag="{{ tval }}"
+              >{{ lval }}</button>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- if section.settings.show_sort -%}
+          <div class="na-fc-toolbar-sep-{{ sid }}"></div>
+          <select class="na-fc-sort-{{ sid }}" aria-label="Sorter produkter">
+            <option value="default">Sorter: Mest populære</option>
+            <option value="price-asc">Pris: Lav til høj</option>
+            <option value="price-desc">Pris: Høj til lav</option>
+            <option value="title-asc">Navn: A–Z</option>
+            <option value="title-desc">Navn: Z–A</option>
+          </select>
+        {%- endif -%}
+
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}── PRODUCT CAROUSEL ──{%- endcomment -%}
+    <div class="na-fc-carousel-wrap-{{ sid }}">
+      <button
+        class="na-fc-arrow-{{ sid }} na-fc-arrow-prev"
+        id="na-fc-prev-{{ sid }}"
+        type="button"
+        aria-label="Forrige produkter"
+        disabled
+      >&#8592;</button>
+      <button
+        class="na-fc-arrow-{{ sid }} na-fc-arrow-next"
+        id="na-fc-next-{{ sid }}"
+        type="button"
+        aria-label="Næste produkter"
+      >&#8594;</button>
+
+      <div class="na-fc-grid-{{ sid }}" id="na-fc-grid-{{ sid }}">
+
+        {%- if collection != blank and collection.products.size > 0 -%}
+
+          {%- for product in collection.products limit: max_products -%}
+            {%- liquid
+              assign fv      = product.selected_or_first_available_variant
+              assign on_sale = false
+              if fv.compare_at_price > fv.price
+                assign on_sale = true
+              endif
+              assign sold_out = true
+              if product.available
+                assign sold_out = false
+              endif
+
+              comment — Badge logic —
+              endcomment
+              assign badge_type  = ''
+              assign badge_label = ''
+              if sold_out
+                assign badge_type  = 'udsolgt'
+                assign badge_label = 'Udsolgt'
+              elsif product.tags contains 'bestseller'
+                assign badge_type  = 'bestseller'
+                assign badge_label = 'Bestseller'
+              elsif product.tags contains 'bundle'
+                assign badge_type  = 'bundle'
+                assign badge_label = 'Bundle'
+              elsif product.tags contains 'ny' or product.tags contains 'new'
+                assign badge_type  = 'ny'
+                assign badge_label = 'Ny'
+              elsif on_sale or product.tags contains 'tilbud' or product.tags contains 'sale'
+                assign badge_type  = 'tilbud'
+                assign badge_label = 'Tilbud'
+              endif
+
+              comment — Subline from non-reserved tags —
+              endcomment
+              assign subline_parts = '' | split: ','
+              assign reserved_tags = 'bestseller,bundle,ny,new,tilbud,sale,tights,knæbeskyttere,shorts,compression,featured,gamepatch,bundles' | split: ','
+              for tag in product.tags
+                assign tag_lower = tag | downcase
+                unless reserved_tags contains tag_lower
+                  assign subline_parts = subline_parts | push: tag
+                endunless
+              endfor
+              assign subline_text = subline_parts | join: ' · ' | upcase
+            -%}
+
+            {%- comment -%}
+              Card structure:
+                <div.card>              ← data-tags, data-price, data-title for JS
+                  <a.img-wrap>          ← links to product, contains image + badge + form
+                    <form>              ← Alchemy product-form (valid: form inside a is allowed
+                                           when the a has no href that conflicts; we use
+                                           event.preventDefault on the form submit so the a
+                                           never fires. Actually: form CANNOT be inside a.
+                                           Solution: img-wrap is a div, not an a.
+                                           Product link is on the title instead.)
+                  <a.info>              ← links to product, contains subline + title + price
+            {%- endcomment -%}
+
+            <div
+              class="na-fc-card-{{ sid }}"
+              data-tags='{{ product.tags | json | downcase }}'
+              data-price="{{ fv.price }}"
+              data-title="{{ product.title | escape }}"
+              data-sort-order="{{ forloop.index }}"
+            >
+
+              {%- comment -%}── IMAGE AREA (div, not a, because it contains a form) ──{%- endcomment -%}
+              <div class="na-fc-img-wrap-{{ sid }}">
+
+                {%- comment -%}Clickable overlay link over the image (behind the form){%- endcomment -%}
+                <a
+                  href="{{ product.url }}"
+                  aria-label="{{ product.title | escape }}"
+                  style="position:absolute;inset:0;z-index:1;"
+                  tabindex="-1"
+                ></a>
+
+                {%- if section.settings.show_badges and badge_type != '' -%}
+                  <span class="na-fc-badge-{{ sid }} na-fc-badge--{{ badge_type }}">
+                    {{ badge_label }}
+                  </span>
+                {%- endif -%}
+
+                {%- if product.featured_image -%}
+                  <div class="na-fc-img-inner-{{ sid }}">
+                    <img
+                      class="na-fc-img-{{ sid }}"
+                      src="{{ product.featured_image | image_url: width: 600 }}"
+                      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                      width="600"
+                      height="600"
+                      loading="lazy"
+                    >
+                  </div>
+                {%- else -%}
+                  <div class="na-fc-img-placeholder-{{ sid }}">
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  </div>
+                {%- endif -%}
+
+              </div>
+
+              {%- comment -%}── INFO AREA ──{%- endcomment -%}
+              <a href="{{ product.url }}" class="na-fc-info-{{ sid }}">
+
+                {%- if section.settings.show_subline -%}
+                  <div class="na-fc-subline-{{ sid }}">
+                    {%- if subline_text != blank -%}
+                      {{ subline_text }}
+                    {%- else -%}
+                      {{ product.vendor | upcase }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                <div class="na-fc-title-{{ sid }}">{{ product.title }}</div>
+
+                {%- if section.settings.show_rating -%}
+                  {%- liquid
+                    assign rv = product.metafields.reviews.rating.value
+                    assign rc = product.metafields.reviews.rating_count.value
+                  -%}
+                  {%- if rv != blank -%}
+                    <div class="na-fc-rating-{{ sid }}">
+                      <span class="na-fc-stars-{{ sid }}" aria-hidden="true">
+                        {%- assign rv_int = rv | round -%}
+                        {%- for i in (1..5) -%}
+                          {%- if i <= rv_int -%}★{%- else -%}☆{%- endif -%}
+                        {%- endfor -%}
+                      </span>
+                      {%- if rc != blank -%}
+                        <span class="na-fc-review-count-{{ sid }}">({{ rc }})</span>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                {%- endif -%}
+
+                <div class="na-fc-price-row-{{ sid }}">
+                  {%- if on_sale -%}
+                    <span class="na-fc-price-{{ sid }} na-fc-price--sale-{{ sid }}">
+                      {{ fv.price | money }}
+                    </span>
+                    <span class="na-fc-price-old-{{ sid }}">
+                      {{ fv.compare_at_price | money }}
+                    </span>
+                  {%- else -%}
+                    <span class="na-fc-price-{{ sid }}">{{ fv.price | money }}</span>
+                  {%- endif -%}
+                </div>
+
+                {%- if section.settings.show_color_swatches -%}
+                  {%- liquid
+                    assign color_option = nil
+                    for opt in product.options_with_values
+                      assign oname = opt.name | downcase
+                      if oname == 'farve' or oname == 'color' or oname == 'colour'
+                        assign color_option = opt
+                        break
+                      endif
+                    endfor
+                  -%}
+                  {%- if color_option != nil and color_option.values.size > 1 -%}
+                    <div class="na-fc-color-dots-{{ sid }}">
+                      {%- for cv in color_option.values -%}
+                        {%- liquid
+                          assign cl     = cv | downcase | replace: ' ', '-'
+                          assign dot_bg = '#3a3a3a'
+                          if cl == 'sort' or cl == 'black'
+                            assign dot_bg = '#111111'
+                          elsif cl == 'hvid' or cl == 'white'
+                            assign dot_bg = '#f0f0f0'
+                          elsif cl == 'grå' or cl == 'grey' or cl == 'gray'
+                            assign dot_bg = '#888888'
+                          elsif cl == 'navy' or cl == 'blå' or cl == 'blue'
+                            assign dot_bg = '#1a3a6b'
+                          elsif cl == 'rød' or cl == 'red'
+                            assign dot_bg = '#c0392b'
+                          endif
+                        -%}
+                        <span
+                          class="na-fc-color-dot-{{ sid }}"
+                          title="{{ cv }}"
+                          style="background:{{ dot_bg }};"
+                        ></span>
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
+                {%- endif -%}
+
+              </a>
+
+              {%- if section.settings.show_quick_add -%}
+                {%- if section.settings.card_action == 'link' -%}
+                  <a
+                    href="{{ product.url }}"
+                    class="na-fc-quick-add-{{ sid }}"
+                    aria-label="Se {{ product.title | escape }}"
+                  >Se produkt &rarr;</a>
+                {%- elsif product.available -%}
+                  <button
+                    type="button"
+                    class="na-fc-quick-add-{{ sid }} na-fc-atc"
+                    data-variant-id="{{ fv.id }}"
+                    data-product-title="{{ product.title | escape }}"
+                    aria-label="Læg {{ product.title | escape }} i kurv"
+                  >+ Læg i kurv</button>
+                {%- else -%}
+                  <button
+                    type="button"
+                    class="na-fc-quick-add-{{ sid }}"
+                    disabled
+                    style="opacity:0.45;cursor:not-allowed;"
+                  >Udsolgt</button>
+                {%- endif -%}
+              {%- endif -%}
+
+            </div>
+          {%- endfor -%}
+
+          <p class="na-fc-no-results-{{ sid }}" id="na-fc-no-results-{{ sid }}">
+            Ingen produkter matcher dette filter.
+          </p>
+
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <div class="na-fc-card-{{ sid }}">
+              <div class="na-fc-img-wrap-{{ sid }}">
+                <div class="na-fc-img-placeholder-{{ sid }}">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                </div>
+              </div>
+              <div class="na-fc-info-{{ sid }}">
+                <div class="na-fc-subline-{{ sid }}">GAMEPATCH</div>
+                <div class="na-fc-title-{{ sid }}">Produktnavn</div>
+                <div class="na-fc-price-row-{{ sid }}">
+                  <span class="na-fc-price-{{ sid }}">899,00 kr</span>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+
+      </div>
+    </div><!-- /carousel-wrap -->
+
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  var sid    = '{{ sid }}';
+  var gridEl = document.getElementById('na-fc-grid-' + sid);
+  var noRes  = document.getElementById('na-fc-no-results-' + sid);
+  var sec    = document.getElementById('na-fc-' + sid);
+  if (!gridEl) return;
+
+  var cards      = Array.from(gridEl.querySelectorAll('.na-fc-card-' + sid));
+  var activeTag  = '';
+  var activeSort = 'default';
+
+  cards.forEach(function (c, i) { c.dataset.origIndex = i; });
+
+  /* ── FILTER ── */
+  var filterBtns = sec ? Array.from(sec.querySelectorAll('.na-fc-filter-' + sid)) : [];
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filterBtns.forEach(function (b) { b.classList.remove('na-active'); });
+      btn.classList.add('na-active');
+      activeTag = btn.dataset.tag || '';
+      applyFilterSort();
+    });
+  });
+
+  /* ── SORT ── */
+  var sortEl = sec ? sec.querySelector('.na-fc-sort-' + sid) : null;
+  if (sortEl) {
+    sortEl.addEventListener('change', function () {
+      activeSort = sortEl.value;
+      applyFilterSort();
+    });
+  }
+
+  /* ── APPLY FILTER + SORT ── */
+  function applyFilterSort() {
+    var visible = [];
+    cards.forEach(function (card) {
+      var rawTags = card.dataset.tags || '[]';
+      var tags;
+      try { tags = JSON.parse(rawTags); } catch (e) { tags = []; }
+      tags = tags.map(function (t) { return t.toLowerCase().trim(); });
+      var needle = activeTag.toLowerCase().trim();
+      var show = needle === '' || tags.some(function (t) {
+        return t === needle || t.indexOf(needle) !== -1;
+      });
+      if (show) {
+        card.classList.remove('na-hidden');
+        visible.push(card);
+      } else {
+        card.classList.add('na-hidden');
+      }
+    });
+
+    if (noRes) noRes.classList.toggle('na-visible', visible.length === 0);
+
+    var sorted = visible.slice();
+    if (activeSort === 'price-asc') {
+      sorted.sort(function (a, b) { return parseInt(a.dataset.price) - parseInt(b.dataset.price); });
+    } else if (activeSort === 'price-desc') {
+      sorted.sort(function (a, b) { return parseInt(b.dataset.price) - parseInt(a.dataset.price); });
+    } else if (activeSort === 'title-asc') {
+      sorted.sort(function (a, b) { return (a.dataset.title || '').localeCompare(b.dataset.title || '', 'da'); });
+    } else if (activeSort === 'title-desc') {
+      sorted.sort(function (a, b) { return (b.dataset.title || '').localeCompare(a.dataset.title || '', 'da'); });
+    } else {
+      sorted.sort(function (a, b) { return parseInt(a.dataset.origIndex) - parseInt(b.dataset.origIndex); });
+    }
+
+    sorted.forEach(function (card) { gridEl.appendChild(card); });
+    gridEl.scrollTo({ left: 0, behavior: 'smooth' });
+    updateArrows();
+  }
+
+  /* ── CAROUSEL ARROWS ── */
+  var prevBtn = document.getElementById('na-fc-prev-' + sid);
+  var nextBtn = document.getElementById('na-fc-next-' + sid);
+
+  function updateArrows() {
+    if (!prevBtn || !nextBtn) return;
+    var sl  = gridEl.scrollLeft;
+    var max = gridEl.scrollWidth - gridEl.clientWidth;
+    prevBtn.disabled = sl <= 2;
+    nextBtn.disabled = sl >= max - 2;
+  }
+
+  function scrollByPage(dir) {
+    gridEl.scrollBy({ left: dir * gridEl.clientWidth, behavior: 'smooth' });
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', function () { scrollByPage(-1); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { scrollByPage(1); });
+  gridEl.addEventListener('scroll', updateArrows, { passive: true });
+  updateArrows();
+
+  /* ── ADD TO CART ──
+     Uses fetch to POST to /cart/add.js.
+     On success dispatches Alchemy's native 'cart:update' CustomEvent
+     (CartAddEvent.eventName = ThemeEvents.cartUpdate = 'cart:update').
+     cart-drawer-component listens for this and auto-opens.
+     cart-icon listens for this and updates the item count bubble.
+  */
+  gridEl.addEventListener('click', function (e) {
+    var btn = e.target.closest('.na-fc-atc');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    var variantId = btn.dataset.variantId;
+    if (!variantId) return;
+
+    var originalText = btn.textContent.trim();
+    btn.textContent = 'Tilføjer...';
+    btn.disabled = true;
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify({ id: variantId, quantity: 1 })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      if (data.status) {
+        /* Error from Shopify (e.g. out of stock) */
+        btn.textContent = originalText;
+        btn.disabled = false;
+        return;
+      }
+
+      /* Fetch updated cart to get item_count */
+      return fetch('/cart.js', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(function (r) { return r.json(); })
+        .then(function (cart) {
+          /*
+           * Dispatch Alchemy's native cart:update event.
+           * - cart-drawer-component listens on document for this and opens the drawer
+           * - cart-icon listens on document for this and updates the bubble count
+           * Event detail mirrors CartAddEvent / CartUpdateEvent structure from @theme/events
+           */
+          var cartEvent = new CustomEvent('cart:update', {
+            bubbles: true,
+            detail: {
+              resource: cart,
+              sourceId: btn.closest('.na-fc-card-' + sid) ? btn.closest('.na-fc-card-' + sid).dataset.productId || '' : '',
+              data: {
+                source: 'product-form-component',
+                itemCount: 1,
+                sections: {}
+              }
+            }
+          });
+          document.dispatchEvent(cartEvent);
+
+          btn.textContent = 'Tilføjet ✓';
+          setTimeout(function () {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 2000);
+        });
+    })
+    .catch(function () {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    });
+  });
+
+})();
+</script>

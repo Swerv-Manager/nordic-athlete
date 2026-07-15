@@ -1,0 +1,152 @@
+{%- comment -%}
+  NA Trust Strip — slank sitewide trust-bar med op til 4 butiksfakta
+  (samme mønster som trust-baren i na-collection-hero). Kan bruges på
+  forside, kurv m.fl. Tomme værdier skjules.
+{%- endcomment -%}
+
+{%- liquid
+  assign sid = section.id | replace: '__', '-'
+-%}
+
+<style>
+  #na-trust-{{ sid }} {
+    background: {% if section.settings.bg_style == 'darker' %}#131c15{% else %}#2a2a2a{% endif %};
+    border-bottom: 1px solid #2e3d32;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .na-trust-inner-{{ sid }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .na-trust-item-{{ sid }} {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .na-trust-val-{{ sid }} {
+    font-size: 14px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+  }
+  .na-trust-val-{{ sid }}.na-accent { color: #3d7a52; }
+  .na-trust-lbl-{{ sid }} {
+    font-size: 10px;
+    font-weight: 700;
+    color: #76837b;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  @media screen and (max-width: 749px) {
+    .na-trust-inner-{{ sid }} {
+      padding: 14px 20px;
+      gap: 10px 20px;
+      justify-content: flex-start;
+    }
+    .na-trust-item-{{ sid }} { flex: 1 1 40%; }
+  }
+</style>
+
+<div id="na-trust-{{ sid }}">
+  <div class="na-trust-inner-{{ sid }}">
+    {%- for i in (1..4) -%}
+      {%- assign vkey = 'stat' | append: i | append: '_value' -%}
+      {%- assign lkey = 'stat' | append: i | append: '_label' -%}
+      {%- assign vval = section.settings[vkey] -%}
+      {%- assign lval = section.settings[lkey] -%}
+      {%- if vval != blank -%}
+        <div class="na-trust-item-{{ sid }}">
+          <span class="na-trust-val-{{ sid }}{% if i == 1 and section.settings.stat1_accent %} na-accent{% endif %}">{{ vval }}</span>
+          {%- if lval != blank -%}
+            <span class="na-trust-lbl-{{ sid }}">{{ lval }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "NA Trust Strip",
+  "settings": [
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Baggrund",
+      "options": [
+        { "value": "dark", "label": "Mørk (#2a2a2a)" },
+        { "value": "darker", "label": "Dybest (#131c15)" }
+      ],
+      "default": "darker"
+    },
+    {
+      "type": "checkbox",
+      "id": "stat1_accent",
+      "label": "Stat 1 i grøn accent",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stat1_value",
+      "label": "Stat 1 — værdi",
+      "default": "4,9 / 5"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 — etiket",
+      "default": "1.200+ anmeldelser"
+    },
+    {
+      "type": "text",
+      "id": "stat2_value",
+      "label": "Stat 2 — værdi",
+      "default": "1–2 dage"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 — etiket",
+      "default": "Dag-til-dag levering"
+    },
+    {
+      "type": "text",
+      "id": "stat3_value",
+      "label": "Stat 3 — værdi",
+      "default": "Fri fragt"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 — etiket",
+      "default": "Ved køb over 600 kr"
+    },
+    {
+      "type": "text",
+      "id": "stat4_value",
+      "label": "Stat 4 — værdi",
+      "default": "30 dage"
+    },
+    {
+      "type": "text",
+      "id": "stat4_label",
+      "label": "Stat 4 — etiket",
+      "default": "Fri retur"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Trust Strip",
+      "category": "Trust"
+    }
+  ]
+}
+{% endschema %}

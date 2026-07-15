@@ -1,46 +1,76 @@
 /* ═══════════════════════════════════════════════════════
-   NORDIC ATHLETE — Header Custom Styles
-   Inkludér i layout/theme.liquid (lige over </head>):
+   NORDIC ATHLETE — Header Custom Styles (NA 2026)
+   Inkluderes fra layout/theme.liquid:
    {{ 'na-header-custom.css' | asset_url | stylesheet_tag }}
+
+   Fase 4-omskrivning: den gamle fil havde en ulukket
+   @media-blok (linje 26), så alle mobil-regler lå fanget
+   inde i min-width:750px og aldrig blev anvendt. Denne
+   version er struktureret fladt og lukker alle blokke.
+   Bygger OVEN PÅ Horizons stock header.liquid — drawer,
+   mega-menu og predictive search er urørt funktionalitet.
    ═══════════════════════════════════════════════════════ */
 
 /* ─── BRAND TOKENS ─── */
 :root {
-  --na-green:       #3d7a52;
-  --na-green-hover: #3d7a52;
-  --na-bg-dark:     #131c15;
-  --na-text-dim:    #4a5a4f;
-  --na-white:       #ffffff;
+  --na-green:        #3d7a52; /* Atletgrøn — CTA/links/aktiv */
+  --na-green-energy: #69E281; /* Energigrøn — hover/highlights */
+  --na-bg-dark:      #131c15;
+  --na-border:       #3a3a3a;
+  --na-text-mid:     #a8b8ae;
+  --na-text-dim:     #76837b;
+  --na-white:        #ffffff;
 }
 
-/* ─── TAGLINE UNDER LOGO (DESKTOP ONLY) ─────────────────
-   .header-logo er et <a>-tag med display:flex, height:100%
-   og align-items:center — det strækker sig over hele
-   header-højden. Vi kan IKKE bruge flex-direction:column
-   her uden at bryde header-layoutet (søg rykker).
+/* ─── HEADER-RAMME ───────────────────────────────────────
+   Tydelig bundkant i NA-mørk, så headeren står skarpt mod
+   sidens indhold — også når den er sticky. */
+header-component .header,
+.header__container {
+  border-bottom: 1px solid var(--na-border);
+}
 
-   Løsning: Vi bruger position:absolute på tagline-teksten
-   så den ikke påvirker flex-layoutet i headeren.
-   ──────────────────────────────────────────────────────── */
+/* ─── MENULINKS (DESKTOP) ────────────────────────────────
+   Uppercase/størrelse styres af sektionens indstillinger.
+   Her: NA-farvetoner + grøn hover-underlinje i stedet for
+   Horizons standard. */
+.menu-list__link,
+.menu-list__link span {
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+}
+.menu-list__link {
+  color: var(--na-text-mid) !important;
+  transition: color 0.15s ease !important;
+  position: relative !important;
+}
+.menu-list__link::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 2px;
+  height: 2px;
+  background: var(--na-green);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.18s ease;
+}
+.menu-list__link:hover,
+.menu-list__link[aria-expanded="true"] {
+  color: var(--na-white) !important;
+}
+.menu-list__link:hover::after,
+.menu-list__link[aria-expanded="true"]::after {
+  transform: scaleX(1);
+}
 
+/* ─── KURV-KNAP (DESKTOP, TEXT-MODE) ─────────────────────
+   Forudsætter: Hjælpefunktioner → Menustil → "Tekst".
+   Grøn CTA-boks (Atletgrøn) med mørk tæller-cirkel. */
 @media screen and (min-width: 750px) {
-  /* Giv .header-logo position:relative så tagline kan
-     positioneres absolut relativt til logoet */
-  .header-logo {
-    position: relative !important;
-  }
-
- 
-
-/* ─── KURV KNAP (DESKTOP, TEXT-MODE) ────────────────────
-   Forudsætter: Hjælpefunktioner → Menustil → "Tekst"
-   ──────────────────────────────────────────────────────── */
-
-@media screen and (min-width: 750px) {
-
-  /* Grøn knap-boks */
   .header-actions__cart-icon--text {
-    background-color: var(--na-white) !important;
+    background-color: var(--na-green) !important;
     border-radius: 6px !important;
     padding: 7px 14px !important;
     transition: background-color 0.2s ease !important;
@@ -48,7 +78,7 @@
   }
 
   .header-actions__cart-icon--text:hover {
-    background-color: var(--na-green-hover) !important;
+    background-color: var(--na-green-energy) !important;
   }
 
   /* Tekst-span: "Kurv" / "Indkøbskurv" */
@@ -68,7 +98,7 @@
     -webkit-mask: none !important;
   }
 
-  /* Cart-bubble: lille mørk cirkel med grøn tal */
+  /* Cart-bubble: lille mørk cirkel med grønt tal */
   .header-actions__cart-icon--text .cart-bubble {
     position: relative !important;
     width: 20px !important;
@@ -90,22 +120,8 @@
     inset: 0 !important;
   }
 
-  .header-actions__cart-icon--text .cart-bubble__text {
-    color: var(--na-green) !important;
-    font-weight: 900 !important;
-    font-size: 10px !important;
-    position: relative !important;
-    z-index: 1 !important;
-    line-height: 1 !important;
-  }
-
-  .header-actions__cart-icon--text .cart-bubble__text-count {
-    color: var(--na-green) !important;
-  }
-
   /* Vis altid cart-boblen (selv når kurven er tom) */
   .header-actions__cart-icon--text .cart-bubble.visually-hidden {
-    /* Ophæv Alchemy's visually-hidden på selve boblen */
     overflow: visible !important;
     width: 20px !important;
     height: 20px !important;
@@ -118,63 +134,21 @@
   }
 
   /* Vis altid tæller-spannet — selv med klassen 'hidden' */
+  .header-actions__cart-icon--text .cart-bubble__text,
   .header-actions__cart-icon--text .cart-bubble__text-count {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    color: var(--na-green) !important;
+    color: var(--na-green-energy) !important;
     font-weight: 900 !important;
     font-size: 10px !important;
     position: relative !important;
     z-index: 1 !important;
     line-height: 1 !important;
   }
-
 }
 
-/* ─── MOBIL HEADER ───────────────────────────────────────
-   På mobil (<750px) viser Horizon:
-   - Hamburger-menu ikon til venstre
-   - Søg-ikon til venstre for logo
-   - Logo centreret
-   - Ingen kurv-knap (kurv er i hamburgermenu)
-
-   Vi skjuler tagline på mobil (den passer ikke i det
-   kompakte mobile layout) og sikrer at ikonerne er
-   korrekt farvet.
-   ──────────────────────────────────────────────────────── */
-
-@media screen and (max-width: 749px) {
-
-  /* Ingen tagline på mobil */
-  .header-logo::after {
-    display: none !important;
-  }
-
-  /* Hamburger-menu ikon */
-  .header-drawer__toggle svg,
-  button[aria-label*="menu" i] svg,
-  button[aria-label*="menu" i] {
-    color: var(--na-white) !important;
-  }
-
-  /* Søg-ikon på mobil */
-  .search-action svg,
-  button[aria-label*="søg" i] svg,
-  button[aria-label*="search" i] svg {
-    color: var(--na-text-dim) !important;
-    transition: color 0.2s !important;
-  }
-
-  .search-action:hover svg,
-  button[aria-label*="søg" i]:hover svg,
-  button[aria-label*="search" i]:hover svg {
-    color: var(--na-white) !important;
-  }
-
-}
-
-/* ─── SØG IKON (DESKTOP) ─────────────────────────────── */
+/* ─── SØG-IKON (DESKTOP) ─── */
 @media screen and (min-width: 750px) {
   .search-action svg,
   button[aria-label*="søg" i] svg,
@@ -190,7 +164,31 @@
   }
 }
 
-/* ─── KONTO IKON ─────────────────────────────────────── */
+/* ─── MOBIL HEADER (<750px) ──────────────────────────────
+   Horizon viser hamburger + søg + centreret logo. Vi sikrer
+   korrekt ikon-farve; kurv-knappens grønne boks nedtones til
+   ikon-størrelse via Horizons egen icon-mode (uændret). */
+@media screen and (max-width: 749px) {
+  .header-drawer__toggle svg,
+  button[aria-label*="menu" i] svg {
+    color: var(--na-white) !important;
+  }
+
+  .search-action svg,
+  button[aria-label*="søg" i] svg,
+  button[aria-label*="search" i] svg {
+    color: var(--na-text-mid) !important;
+    transition: color 0.2s !important;
+  }
+
+  .search-action:hover svg,
+  button[aria-label*="søg" i]:hover svg,
+  button[aria-label*="search" i]:hover svg {
+    color: var(--na-white) !important;
+  }
+}
+
+/* ─── KONTO-IKON ─── */
 .header-actions [aria-label*="konto" i] svg,
 .header-actions [aria-label*="account" i] svg,
 .header-actions [aria-label*="log" i] svg {
@@ -202,4 +200,14 @@
 .header-actions [aria-label*="account" i]:hover svg,
 .header-actions [aria-label*="log" i]:hover svg {
   color: var(--na-white) !important;
+}
+
+/* ─── ANNOUNCEMENT-BAR ───────────────────────────────────
+   Trust-beskeder øverst (dag-til-dag, fri fragt, retur).
+   Typografi som NA-labels: uppercase, 700+, letter-spaced. */
+.announcement-bar {
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  font-size: 11px !important;
 }

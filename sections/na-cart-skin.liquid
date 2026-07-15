@@ -1,0 +1,377 @@
+{%- comment -%}
+  NA Cart Skin — 2026-design til kurvsiden (samme mønster som
+  na-pdp-skin/na-gamepatch-skin: template-scoped styling af Horizons
+  stock-kurv). Renderer derudover en fri fragt-progressbar (>600 kr)
+  og en trust-række øverst. Progressbaren opdateres live via temaets
+  cart:update-event (se docs/HANDOFF-PHASE4 §6 — protokollen brydes ikke;
+  vi LYTTER kun på eventen).
+{%- endcomment -%}
+
+{%- liquid
+  assign sid = section.id | replace: '__', '-'
+  assign threshold = section.settings.free_shipping_threshold | times: 100
+  assign remaining = threshold | minus: cart.total_price
+  if remaining < 0
+    assign remaining = 0
+  endif
+  assign pct = 0
+  if threshold > 0
+    assign pct = cart.total_price | times: 100 | divided_by: threshold
+    if pct > 100
+      assign pct = 100
+    endif
+  endif
+-%}
+
+<style>
+  /* ─── NA CART SKIN — kun sider med denne sektion (cart-skabelonen) ─── */
+
+  body { background-color: #2a2a2a; }
+
+  /* ── Titel ── */
+  .cart-title,
+  .cart-title * {
+    color: #ffffff !important;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 900 !important;
+  }
+
+  /* ── Varelinjer ── */
+  .cart-items__table { color: #ffffff; }
+  .cart-items__table th {
+    color: #76837b !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+  }
+  .cart-items__table-row {
+    border-color: #3a3a3a !important;
+  }
+  .cart-items__title,
+  .cart-items__title a {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .cart-items__variant,
+  .cart-items__variants,
+  .cart-items__property {
+    color: #a8b8ae !important;
+  }
+  .cart-items__price {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+  }
+
+  /* Ens medie-flise som produktkortene (lys flise + multiply) */
+  .cart-items__media-container {
+    background: #f5f5f3 !important;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1.5px solid #3a3a3a;
+  }
+  .cart-items__media-container img {
+    object-fit: cover;
+    mix-blend-mode: multiply;
+  }
+
+  /* Antal-vælger + fjern */
+  .cart-items__quantity-controls,
+  quantity-selector-component {
+    background: #131c15 !important;
+    border: 1.5px solid #3a3a3a !important;
+    border-radius: 6px;
+    color: #ffffff !important;
+  }
+  .cart-items__quantity-controls button,
+  .cart-items__quantity-controls input,
+  quantity-selector-component button,
+  quantity-selector-component input {
+    color: #ffffff !important;
+    background: transparent !important;
+  }
+  .cart-items__remove,
+  .cart-items__remove * {
+    color: #76837b !important;
+  }
+  .cart-items__remove:hover,
+  .cart-items__remove:hover * {
+    color: #ffffff !important;
+  }
+
+  /* ── Opsummering (højre panel) ── */
+  .cart-page__summary .section-background {
+    background: #131c15 !important;
+  }
+  .cart-page__summary {
+    color: #ffffff;
+  }
+  .cart-page__summary .cart-totals__item,
+  .cart-page__summary .cart-totals__total,
+  .cart-page__summary .cart-totals__total-label,
+  .cart-page__summary .cart-totals__total-value,
+  .cart-page__summary .cart-primary-typography,
+  .cart-page__summary .cart-secondary-typography {
+    color: #ffffff !important;
+  }
+  .cart-page__summary .cart-totals__tax-note,
+  .cart-page__summary .cart-note__label,
+  .cart-page__summary .cart-discounts__label {
+    color: #a8b8ae !important;
+  }
+  .cart-page__summary .cart-totals__total-value {
+    font-weight: 900 !important;
+    font-size: 20px !important;
+  }
+
+  /* Rabatkode-felt */
+  .cart-discount__input {
+    background: #253020 !important;
+    border: 1.5px solid #3a3a3a !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+  }
+  .cart-discount__pill {
+    background: #253020 !important;
+    color: #69E281 !important;
+    border: 1.5px solid #3d7a52 !important;
+  }
+
+  /* Checkout-CTA: Atletgrøn */
+  .cart__checkout-button.button {
+    background: #3d7a52 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 800 !important;
+    font-size: 12.5px !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    transition: background 0.2s !important;
+  }
+  .cart__checkout-button.button:hover {
+    background: #69E281 !important;
+    color: #131c15 !important;
+  }
+
+  /* ── Tom kurv ── */
+  .cart-page--empty .cart-title,
+  .cart-page--empty .cart-title * {
+    color: #ffffff !important;
+  }
+  .cart-items__empty-button.button {
+    background: #3d7a52 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+  }
+  .cart-items__empty-button.button:hover {
+    background: #69E281 !important;
+    color: #131c15 !important;
+  }
+
+  /* ─── Fri fragt-bar + trust-række (denne sektions egen markup) ─── */
+  #na-cartx-{{ sid }} {
+    background: #131c15;
+    border-bottom: 1px solid #2e3d32;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  #na-cartx-{{ sid }}[hidden] { display: none; }
+  .na-cartx-inner-{{ sid }} {
+    max-width: var(--page-width, 1200px);
+    margin: 0 auto;
+    padding: 18px 40px 16px;
+  }
+  .na-cartx-ship-row-{{ sid }} {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .na-cartx-ship-text-{{ sid }} {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+  }
+  .na-cartx-ship-text-{{ sid }} strong { color: #69E281; font-weight: 900; }
+  .na-cartx-ship-sub-{{ sid }} {
+    font-size: 10px;
+    font-weight: 700;
+    color: #76837b;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .na-cartx-track-{{ sid }} {
+    height: 6px;
+    border-radius: 3px;
+    background: #253020;
+    border: 1px solid #2e3d32;
+    overflow: hidden;
+  }
+  .na-cartx-fill-{{ sid }} {
+    height: 100%;
+    width: {{ pct }}%;
+    background: linear-gradient(to right, #3d7a52, #69E281);
+    border-radius: 3px;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .na-cartx-trust-{{ sid }} {
+    display: flex;
+    gap: 8px 24px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .na-cartx-trust-item-{{ sid }} {
+    font-size: 10px;
+    font-weight: 700;
+    color: #a8b8ae;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .na-cartx-trust-item-{{ sid }}::before {
+    content: '✓';
+    color: #3d7a52;
+    font-weight: 900;
+  }
+  @media screen and (max-width: 749px) {
+    .na-cartx-inner-{{ sid }} { padding: 14px 20px 12px; }
+  }
+</style>
+
+{%- if section.settings.show_shipping_bar -%}
+  <div
+    id="na-cartx-{{ sid }}"
+    data-na-cartx
+    data-threshold="{{ threshold }}"
+    {% if cart.item_count == 0 %}hidden{% endif %}
+  >
+    <div class="na-cartx-inner-{{ sid }}">
+      <div class="na-cartx-ship-row-{{ sid }}">
+        <span class="na-cartx-ship-text-{{ sid }}" data-na-cartx-text>
+          {%- if remaining == 0 -%}
+            Du har <strong>fri fragt</strong> 🎉
+          {%- else -%}
+            Køb for <strong>{{ remaining | money_without_trailing_zeros }}</strong> mere og få fri fragt
+          {%- endif -%}
+        </span>
+        <span class="na-cartx-ship-sub-{{ sid }}">Fri fragt over {{ threshold | money_without_trailing_zeros }}</span>
+      </div>
+      <div class="na-cartx-track-{{ sid }}">
+        <div class="na-cartx-fill-{{ sid }}" data-na-cartx-fill></div>
+      </div>
+      {%- if section.settings.show_trust -%}
+        <div class="na-cartx-trust-{{ sid }}">
+          {%- for i in (1..3) -%}
+            {%- assign tkey = 'trust_' | append: i -%}
+            {%- assign tval = section.settings[tkey] -%}
+            {%- if tval != blank -%}
+              <span class="na-cartx-trust-item-{{ sid }}">{{ tval }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById('na-cartx-{{ sid }}');
+      if (!root) return;
+      var threshold = parseInt(root.getAttribute('data-threshold'), 10) || 0;
+      var textEl = root.querySelector('[data-na-cartx-text]');
+      var fillEl = root.querySelector('[data-na-cartx-fill]');
+
+      function fmt(amountMinor) {
+        var kr = amountMinor / 100;
+        var s = kr.toLocaleString('da-DK', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        return s + ' kr';
+      }
+
+      /* Lyt på temaets cart:update (dispatches af Horizon selv OG af NA quick-add) */
+      document.addEventListener('cart:update', function (e) {
+        var cart = e.detail && e.detail.resource;
+        if (!cart || typeof cart.total_price !== 'number') return;
+        root.hidden = cart.item_count === 0;
+        var remaining = Math.max(0, threshold - cart.total_price);
+        var pct = threshold > 0 ? Math.min(100, (cart.total_price / threshold) * 100) : 0;
+        if (fillEl) fillEl.style.width = pct + '%';
+        if (textEl) {
+          if (remaining === 0) {
+            textEl.innerHTML = 'Du har <strong>fri fragt</strong> 🎉';
+          } else {
+            textEl.innerHTML = 'Køb for <strong>' + fmt(remaining) + '</strong> mere og få fri fragt';
+          }
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "NA Cart Skin",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Usynlig skin-sektion: NA 2026-styling af Horizons stock-kurv + fri fragt-progressbar. Skal ligge FØRST i cart-skabelonen."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_bar",
+      "label": "Vis fri fragt-progressbar",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "free_shipping_threshold",
+      "label": "Fri fragt-grænse (kr)",
+      "min": 0,
+      "max": 2000,
+      "step": 50,
+      "default": 600
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust",
+      "label": "Vis trust-række",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Trust 1",
+      "default": "1–2 dages levering"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Trust 2",
+      "default": "30 dages fri retur"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Trust 3",
+      "default": "Sikker betaling"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Cart Skin",
+      "category": "Cart"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,319 @@
+{%- comment -%}
+  NA Ambassadors — "Mød atleterne"-grid til forsiden.
+  Hver blok peger på en ambassadørSIDE (templateSuffix "ambassador");
+  data (navn, karrierelinje, klub, foto) hentes fra sidens metafelt
+  custom.ambassador → ambassador-metaobjektet. Blok-indstillinger kan
+  overstyre foto/navn/undertekst. Ny atlet = ny blok, ingen kode.
+{%- endcomment -%}
+
+{%- liquid
+  assign sid = section.id | replace: '__', '-'
+-%}
+
+<style>
+  #na-amb-grid-{{ sid }} {
+    background: {% if section.settings.bg_style == 'darker' %}#131c15{% else %}#2a2a2a{% endif %};
+    border-top: 1px solid #2e3d32;
+    border-bottom: 1px solid #2e3d32;
+    padding: 72px 40px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .na-ambg-inner-{{ sid }} { max-width: 1200px; margin: 0 auto; }
+  .na-ambg-header-{{ sid }} {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .na-ambg-eyebrow-{{ sid }} {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #3d7a52;
+    margin: 0 0 10px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .na-ambg-eyebrow-{{ sid }}::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #3d7a52;
+    flex-shrink: 0;
+  }
+  .na-ambg-title-{{ sid }} {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .na-ambg-title-{{ sid }} p { margin: 0; }
+  .na-ambg-title-{{ sid }} em {
+    font-style: normal;
+    color: #3d7a52;
+  }
+  .na-ambg-link-{{ sid }} {
+    font-size: 11px;
+    font-weight: 800;
+    color: #3d7a52;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid #3d7a52;
+    padding-bottom: 2px;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .na-ambg-link-{{ sid }}:hover { color: #69E281; border-color: #69E281; }
+  .na-ambg-grid-{{ sid }} {
+    display: grid;
+    grid-template-columns: repeat({{ section.blocks.size | at_most: 4 | at_least: 2 }}, 1fr);
+    gap: 14px;
+  }
+  .na-ambg-card-{{ sid }} {
+    display: block;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: #253020;
+    border: 1.5px solid #3a3a3a;
+    text-decoration: none;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  .na-ambg-card-{{ sid }}:hover {
+    transform: translateY(-4px);
+    border-color: #3d7a52;
+  }
+  .na-ambg-card-{{ sid }}:hover .na-ambg-img-{{ sid }} { transform: scale(1.05); }
+  .na-ambg-img-{{ sid }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .na-ambg-card-{{ sid }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(19, 28, 21, 0.94) 0%,
+      rgba(19, 28, 21, 0.45) 40%,
+      rgba(19, 28, 21, 0.05) 100%
+    );
+    pointer-events: none;
+  }
+  .na-ambg-label-{{ sid }} {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 18px 16px 16px;
+    z-index: 1;
+  }
+  .na-ambg-name-{{ sid }} {
+    font-size: 15px;
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.25;
+    margin: 0 0 4px 0;
+    display: block;
+  }
+  .na-ambg-meta-{{ sid }} {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #69E281;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: block;
+  }
+  .na-ambg-club-{{ sid }} {
+    font-size: 10.5px;
+    color: #a8b8ae;
+    display: block;
+    margin-top: 2px;
+  }
+  @media screen and (max-width: 900px) {
+    .na-ambg-grid-{{ sid }} { grid-template-columns: repeat(2, 1fr); }
+    .na-ambg-title-{{ sid }} { font-size: 28px; }
+  }
+  @media screen and (max-width: 560px) {
+    #na-amb-grid-{{ sid }} { padding: 48px 20px; }
+    .na-ambg-grid-{{ sid }} { gap: 10px; }
+    .na-ambg-title-{{ sid }} { font-size: 24px; }
+  }
+</style>
+
+<section id="na-amb-grid-{{ sid }}">
+  <div class="na-ambg-inner-{{ sid }}">
+
+    <div class="na-ambg-header-{{ sid }}">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="na-ambg-eyebrow-{{ sid }}">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <div class="na-ambg-title-{{ sid }}">{{ section.settings.title }}</div>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.link_label != blank and section.settings.link_url != blank -%}
+        <a href="{{ section.settings.link_url }}" class="na-ambg-link-{{ sid }}">{{ section.settings.link_label }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="na-ambg-grid-{{ sid }}">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign amb_page = block.settings.page
+          assign amb = nil
+          if amb_page != blank
+            assign amb = amb_page.metafields.custom.ambassador.value
+          endif
+
+          assign card_name = block.settings.name_override
+          if card_name == blank and amb != nil
+            assign card_name = amb.name.value
+          endif
+          if card_name == blank and amb_page != blank
+            assign card_name = amb_page.title
+          endif
+
+          assign card_meta = block.settings.meta_override
+          if card_meta == blank and amb != nil
+            assign card_meta = amb.career_line.value
+          endif
+
+          assign card_club = ''
+          if amb != nil
+            assign card_club = amb.club.value
+          endif
+        -%}
+        {%- if amb_page != blank -%}
+          <a href="{{ amb_page.url }}" class="na-ambg-card-{{ sid }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {{- block.settings.image | image_url: width: 800 | image_tag:
+                class: 'na-ambg-img-' | append: sid,
+                alt: card_name,
+                loading: 'lazy',
+                widths: '300, 450, 600, 800'
+              -}}
+            {%- elsif amb != nil and amb.hero_image.value -%}
+              {{- amb.hero_image.value | image_url: width: 800 | image_tag:
+                class: 'na-ambg-img-' | append: sid,
+                alt: card_name,
+                loading: 'lazy',
+                widths: '300, 450, 600, 800'
+              -}}
+            {%- else -%}
+              <div class="na-ambg-img-{{ sid }}" style="background: #253020;"></div>
+            {%- endif -%}
+            <div class="na-ambg-label-{{ sid }}">
+              <span class="na-ambg-name-{{ sid }}">{{ card_name }}</span>
+              {%- if card_meta != blank -%}
+                <span class="na-ambg-meta-{{ sid }}">{{ card_meta }}</span>
+              {%- endif -%}
+              {%- if card_club != blank -%}
+                <span class="na-ambg-club-{{ sid }}">{{ card_club }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "NA Ambassadors",
+  "settings": [
+    {
+      "type": "select",
+      "id": "bg_style",
+      "label": "Baggrund",
+      "options": [
+        { "value": "dark", "label": "Mørk (#2a2a2a)" },
+        { "value": "darker", "label": "Dybest (#131c15)" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Ambassadører"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Overskrift",
+      "info": "Brug kursiv (italic) for at gøre teksten grøn.",
+      "default": "<p>Mød <em>atleterne</em></p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link-tekst (øverst til højre)",
+      "default": "Se alle ambassadører →"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link-URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "athlete",
+      "name": "Atlet",
+      "settings": [
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Ambassadørside",
+          "info": "Side med skabelonen 'ambassador' — navn/foto/karriere hentes automatisk fra sidens metafelt custom.ambassador."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto (overstyrer metaobjektets hero-billede)"
+        },
+        {
+          "type": "text",
+          "id": "name_override",
+          "label": "Navn (overstyring)"
+        },
+        {
+          "type": "text",
+          "id": "meta_override",
+          "label": "Undertekst (overstyring)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "NA Ambassadors",
+      "blocks": [
+        { "type": "athlete" },
+        { "type": "athlete" },
+        { "type": "athlete" },
+        { "type": "athlete" }
+      ]
+    }
+  ]
+}
+{% endschema %}

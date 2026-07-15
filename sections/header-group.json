@@ -53,14 +53,27 @@
             "case": "uppercase"
           },
           "blocks": {}
+        },
+        "announcement_naFragt": {
+          "type": "_announcement",
+          "settings": {
+            "text": "<strong>Fri fragt over 600 kr</strong>",
+            "link": "",
+            "font": "var(--font-heading--family)",
+            "font_size": "0.75rem",
+            "weight": "900",
+            "letter_spacing": "loose",
+            "case": "uppercase"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
         "announcement_BxgCk9",
         "announcement_cyxQGX",
+        "announcement_naFragt",
         "announcement_enJF7q"
       ],
-      "disabled": true,
       "custom_css": [
         ".announcement-bar {font-weight: 700 !important; letter-spacing: 0.05em !important; text-transform: uppercase !important; font-size: 11px !important; padding: 10px 0 !important;}"
       ],
