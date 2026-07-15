@@ -144,6 +144,31 @@ via fallback-URL-settings. Anbefaling til merchant: upload fotos i theme editor
    tekst) ligger i "KURV-DRAWER"-blokken i na-header-custom.css.
    na-cart-skin på kurvsiden er BEHOLDT (siden findes stadig på /cart).
 
+## 5c. Merchant-feedback-runde 3 (kurv-drawer + korrekthed + FAQ-unikhed)
+
+1. **Kurv-drawer overlap + kedelige varelinjer:** `.cart-drawer__content` har
+   `height: calc(100% − header-height)`; fri fragt-blokken lå mellem header og
+   content og brød regnestykket → overlap. Flyttet ind i content som første
+   flex-barn (`flex:0 0 auto`) i `snippets/header-actions.liquid`. Varelinjer i
+   drawer'en fik kort-look (mørk baggrund, ramme, radius, hover-grøn) via
+   "KURV-DRAWER"-blokken i `na-header-custom.css`.
+2. **Forkert anmeldelses-antal:** butikken har IKKE 1.200+/200+ anmeldelser.
+   Alle forekomster erstattet med "Verificerede anmeldelser" (og "Verificerede
+   køb" på PDP) i defaults + alle templates. **STÅR TILBAGE (merchant bør
+   verificere):** ratingen "4,9/5" og anmeldelses-fordelingen + de tre navngivne
+   anmeldelser i `multicolumn-reviews` på forsiden er stadig eksempel-data.
+3. **Lager-filter fjernet** på kollektionssider: `na-collection-filters` springer
+   `availability`-filteret over.
+4. **Unikke FAQ'er (duplicate content løst):** før delte alle 18 kollektioner de
+   samme 4 FAQ'er (levering/retur/fragt/størrelse) → duplikat. Nu har HVER
+   kollektion sit eget sæt på 4 unikke, kollektionsspecifikke Q&A (formuleret i
+   kollektionens kontekst, forankret i kendte fakta, ingen opdigtede tal). 72 nye
+   `faq_item`-metaobjekter oprettet og `custom.faqs` sat pr. kollektion.
+   Kildeindhold: scratchpad `faqs.json`. De gamle 13 delte faq_item-metaobjekter
+   er nu ubrugte (kan ryddes op manuelt). NB: `publishable`-capability blev
+   aktiveret på faq_item-definitionen (34796306765) for at kunne sætte status
+   ACTIVE.
+
 ## 6. Udeståender / menneskelige beslutninger
 
 - **Merchant-review af preview** (miljøet kan ikke se storefronten — jf. HANDOFF §1):
