@@ -115,7 +115,7 @@
 }
 .na-cardx-badge--green {
   background: #3d7a52;
-  color: #131c15;
+  color: #ffffff;
   border: 1.5px solid #3d7a52;
 }
 .na-cardx-badge--stock {
@@ -228,7 +228,7 @@
 }
 .na-qa-btn.is-active {
   background: #3d7a52;
-  color: #131c15;
+  color: #ffffff;
   border-color: #3d7a52;
 }
 .na-qa-btn:disabled {

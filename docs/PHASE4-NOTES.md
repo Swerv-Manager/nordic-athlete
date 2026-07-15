@@ -115,6 +115,35 @@ via fallback-URL-settings. Anbefaling til merchant: upload fotos i theme editor
   strippede ALLE settings for de to na-featured-collection-sektioner (uden fejl!).
   Løst ved at gen-uploade index.json bagefter; remote matcher nu lokal md5 1:1.
 
+## 5b. Merchant-feedback-runde (15/7, efter første review)
+
+1. **Ambassadørkort viste Liquid-fejl** ("wrong number of arguments (given 3,
+   expected 2)"): nested filter i image_tag-named-args — `class: 'x-' | append:
+   sid` får `append` til at sluge de efterfølgende named args. **Regel: ALDRIG
+   `|`-filtre inde i image_tag/render-named-args** — precompute med `assign`.
+   Rettet i na-ambassadors (×2), na-team og na-footer (logoet — samme latente
+   fejl, bare aldrig renderet før footeren blev aktiveret).
+2. **Søg på egen linje i headeren:** `search_row` ændret fra "bottom" → "top"
+   i header-group.json.
+3. **Hvid tekst på grøn baggrund** (merchant-beslutning — gælder ALT fremover):
+   alle grønne CTA'er/badges/chips har nu `color: #ffffff` (var #131c15/#000).
+   Hover-baggrunde der før skiftede til Energigrøn (#69E281) med mørk tekst er
+   ændret til **#4a9364** (lysere Atletgrøn) med hvid tekst — hvid på #69E281
+   er ulæselig. Energigrøn bruges fortsat til grøn TEKST på mørk baggrund.
+   Rettet i: na-cards.css, na-header-custom.css (kurv-knap), na-hero,
+   na-cart-skin, na-footer (social hover), na-pdp-skin (variantknapper + køb-
+   CTA + sticky), na-pdp-bundle, na-ambassador-hero/-setup, na-collection-
+   filters (aktive chips), multicolumn-reviews (avatar), featured-collection +
+   na-featured-collection (badges).
+4. **Kurven er drawer-baseret** (settings.cart_type = drawer) — forbedringerne
+   er flyttet derind: `snippets/na-cart-drawer-extras.liquid` (fri fragt-
+   progressbar + trust-række, REN Liquid — genrenderes automatisk af temaets
+   sections-genrendering ved hver cart:update, ingen JS) renderes fra
+   `snippets/header-actions.liquid` mellem drawer-header og indhold. Drawer-
+   styling (mørkt panel, lyse medie-fliser + multiply, grøn checkout m. hvid
+   tekst) ligger i "KURV-DRAWER"-blokken i na-header-custom.css.
+   na-cart-skin på kurvsiden er BEHOLDT (siden findes stadig på /cart).
+
 ## 6. Udeståender / menneskelige beslutninger
 
 - **Merchant-review af preview** (miljøet kan ikke se storefronten — jf. HANDOFF §1):

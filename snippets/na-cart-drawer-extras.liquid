@@ -1,0 +1,43 @@
+{%- comment -%}
+  NA Cart Drawer Extras — fri fragt-progressbar + trust-række i kurv-DRAWEREN.
+  Renderes fra snippets/header-actions.liquid INDE I cart-items-component,
+  så markup'en server-genrenderes automatisk med friske kurvtal ved hver
+  cart:update (temaets egen sections-genrendering) — ingen ekstra JS.
+  Fragtgrænsen er 600 kr (samme som na-cart-skin på kurvsiden).
+  Styling: "KURV-DRAWER"-blokken i assets/na-header-custom.css.
+{%- endcomment -%}
+
+{%- liquid
+  assign na_threshold = 60000
+  assign na_remaining = na_threshold | minus: cart.total_price
+  if na_remaining < 0
+    assign na_remaining = 0
+  endif
+  assign na_pct = cart.total_price | times: 100 | divided_by: na_threshold
+  if na_pct > 100
+    assign na_pct = 100
+  endif
+-%}
+
+{%- if cart.item_count > 0 -%}
+  <div class="na-cdx">
+    <div class="na-cdx__ship-row">
+      <span class="na-cdx__ship-text">
+        {%- if na_remaining == 0 -%}
+          Du har <strong>fri fragt</strong> 🎉
+        {%- else -%}
+          Køb for <strong>{{ na_remaining | money_without_trailing_zeros }}</strong> mere og få fri fragt
+        {%- endif -%}
+      </span>
+      <span class="na-cdx__ship-sub">Fri fragt over {{ na_threshold | money_without_trailing_zeros }}</span>
+    </div>
+    <div class="na-cdx__track">
+      <div class="na-cdx__fill" style="width: {{ na_pct }}%;"></div>
+    </div>
+    <div class="na-cdx__trust">
+      <span class="na-cdx__trust-item">1&ndash;2 dages levering</span>
+      <span class="na-cdx__trust-item">30 dages fri retur</span>
+      <span class="na-cdx__trust-item">Sikker betaling</span>
+    </div>
+  </div>
+{%- endif -%}

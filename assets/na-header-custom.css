@@ -78,12 +78,12 @@ header-component .header,
   }
 
   .header-actions__cart-icon--text:hover {
-    background-color: var(--na-green-energy) !important;
+    background-color: #4a9364 !important;
   }
 
-  /* Tekst-span: "Kurv" / "Indkøbskurv" */
+  /* Tekst-span: "Kurv" / "Indkøbskurv" — hvid tekst på grøn baggrund */
   .header-actions__cart-icon--text > span:first-child {
-    color: var(--na-bg-dark) !important;
+    color: #ffffff !important;
     font-weight: 800 !important;
     font-size: 11.5px !important;
     letter-spacing: 0.1em !important;
@@ -210,4 +210,223 @@ header-component .header,
   letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
   font-size: 11px !important;
+}
+
+/* ─── KURV-DRAWER (slide cart) — NA 2026 ─────────────────
+   Butikken bruger drawer-kurven, ikke kurvsiden. Samme
+   cart-*-klasser som på kurvsiden (cart-products/-summary
+   snippets deles), her scoped til drawer-dialogen. */
+.cart-drawer__dialog {
+  background: #131c15 !important;
+  color: #ffffff;
+  border-left: 1px solid #2e3d32;
+}
+.cart-drawer__dialog .cart-drawer__heading,
+.cart-drawer__dialog .cart-drawer__heading * {
+  color: #ffffff !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 900 !important;
+}
+.cart-drawer__dialog .cart-drawer__close-button,
+.cart-drawer__dialog .cart-drawer__close-button svg {
+  color: #a8b8ae !important;
+}
+.cart-drawer__dialog .cart-drawer__close-button:hover,
+.cart-drawer__dialog .cart-drawer__close-button:hover svg {
+  color: #ffffff !important;
+}
+
+/* Varelinjer */
+.cart-drawer__dialog .cart-items__table {
+  color: #ffffff;
+}
+.cart-drawer__dialog .cart-items__table-row {
+  border-color: #2e3d32 !important;
+}
+.cart-drawer__dialog .cart-items__title,
+.cart-drawer__dialog .cart-items__title a {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.cart-drawer__dialog .cart-items__variant,
+.cart-drawer__dialog .cart-items__variants,
+.cart-drawer__dialog .cart-items__property {
+  color: #a8b8ae !important;
+}
+.cart-drawer__dialog .cart-items__price {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+}
+
+/* Ens medie-flise som produktkortene (lys flise + multiply) */
+.cart-drawer__dialog .cart-items__media-container {
+  background: #f5f5f3 !important;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid #3a3a3a;
+}
+.cart-drawer__dialog .cart-items__media-container img {
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+/* Antal-vælger + fjern */
+.cart-drawer__dialog .cart-items__quantity-controls,
+.cart-drawer__dialog quantity-selector-component {
+  background: #253020 !important;
+  border: 1.5px solid #3a3a3a !important;
+  border-radius: 6px;
+  color: #ffffff !important;
+}
+.cart-drawer__dialog .cart-items__quantity-controls button,
+.cart-drawer__dialog .cart-items__quantity-controls input,
+.cart-drawer__dialog quantity-selector-component button,
+.cart-drawer__dialog quantity-selector-component input {
+  color: #ffffff !important;
+  background: transparent !important;
+}
+.cart-drawer__dialog .cart-items__remove,
+.cart-drawer__dialog .cart-items__remove * {
+  color: #76837b !important;
+}
+.cart-drawer__dialog .cart-items__remove:hover,
+.cart-drawer__dialog .cart-items__remove:hover * {
+  color: #ffffff !important;
+}
+
+/* Opsummering */
+.cart-drawer__dialog .cart-drawer__summary {
+  background: #131c15;
+  border-top: 1px solid #2e3d32;
+}
+.cart-drawer__dialog .cart-totals__item,
+.cart-drawer__dialog .cart-totals__total,
+.cart-drawer__dialog .cart-totals__total-label,
+.cart-drawer__dialog .cart-totals__total-value,
+.cart-drawer__dialog .cart-primary-typography,
+.cart-drawer__dialog .cart-secondary-typography {
+  color: #ffffff !important;
+}
+.cart-drawer__dialog .cart-totals__tax-note,
+.cart-drawer__dialog .cart-note__label,
+.cart-drawer__dialog .cart-discounts__label {
+  color: #a8b8ae !important;
+}
+.cart-drawer__dialog .cart-totals__total-value {
+  font-weight: 900 !important;
+}
+.cart-drawer__dialog .cart-discount__input {
+  background: #253020 !important;
+  border: 1.5px solid #3a3a3a !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+}
+.cart-drawer__dialog .cart-discount__pill {
+  background: #253020 !important;
+  color: #69E281 !important;
+  border: 1.5px solid #3d7a52 !important;
+}
+
+/* Checkout-CTA: Atletgrøn med HVID tekst */
+.cart-drawer__dialog .cart__checkout-button.button {
+  background: #3d7a52 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  transition: background 0.2s !important;
+}
+.cart-drawer__dialog .cart__checkout-button.button:hover {
+  background: #4a9364 !important;
+  color: #ffffff !important;
+}
+
+/* Tom kurv */
+.cart-drawer__dialog .cart-drawer__heading--empty {
+  color: #ffffff !important;
+}
+.cart-drawer__dialog .cart-items__empty-button.button {
+  background: #3d7a52 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+.cart-drawer__dialog .cart-items__empty-button.button:hover {
+  background: #4a9364 !important;
+  color: #ffffff !important;
+}
+
+/* ── Fri fragt-bar + trust-række (snippets/na-cart-drawer-extras) ── */
+.na-cdx {
+  padding: 14px 16px 12px;
+  background: #1a231c;
+  border-top: 1px solid #2e3d32;
+  border-bottom: 1px solid #2e3d32;
+}
+.na-cdx__ship-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.na-cdx__ship-text {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+.na-cdx__ship-text strong {
+  color: #69E281;
+  font-weight: 900;
+}
+.na-cdx__ship-sub {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #76837b;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.na-cdx__track {
+  height: 6px;
+  border-radius: 3px;
+  background: #253020;
+  border: 1px solid #2e3d32;
+  overflow: hidden;
+}
+.na-cdx__fill {
+  height: 100%;
+  background: linear-gradient(to right, #3d7a52, #69E281);
+  border-radius: 3px;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.na-cdx__trust {
+  display: flex;
+  gap: 6px 16px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.na-cdx__trust-item {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #a8b8ae;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.na-cdx__trust-item::before {
+  content: '✓';
+  color: #3d7a52;
+  font-weight: 900;
 }

@@ -8,6 +8,7 @@
 
 {%- liquid
   assign sid = section.id | replace: '__', '-'
+  assign img_class = 'na-ambg-img-' | append: sid
 -%}
 
 <style>
@@ -204,14 +205,14 @@
           <a href="{{ amb_page.url }}" class="na-ambg-card-{{ sid }}" {{ block.shopify_attributes }}>
             {%- if block.settings.image != blank -%}
               {{- block.settings.image | image_url: width: 800 | image_tag:
-                class: 'na-ambg-img-' | append: sid,
+                class: img_class,
                 alt: card_name,
                 loading: 'lazy',
                 widths: '300, 450, 600, 800'
               -}}
             {%- elsif amb != nil and amb.hero_image.value -%}
               {{- amb.hero_image.value | image_url: width: 800 | image_tag:
-                class: 'na-ambg-img-' | append: sid,
+                class: img_class,
                 alt: card_name,
                 loading: 'lazy',
                 widths: '300, 450, 600, 800'

@@ -1,5 +1,6 @@
 {%- liquid
   assign sid = section.id | replace: '__', '-'
+  assign logo_class = 'na-footer-logo-img-' | append: sid
 -%}
 
 <style>
@@ -76,7 +77,7 @@
   }
   .na-footer-social-link-{{ sid }}:hover {
     background: #3d7a52;
-    color: #000000;
+    color: #ffffff;
     border-color: #3d7a52;
   }
 
@@ -168,7 +169,7 @@
         <a href="{{ routes.root_url }}" class="na-footer-logo-link-{{ sid }}" aria-label="{{ shop.name }}">
           {%- if section.settings.logo != blank -%}
             {{- section.settings.logo | image_url: width: 360 | image_tag:
-              class: 'na-footer-logo-img-' | append: sid,
+              class: logo_class,
               alt: shop.name,
               loading: 'lazy',
               widths: '120, 180, 240, 360'
