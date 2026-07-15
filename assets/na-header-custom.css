@@ -273,24 +273,30 @@ header-component .header,
   mix-blend-mode: multiply;
 }
 
-/* Antal-vælger + fjern */
-.cart-drawer__dialog .cart-items__quantity-controls,
-.cart-drawer__dialog quantity-selector-component {
+/* Antal-vælger: styl KUN selve .quantity-selector (den har temaets egen
+   boks). Wrapperen .cart-items__quantity-controls holder både vælger OG
+   skraldespand — den skal IKKE have ramme, ellers får vi dobbelt-boks/overlap. */
+.cart-drawer__dialog .cart-items__quantity-controls {
+  background: transparent !important;
+  border: none !important;
+}
+.cart-drawer__dialog .quantity-selector {
   background: #253020 !important;
   border: 1.5px solid #3a3a3a !important;
-  border-radius: 6px;
   color: #ffffff !important;
 }
-.cart-drawer__dialog .cart-items__quantity-controls button,
-.cart-drawer__dialog .cart-items__quantity-controls input,
-.cart-drawer__dialog quantity-selector-component button,
-.cart-drawer__dialog quantity-selector-component input {
+.cart-drawer__dialog .quantity-selector input,
+.cart-drawer__dialog .quantity-selector button {
   color: #ffffff !important;
   background: transparent !important;
 }
+/* Skraldespand: gennemsigtig ikon-knap (temaets standard), bare recolored */
 .cart-drawer__dialog .cart-items__remove,
 .cart-drawer__dialog .cart-items__remove * {
   color: #76837b !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 .cart-drawer__dialog .cart-items__remove:hover,
 .cart-drawer__dialog .cart-items__remove:hover * {
