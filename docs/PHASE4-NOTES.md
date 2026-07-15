@@ -109,6 +109,11 @@ via fallback-URL-settings. Anbefaling til merchant: upload fotos i theme editor
 - Upload via `themeFilesUpsert` til 193309901133 i 10 ASCII-escapede batches
   (docs/build_mutations.py-mønstret); md5-verificeret remote for .liquid/.css/.js,
   semantisk verificeret for .json (Shopify kanoniserer).
+- **NY gotcha (vigtig for fremtidige uploads):** upload SEKTIONSFILER FØR de
+  JSON-skabeloner der bruger dem. index.json blev først uploadet før
+  na-featured-collection.liquid fandtes på temaet → Shopifys skabelon-validering
+  strippede ALLE settings for de to na-featured-collection-sektioner (uden fejl!).
+  Løst ved at gen-uploade index.json bagefter; remote matcher nu lokal md5 1:1.
 
 ## 6. Udeståender / menneskelige beslutninger
 
