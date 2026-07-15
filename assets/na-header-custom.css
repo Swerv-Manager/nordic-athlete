@@ -370,12 +370,13 @@ header-component .header,
   color: #ffffff !important;
 }
 
-/* ── Fri fragt-bar + trust-række (snippets/na-cart-drawer-extras) ── */
+/* ── Fri fragt-bar + trust-række (snippets/na-cart-drawer-extras) ──
+   Blender ind i drawer'en (ingen kontrastboks): gennemsigtig baggrund,
+   ingen top-ramme, kun én tynd skillelinje ned mod produkterne. */
 .na-cdx {
-  padding: 14px 16px 12px;
-  margin-bottom: 20px;
-  background: #1a231c;
-  border-top: 1px solid #2e3d32;
+  padding: 4px 16px 16px;
+  margin-bottom: 16px;
+  background: transparent;
   border-bottom: 1px solid #2e3d32;
 }
 .na-cdx__ship-row {
