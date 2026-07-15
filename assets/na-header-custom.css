@@ -373,6 +373,7 @@ header-component .header,
 /* ── Fri fragt-bar + trust-række (snippets/na-cart-drawer-extras) ── */
 .na-cdx {
   padding: 14px 16px 12px;
+  margin-bottom: 20px;
   background: #1a231c;
   border-top: 1px solid #2e3d32;
   border-bottom: 1px solid #2e3d32;
