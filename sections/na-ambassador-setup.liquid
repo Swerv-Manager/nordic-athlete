@@ -229,6 +229,10 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    /* Kort sizes efter eget indhold (ingen stræk), så kort med færre
+       knapper ikke får tom padding under indholdet. Billederne er alle
+       samme kvadratiske størrelse (se __imgwrap), så kortene flugter. */
+    align-items: start;
   }
   .na-amb-card {
     position: relative;
