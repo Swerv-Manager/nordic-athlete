@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════════
    NORDIC ATHLETE — Header Custom Styles (NA 2026)
    Inkluderes fra layout/theme.liquid:
    {{ 'na-header-custom.css' | asset_url | stylesheet_tag }}
@@ -9,7 +9,7 @@
    version er struktureret fladt og lukker alle blokke.
    Bygger OVEN PÅ Horizons stock header.liquid — drawer,
    mega-menu og predictive search er urørt funktionalitet.
-   ═══════════════════════════════════════════════════════ */
+   ══════════════════════════════════════════════════════════════════ */
 
 /* ─── BRAND TOKENS ─── */
 :root {
@@ -22,7 +22,7 @@
   --na-white:        #ffffff;
 }
 
-/* ─── HEADER-RAMME ───────────────────────────────────────
+/* ─── HEADER-RAMME ─────────────────────────────────────────
    Tydelig bundkant i NA-mørk, så headeren står skarpt mod
    sidens indhold — også når den er sticky. */
 header-component .header,
@@ -30,7 +30,7 @@ header-component .header,
   border-bottom: 1px solid var(--na-border);
 }
 
-/* ─── MENULINKS (DESKTOP) ────────────────────────────────
+/* ─── MENULINKS (DESKTOP) ───────────────────────────────────
    Uppercase/størrelse styres af sektionens indstillinger.
    Her: NA-farvetoner + grøn hover-underlinje i stedet for
    Horizons standard. */
@@ -128,7 +128,7 @@ header-component .header,
   }
 }
 
-/* ─── KURV-KNAP (DESKTOP, TEXT-MODE) ─────────────────────
+/* ─── KURV-KNAP (DESKTOP, TEXT-MODE) ───────────────────
    Forudsætter: Hjælpefunktioner → Menustil → "Tekst".
    Grøn CTA-boks (Atletgrøn) med mørk tæller-cirkel. */
 @media screen and (min-width: 750px) {
@@ -227,7 +227,7 @@ header-component .header,
   }
 }
 
-/* ─── MOBIL HEADER (<750px) ──────────────────────────────
+/* ─── MOBIL HEADER (<750px) ───────────────────────────────
    Horizon viser hamburger + søg + centreret logo. Vi sikrer
    korrekt ikon-farve; kurv-knappens grønne boks nedtones til
    ikon-størrelse via Horizons egen icon-mode (uændret). */
@@ -265,7 +265,7 @@ header-component .header,
   color: var(--na-white) !important;
 }
 
-/* ─── ANNOUNCEMENT-BAR ───────────────────────────────────
+/* ─── ANNOUNCEMENT-BAR ─────────────────────────────────────────────
    Trust-beskeder øverst (dag-til-dag, fri fragt, retur).
    Typografi som NA-labels: uppercase, 700+, letter-spaced. */
 .announcement-bar {
