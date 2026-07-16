@@ -68,9 +68,11 @@ header-component .header,
 /* ─── MEGA-MENU / DROPDOWN-PANEL (NA 2026) ───────────────
    Gør Horizons mega-menu lækker og overskuelig i takt med
    flere menupunkter: NA-mørkt panel med ramme + skygge, og
-   childless link-grupper (fx Sport, Kroppen) flyder i
-   responsive kolonner i stedet for én lang, kedelig liste.
-   Bygger oven på Horizons struktur — funktionalitet urørt. */
+   link-grupper (fx Sport, Kroppen) flyder i responsive kolonner.
+   Horizons mega-menu er et 6-kolonne-grid hvor én flad link-gruppe
+   kun fylder 1 spor → smal kolonne + tomme spor (mørk bjælke). Vi
+   gør tekst-menuer flade (block) så linkene fylder hele bredden og
+   højden følger indholdet. Promo-panel er valgfrit (default fra). */
 @media screen and (min-width: 750px) {
   .header-menu .menu-list__submenu {
     background: var(--na-bg-dark) !important;
@@ -80,111 +82,26 @@ header-component .header,
     padding: 22px 26px !important;
   }
 
-  /* Layout: link-kolonner til venstre + promo-panel til højre.
-     .mega-menu__grid er Horizons container (indeholder ul + vores aside). */
-  .header-menu .mega-menu__grid:has(.na-mega-promo) {
-    display: flex !important;
-    align-items: stretch;
-    gap: 40px;
+  /* Tekst-mega-menuer (uden featured-indhold): fladt layout i stedet
+     for Horizons 6-kolonne-grid. Fjerner tomme spor + den mørke bjælke. */
+  .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) {
+    display: block !important;
     max-width: var(--page-width, 1200px);
     margin-inline: auto;
   }
-  .header-menu .mega-menu__grid:has(.na-mega-promo) .mega-menu__list {
+  .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__list {
     display: block !important;
-    flex: 1 1 auto;
-    min-width: 0;
     margin: 0;
   }
-
-  /* Uden promo: centrér listen til sidebredden */
-  .header-menu .mega-menu__list {
-    max-width: var(--page-width, 1200px);
-    margin-inline: auto;
-  }
-
-  /* Childless link-grupper: flyd i responsive kolonner */
-  .header-menu .mega-menu__column {
-    display: grid;
+  /* Link-gruppen flyder i responsive kolonner over hele bredden */
+  .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__column {
+    display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 2px 20px;
+    gap: 2px 24px;
     align-content: start;
   }
   .header-menu .mega-menu__column > div { min-width: 0; }
-
-  /* ── Promo-panel (settings: NA Mega-menu promo) ── */
-  .na-mega-promo {
-    flex: 0 0 300px;
-    display: flex;
-    flex-direction: column;
-    background: #1a231c;
-    border: 1px solid #2e3d32;
-    border-radius: 10px;
-    overflow: hidden;
-    align-self: stretch;
-  }
-  .na-mega-promo__media {
-    aspect-ratio: 16 / 10;
-    background: #f5f5f3;
-    overflow: hidden;
-  }
-  .na-mega-promo__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    mix-blend-mode: multiply;
-    display: block;
-  }
-  .na-mega-promo__body {
-    padding: 16px 18px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1 1 auto;
-  }
-  .na-mega-promo__eyebrow {
-    font-size: 9.5px;
-    font-weight: 900;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--na-green-energy);
-  }
-  .na-mega-promo__heading {
-    font-size: 16px;
-    font-weight: 900;
-    letter-spacing: 0.01em;
-    color: var(--na-white);
-    line-height: 1.2;
-    text-transform: uppercase;
-  }
-  .na-mega-promo__text {
-    font-size: 12px;
-    line-height: 1.55;
-    color: var(--na-text-mid);
-    margin: 0;
-  }
-  .na-mega-promo__btn {
-    margin-top: auto;
-    align-self: flex-start;
-    background: var(--na-green);
-    color: #ffffff !important;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 10px 18px;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.15s ease;
-  }
-  .na-mega-promo__btn:hover { background: #4a9364; color: #ffffff !important; }
-
-  /* Skjul promo på smallere skærme hvor mega-menuen alligevel bliver drawer */
-  @media screen and (max-width: 989px) {
-    .na-mega-promo { display: none; }
-    .header-menu .mega-menu__grid:has(.na-mega-promo) { display: block !important; }
-  }
-
-  /* Sublister (hvis et menupunkt HAR børn) beholder egen kolonne */
+  /* Sublister (hvis et punkt HAR børn) beholder én kolonne */
   .header-menu .mega-menu__column ul { column-count: 1 !important; }
 
   /* Links som rene NA-rækker med venstre grøn accent på hover */
@@ -207,11 +124,85 @@ header-component .header,
     border-left-color: var(--na-green) !important;
     color: var(--na-white) !important;
   }
-  /* Parent-overskrift i mega (hvis grupperet) — dæmpet label-stil */
   .header-menu .mega-menu__link--parent {
     color: var(--na-white) !important;
     font-weight: 900 !important;
     letter-spacing: 0.1em !important;
+  }
+
+  /* ── Valgfrit promo-panel (settings: NA Mega-menu promo, default fra) ──
+     Når det er slået til, bliver grid'et flex: kolonner + promo til højre. */
+  .header-menu .mega-menu__grid:has(.na-mega-promo) {
+    display: flex !important;
+    align-items: stretch;
+    gap: 40px;
+  }
+  .header-menu .mega-menu__grid:has(.na-mega-promo) .mega-menu__list {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .na-mega-promo {
+    flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    background: #1a231c;
+    border: 1px solid #2e3d32;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .na-mega-promo__media { aspect-ratio: 16 / 10; background: #f5f5f3; overflow: hidden; }
+  .na-mega-promo__img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; display: block; }
+  .na-mega-promo__body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1 1 auto; }
+  .na-mega-promo__eyebrow {
+    font-size: 9.5px; font-weight: 900; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--na-green-energy);
+  }
+  .na-mega-promo__heading {
+    font-size: 16px; font-weight: 900; letter-spacing: 0.01em;
+    color: var(--na-white); line-height: 1.2; text-transform: uppercase;
+  }
+  .na-mega-promo__text { font-size: 12px; line-height: 1.55; color: var(--na-text-mid); margin: 0; }
+  .na-mega-promo__btn {
+    margin-top: auto; align-self: flex-start; background: var(--na-green);
+    color: #ffffff !important; font-size: 11px; font-weight: 800;
+    letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 18px;
+    border-radius: 6px; text-decoration: none; transition: background-color 0.15s ease;
+  }
+  .na-mega-promo__btn:hover { background: #4a9364; color: #ffffff !important; }
+
+  /* ── "Mere"-overflow-menu: samme panel + række-styling ──
+     overflow-list bruger Shadow DOM → panelet styles via ::part(overflow);
+     de overflowede punkter er light-DOM ([slot='overflow']) og styles direkte. */
+  .header-menu .overflow-menu::part(overflow) {
+    background: var(--na-bg-dark);
+    border: 1px solid #2e3d32;
+    border-radius: 10px;
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.5);
+    padding: 12px;
+    margin-top: 8px;
+    min-width: 220px;
+  }
+  .header-menu .menu-list__list-item[slot='overflow'] { display: block; }
+  .header-menu .menu-list__list-item[slot='overflow'] .menu-list__link {
+    display: flex !important;
+    align-items: center;
+    padding: 9px 12px !important;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase;
+    color: var(--na-text-mid) !important;
+    white-space: nowrap;
+  }
+  /* Ingen hover-underlinje i dropdown-kontekst */
+  .header-menu .menu-list__list-item[slot='overflow'] .menu-list__link::after { display: none !important; }
+  .header-menu .menu-list__list-item[slot='overflow'] .menu-list__link:hover,
+  .header-menu .menu-list__list-item[slot='overflow'] .menu-list__link:focus-visible {
+    background: rgba(105, 226, 129, 0.08) !important;
+    border-left-color: var(--na-green) !important;
+    color: var(--na-white) !important;
   }
 }
 
