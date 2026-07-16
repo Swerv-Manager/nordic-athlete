@@ -2284,5 +2284,54 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "NA Mega-menu promo",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Promo-panel i højre side af mega-menuen (Sport, Kroppen m.fl.). Vises kun på desktop."
+      },
+      {
+        "type": "checkbox",
+        "id": "mega_promo_enabled",
+        "label": "Vis promo-panel i mega-menu",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "mega_promo_image",
+        "label": "Promo-billede"
+      },
+      {
+        "type": "text",
+        "id": "mega_promo_eyebrow",
+        "label": "Eyebrow",
+        "default": "Anbefalet"
+      },
+      {
+        "type": "text",
+        "id": "mega_promo_heading",
+        "label": "Overskrift",
+        "default": "GAMEPATCH beskyttelse"
+      },
+      {
+        "type": "textarea",
+        "id": "mega_promo_text",
+        "label": "Tekst",
+        "default": "Beskyttelsestights, padded undertrøjer og knæbeskyttere — testet i kamp af vores ambassadører."
+      },
+      {
+        "type": "text",
+        "id": "mega_promo_btn_label",
+        "label": "Knap-tekst",
+        "default": "Shop GAMEPATCH"
+      },
+      {
+        "type": "url",
+        "id": "mega_promo_btn_link",
+        "label": "Knap-link"
+      }
+    ]
   }
 ]

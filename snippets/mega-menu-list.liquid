@@ -182,6 +182,38 @@
   {% endfor %}
 </ul>
 
+{%- comment -%}
+  NA: Promo-panel i højre side af tekst-mega-menuer (Sport, Kroppen m.fl.).
+  Indhold styres fra theme-settings (NA Mega-menu promo). Layout/styling i
+  assets/na-header-custom.css (.na-mega-promo). Vises kun på desktop.
+{%- endcomment -%}
+{%- if menu_content_type == 'text' and settings.mega_promo_enabled and settings.mega_promo_heading != blank -%}
+  <aside class="na-mega-promo">
+    {%- if settings.mega_promo_image != blank -%}
+      <div class="na-mega-promo__media">
+        {{ settings.mega_promo_image | image_url: width: 640 | image_tag:
+          class: 'na-mega-promo__img',
+          alt: settings.mega_promo_heading,
+          loading: 'lazy',
+          widths: '320, 480, 640'
+        }}
+      </div>
+    {%- endif -%}
+    <div class="na-mega-promo__body">
+      {%- if settings.mega_promo_eyebrow != blank -%}
+        <span class="na-mega-promo__eyebrow">{{ settings.mega_promo_eyebrow }}</span>
+      {%- endif -%}
+      <span class="na-mega-promo__heading">{{ settings.mega_promo_heading }}</span>
+      {%- if settings.mega_promo_text != blank -%}
+        <p class="na-mega-promo__text">{{ settings.mega_promo_text }}</p>
+      {%- endif -%}
+      {%- if settings.mega_promo_btn_label != blank and settings.mega_promo_btn_link != blank -%}
+        <a class="na-mega-promo__btn" href="{{ settings.mega_promo_btn_link }}">{{ settings.mega_promo_btn_label }}</a>
+      {%- endif -%}
+    </div>
+  </aside>
+{%- endif -%}
+
 {% liquid
   # decide how many grid columns are needed for the menu list, and how many columns are needed for the featured content
   # prioritize a minimum of 1 featured_collection (2 columns), and minimum 2 featured_products (2 columns)
