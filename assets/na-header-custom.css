@@ -75,15 +75,36 @@ header-component .header,
    højden følger indholdet. Promo-panel er valgfrit (default fra). */
 @media screen and (min-width: 750px) {
   .header-menu .menu-list__submenu {
+    /* Panel-padding styres via Horizons egne inner-vars (ikke ekstra
+       ydre padding — det holder JS-højdemålingen enkel og panelet tæt) */
+    --submenu-padding-block-start: 20px;
+    --submenu-padding-block-end: 24px;
+
     background: var(--na-bg-dark) !important;
-    border: 1px solid #2e3d32 !important;
-    border-radius: 10px !important;
+    border-bottom: 1px solid #2e3d32 !important;
+    border-radius: 0 0 12px 12px !important;
     box-shadow: 0 22px 50px rgba(0, 0, 0, 0.5) !important;
-    padding: 22px 26px !important;
+    padding-block: 0 !important;
+  }
+
+  /* DEN MØRKE BJÆLKE: Horizons .header__underlay-open maler en mørk
+     baggrund fra headeren ned til den JS-målte --full-open-header-height
+     — BAG panelet. Vores panel har sin egen baggrund/skygge, så vi gør
+     underlay'et gennemsigtigt under headeren og dropper dets skygge.
+     Så kan målingen aldrig efterlade et tomt mørkt felt under panelet. */
+  #header-component .header__underlay-open {
+    background: linear-gradient(
+      var(--color-scheme-top-row) 0 var(--top-row-height),
+      var(--color-scheme-bottom-row) var(--top-row-height) var(--header-height),
+      transparent var(--header-height) 100%
+    ) !important;
+  }
+  #header-component .header__underlay-open::after {
+    box-shadow: none !important;
   }
 
   /* Tekst-mega-menuer (uden featured-indhold): fladt layout i stedet
-     for Horizons 6-kolonne-grid. Fjerner tomme spor + den mørke bjælke. */
+     for Horizons 6-kolonne-grid (som gav én smal kolonne + tomme spor). */
   .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) {
     display: block !important;
     max-width: var(--page-width, 1200px);
@@ -93,12 +114,17 @@ header-component .header,
     display: block !important;
     margin: 0;
   }
-  /* Link-gruppen flyder i responsive kolonner over hele bredden */
+  /* Link-gruppen i 3 faste kolonner (2 på tablet) */
   .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__column {
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 2px 24px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px 28px;
     align-content: start;
+  }
+  @media screen and (max-width: 989px) {
+    .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__column {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   .header-menu .mega-menu__column > div { min-width: 0; }
   /* Sublister (hvis et punkt HAR børn) beholder én kolonne */
