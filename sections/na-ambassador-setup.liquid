@@ -267,7 +267,11 @@
     flex-direction: column;
     gap: 4px;
     padding: 12px 12px 14px;
+    flex: 1 1 auto;
   }
+  /* Skub quick-add/variant-blokken til bunden, så kort med færre knapper
+     ikke får tom padding under indholdet (kortene strækkes ens i grid'et). */
+  .na-amb-card__qa { margin-top: auto; }
   .na-amb-card__brand {
     font-size: 10px;
     font-weight: 800;

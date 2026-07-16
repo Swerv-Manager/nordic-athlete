@@ -65,6 +65,69 @@ header-component .header,
   transform: scaleX(1);
 }
 
+/* ─── MEGA-MENU / DROPDOWN-PANEL (NA 2026) ───────────────
+   Gør Horizons mega-menu lækker og overskuelig i takt med
+   flere menupunkter: NA-mørkt panel med ramme + skygge, og
+   childless link-grupper (fx Sport, Kroppen) flyder i
+   responsive kolonner i stedet for én lang, kedelig liste.
+   Bygger oven på Horizons struktur — funktionalitet urørt. */
+@media screen and (min-width: 750px) {
+  .header-menu .menu-list__submenu {
+    background: var(--na-bg-dark) !important;
+    border: 1px solid #2e3d32 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.5) !important;
+    padding: 22px 26px !important;
+  }
+
+  /* Centrér mega-menu-indholdet til sidebredden */
+  .header-menu .mega-menu__list {
+    max-width: var(--page-width, 1200px);
+    margin-inline: auto;
+    gap: 6px 40px;
+    align-items: start;
+  }
+
+  /* Childless link-grupper: flyd i responsive kolonner */
+  .header-menu .mega-menu__column {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 2px 20px;
+    align-content: start;
+  }
+  .header-menu .mega-menu__column > div { min-width: 0; }
+
+  /* Sublister (hvis et menupunkt HAR børn) beholder egen kolonne */
+  .header-menu .mega-menu__column ul { column-count: 1 !important; }
+
+  /* Links som rene NA-rækker med venstre grøn accent på hover */
+  .header-menu .mega-menu__link {
+    display: flex !important;
+    align-items: center;
+    padding: 9px 12px !important;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase;
+    color: var(--na-text-mid) !important;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .header-menu .mega-menu__link:hover,
+  .header-menu .mega-menu__link:focus-visible {
+    background: rgba(105, 226, 129, 0.08) !important;
+    border-left-color: var(--na-green) !important;
+    color: var(--na-white) !important;
+  }
+  /* Parent-overskrift i mega (hvis grupperet) — dæmpet label-stil */
+  .header-menu .mega-menu__link--parent {
+    color: var(--na-white) !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.1em !important;
+  }
+}
+
 /* ─── KURV-KNAP (DESKTOP, TEXT-MODE) ─────────────────────
    Forudsætter: Hjælpefunktioner → Menustil → "Tekst".
    Grøn CTA-boks (Atletgrøn) med mørk tæller-cirkel. */
