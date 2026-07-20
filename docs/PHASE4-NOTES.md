@@ -1,7 +1,15 @@
 # Fase 4 — Produktkort, header/footer, forside, kurv (gennemført)
 
-Alt arbejde ligger fortsat på duplikat-temaet **193309901133** — intet er publiceret.
-Live-temaet 190092804429 er urørt. Se HANDOFF-PHASE4.md for opgavebeskrivelserne.
+> **⚠️ TEMA-STATUS OPDATERET (go-live):** Merchant har PUBLICERET fase 4-temaet —
+> **193309901133 er nu LIVE/MAIN ("Swerv // LIVE") og må ALDRIG skrives til.**
+> Nyt arbejds-duplikat for videre rettelser:
+> **`gid://shopify/OnlineStoreTheme/193504706893`**
+> ("Kopi af Kopi af Swerv // April 2026 Nyt design ..."). Alle themeFilesUpsert
+> skal målrettes 193504706893. (Det gamle live-tema 190092804429 er nu UNPUBLISHED.)
+
+Historisk kontekst nedenfor (skrevet mens 193309901133 var duplikatet):
+Alt arbejde lå på duplikat-temaet **193309901133**.
+Se HANDOFF-PHASE4.md for opgavebeskrivelserne.
 
 ## 1. Opgave 1 — Ensartede produktkort (billedformat/whitespace)
 

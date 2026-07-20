@@ -260,12 +260,24 @@
     color: #69E281;
     border: 1.5px solid #3d7a52;
   }
+  /* Billedfeltet er ALTID kvadratisk: aspect-ratio er kun en "foretrukken"
+     højde — høje billeder (fx tights 1024x1536) kan strække boksen, når
+     overflow er synlig. overflow:hidden + absolut billede låser kvadratet. */
   .na-amb-card__imgwrap {
     display: block;
+    position: relative;
     aspect-ratio: 1 / 1;
+    overflow: hidden;
     background: radial-gradient(80% 80% at 50% 38%, #2f3a2c, #131c15);
   }
-  .na-amb-card__imgwrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .na-amb-card__imgwrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   .na-amb-card__body {
     display: flex;
     flex-direction: column;
