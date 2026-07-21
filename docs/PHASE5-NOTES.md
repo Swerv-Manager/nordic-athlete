@@ -69,8 +69,18 @@ atleten dukker selv op på oversigten. Ingen kode. (Atleter uden udfyldt
 
 ## 3b. Fase 5b — merchant-feedback (21/7)
 
-1. **Mere luft over dropdown-punkterne:** `--submenu-padding-block-start`
-   20px → 36px i na-header-custom.css (mega-menu-panelet).
+1. **Mere luft over dropdown-punkterne:** toppadding sat DIREKTE på
+   `.header-menu .menu-list__submenu-inner` (og `::part(overflow-list)`) til
+   **34px !important** i na-header-custom.css. **VIGTIGT (fælde):** at ændre
+   `--submenu-padding-block-start`-variablen virker IKKE — Horizon nulstiller
+   den til 0px via `.header__row[style*='--border-bottom-width: 0px']
+   .menu-list__submenu.color-scheme-matches-parent` (border_width er 0 OG
+   menuens farveskema matcher toprækken), en regel med højere specificitet
+   (4 klasser) end vores variabel-override. Både fase 4's 20px og et første
+   forsøg på 36px var derfor død kode — dropdown'en havde altid 0 toppadding.
+   Løst ved at sætte `padding-block-start` direkte på inner-elementet
+   (Horizons `padding-block-start: var(...)` er ikke !important, så vores
+   vinder uanset variablen).
 2. **Announcement-bar venstrestillet → centreret:** Horizons center-regel
    (`.text-block > * { text-align: var(--text-align) }`) bor i
    `snippets/text.liquid`'s scoped stylesheet og følger ikke pålideligt med

@@ -81,7 +81,6 @@ header-component .header,
      (gav først "mørk bjælke", siden transparent panel). Panel-udseendet
      SKAL derfor males på inner — den følger indholdet 1:1. */
   .header-menu .menu-list__submenu {
-    --submenu-padding-block-start: 36px;
     --submenu-padding-block-end: 24px;
 
     background: transparent !important;
@@ -91,6 +90,15 @@ header-component .header,
   }
   .header-menu .menu-list__submenu-inner {
     background: var(--na-bg-dark) !important;
+    /* Luft over de første dropdown-links. VIGTIGT: Horizon nulstiller
+       --submenu-padding-block-start til 0px, når header-rækken er borderløs
+       (border_width:0) OG menuens farveskema matcher toprækken
+       (.color-scheme-matches-parent) — den regel har HØJERE specificitet
+       (4 klasser) end vores variabel-override, så at ændre variablen gør
+       ingenting. Derfor sættes toppadding DIREKTE på inner med !important
+       (Horizons `padding-block-start: var(--submenu-padding-block-start)`
+       er ikke !important, så denne vinder uanset variablen). */
+    padding-block-start: 34px !important;
     border-bottom: 1px solid #2e3d32;
     border-radius: 0 0 12px 12px;
     box-shadow: 0 22px 50px rgba(0, 0, 0, 0.5);
@@ -217,6 +225,8 @@ header-component .header,
   }
   .header-menu .overflow-menu::part(overflow-list) {
     background: var(--na-bg-dark);
+    /* Samme luft over links som submenu (jf. note ovenfor). */
+    padding-block-start: 34px !important;
     border-bottom: 1px solid #2e3d32;
     border-radius: 0 0 12px 12px;
     box-shadow: 0 22px 50px rgba(0, 0, 0, 0.5);
