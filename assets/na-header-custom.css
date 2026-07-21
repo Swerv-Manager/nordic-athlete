@@ -81,7 +81,7 @@ header-component .header,
      (gav først "mørk bjælke", siden transparent panel). Panel-udseendet
      SKAL derfor males på inner — den følger indholdet 1:1. */
   .header-menu .menu-list__submenu {
-    --submenu-padding-block-start: 20px;
+    --submenu-padding-block-start: 36px;
     --submenu-padding-block-end: 24px;
 
     background: transparent !important;
@@ -408,6 +408,15 @@ header-component .header,
   letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
   font-size: 11px !important;
+}
+
+/* Centrér teksten: Horizons center-regel (.text-block > * { text-align:
+   var(--text-align) }) bor i snippets/text.liquid's scoped stylesheet og
+   følger derfor ikke altid med announcement-baren — uden den falder
+   teksten til venstre. Tving center her. */
+.announcement-bar__slide,
+.announcement-bar__text {
+  text-align: center !important;
 }
 
 /* ─── KURV-DRAWER (slide cart) — NA 2026 ─────────────────

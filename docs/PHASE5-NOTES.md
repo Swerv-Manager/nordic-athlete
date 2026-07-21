@@ -67,6 +67,19 @@ atleten dukker selv op på oversigten. Ingen kode. (Atleter uden udfyldt
 - Repo-baseline: branchen er fast-forwardet til fase 4-HEAD, så alle
   fase 4-filer (na-header-custom.css-omskrivningen m.fl.) nu ER i repoet.
 
+## 3b. Fase 5b — merchant-feedback (21/7)
+
+1. **Mere luft over dropdown-punkterne:** `--submenu-padding-block-start`
+   20px → 36px i na-header-custom.css (mega-menu-panelet).
+2. **Announcement-bar venstrestillet → centreret:** Horizons center-regel
+   (`.text-block > * { text-align: var(--text-align) }`) bor i
+   `snippets/text.liquid`'s scoped stylesheet og følger ikke pålideligt med
+   announcement-baren. Eksplicit `text-align: center` på
+   `.announcement-bar__slide/__text` i na-header-custom.css.
+3. **Forsidens "Se alle ambassadører →"** (na-ambassadors i index.json):
+   /blogs/nyheder → **/pages/ambassadoerer**. (Kun Development-temaets
+   forsideskabelon — live er urørt.)
+
 ## 4. Udeståender / menneskelige beslutninger
 
 - **Menupunktet "Ambassadører" er IKKE ændret** (peger stadig på
@@ -75,8 +88,9 @@ atleten dukker selv op på oversigten. Ingen kode. (Atleter uden udfyldt
   sende live-kunder til en rå fallback-side. **Ved go-live** (publish af
   Development-temaet): flip menupunktet til `/pages/ambassadoerer`
   (Navigation → Ny header menu (Horizon Tema)) — eller bed en session gøre det.
-  Samme gælder "Mød atleterne"-sektionens link på forsiden (`na-ambassadors`,
-  linker også til /blogs/nyheder).
+  ("Mød atleterne"-sektionens link på forsiden er ALLEREDE flippet til
+  /pages/ambassadoerer i fase 5b — forsideskabelonen bor på Development-temaet,
+  så det påvirker ikke live.)
 - Merchant-review af preview:
   - Header-hover: `https://www.nordic-athlete.dk/?preview_theme_id=193546781005`
   - Oversigt: `https://www.nordic-athlete.dk/pages/ambassadoerer?preview_theme_id=193546781005`
