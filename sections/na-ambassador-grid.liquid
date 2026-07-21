@@ -1,0 +1,403 @@
+{%- liquid
+  # Ambassadør-oversigt: alle ambassador-metaobjekter med udfyldt 'page'-felt.
+  # Ny atlet på siden = metaobjekt + side + sæt 'page'-feltet. Ingen kode.
+  assign ambassadors = shop.metaobjects['ambassador'].values
+  assign linked_count = 0
+  for amb in ambassadors
+    if amb.page.value != blank
+      assign linked_count = linked_count | plus: 1
+    endif
+  endfor
+-%}
+
+<section class="na-ambgrid">
+  <header class="na-ambgrid__head">
+    <span class="na-ambgrid__eyebrow">{{ section.settings.eyebrow }}</span>
+    <h1 class="na-ambgrid__heading">
+      {{ section.settings.heading }}
+      {%- if section.settings.heading_accent != blank -%}
+        <br><span class="na-ambgrid__heading-accent">{{ section.settings.heading_accent }}</span>
+      {%- endif -%}
+    </h1>
+    {%- if section.settings.intro != blank -%}
+      <p class="na-ambgrid__intro">{{ section.settings.intro }}</p>
+    {%- endif -%}
+    {%- if section.settings.trust_line != blank -%}
+      <span class="na-ambgrid__trust">★ {{ section.settings.trust_line }}</span>
+    {%- endif -%}
+  </header>
+
+  {%- if linked_count > 0 -%}
+    <ul class="na-ambgrid__grid" role="list">
+      {%- for amb in ambassadors -%}
+        {%- liquid
+          assign amb_page = amb.page.value
+          if amb_page == blank
+            continue
+          endif
+          assign first_name = amb.name.value | split: ' ' | first
+          assign teaser = amb.quote.value | default: amb.intro.value
+        -%}
+        <li class="na-ambgrid__cell">
+          <a class="na-ambgrid__card" href="{{ amb_page.url }}">
+            <div class="na-ambgrid__media">
+              {%- if amb.hero_image.value -%}
+                {{ amb.hero_image.value | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900', class: 'na-ambgrid__img', alt: amb.name.value }}
+              {%- else -%}
+                <div class="na-ambgrid__img-fallback" aria-hidden="true">{{ first_name | slice: 0 }}</div>
+              {%- endif -%}
+              {%- if amb.club.value != blank -%}
+                <span class="na-ambgrid__club">{{ amb.club.value }}</span>
+              {%- endif -%}
+            </div>
+            <div class="na-ambgrid__body">
+              <span class="na-ambgrid__name">{{ amb.name.value }}</span>
+              <span class="na-ambgrid__career">{{ amb.career_line.value }}</span>
+              {%- if teaser != blank -%}
+                <p class="na-ambgrid__teaser">&ldquo;{{ teaser | strip_newlines | truncate: 120 }}&rdquo;</p>
+              {%- endif -%}
+              <span class="na-ambgrid__cta">M&oslash;d {{ first_name }} <span class="na-ambgrid__cta-arrow" aria-hidden="true">&rarr;</span></span>
+            </div>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": {{ section.settings.heading | json }},
+        "numberOfItems": {{ linked_count }},
+        "itemListElement": [
+          {%- assign pos = 0 -%}
+          {%- for amb in ambassadors -%}
+            {%- if amb.page.value != blank -%}
+              {%- assign pos = pos | plus: 1 -%}
+              {%- if pos > 1 %},{% endif -%}
+              {
+                "@type": "ListItem",
+                "position": {{ pos }},
+                "name": {{ amb.name.value | json }},
+                "url": {{ shop.url | append: amb.page.value.url | json }}
+              }
+            {%- endif -%}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+  {%- else -%}
+    <div class="na-ambgrid__empty">
+      Ingen ambassad&oslash;rer at vise endnu: udfyld feltet <code>Ambassad&oslash;rside (link)</code> p&aring;
+      ambassador-metaobjekterne i Shopify admin (Indhold &rarr; Metaobjekter &rarr; Ambassad&oslash;r).
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_cta -%}
+    <aside class="na-ambgrid__join">
+      <div class="na-ambgrid__join-text">
+        <span class="na-ambgrid__join-heading">{{ section.settings.cta_heading }}</span>
+        {%- if section.settings.cta_text != blank -%}
+          <p class="na-ambgrid__join-sub">{{ section.settings.cta_text }}</p>
+        {%- endif -%}
+      </div>
+      <a class="na-ambgrid__join-btn" href="{{ section.settings.cta_link | default: '/pages/contact' }}">{{ section.settings.cta_button_label }}</a>
+    </aside>
+  {%- endif -%}
+</section>
+
+<style>
+  body { background-color: #2a2a2a; }
+
+  .na-ambgrid {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 56px 24px 72px;
+  }
+
+  /* ── Sidehoved ── */
+  .na-ambgrid__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    margin-bottom: 44px;
+  }
+  .na-ambgrid__eyebrow {
+    font-size: 10.5px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #69E281;
+  }
+  .na-ambgrid__heading {
+    margin: 0;
+    font-size: clamp(30px, 4.5vw, 46px);
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1.08;
+  }
+  .na-ambgrid__heading-accent { color: #69E281; }
+  .na-ambgrid__intro {
+    margin: 0;
+    max-width: 640px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #a8b8ae;
+  }
+  .na-ambgrid__trust { font-size: 11px; color: #76837b; }
+
+  /* ── Grid ── */
+  .na-ambgrid__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .na-ambgrid__cell { min-width: 0; }
+
+  /* ── Kort ── */
+  .na-ambgrid__card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #131c15;
+    border: 1.5px solid #3a3a3a;
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: border-color 160ms cubic-bezier(0.4, 0, 0.1, 1), transform 160ms cubic-bezier(0.4, 0, 0.1, 1);
+  }
+  .na-ambgrid__card:hover {
+    border-color: #3d7a52;
+    transform: translateY(-2px);
+  }
+  .na-ambgrid__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: #0d130f;
+    overflow: hidden;
+  }
+  .na-ambgrid__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.1, 1);
+  }
+  .na-ambgrid__card:hover .na-ambgrid__img { transform: scale(1.04); }
+  .na-ambgrid__img-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    font-weight: 900;
+    color: #253020;
+  }
+  .na-ambgrid__club {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    max-width: calc(100% - 24px);
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(19, 28, 21, 0.92);
+    border: 1px solid #3a3a3a;
+    font-size: 9.5px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a8b8ae;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .na-ambgrid__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 18px 18px;
+    flex: 1 1 auto;
+  }
+  .na-ambgrid__name {
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .na-ambgrid__career { font-size: 11.5px; color: #a8b8ae; }
+  .na-ambgrid__teaser {
+    margin: 6px 0 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #76837b;
+    font-style: italic;
+  }
+  .na-ambgrid__cta {
+    margin-top: auto;
+    padding-top: 14px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #3d7a52;
+    transition: color 160ms ease;
+  }
+  .na-ambgrid__card:hover .na-ambgrid__cta { color: #69E281; }
+  .na-ambgrid__cta-arrow {
+    display: inline-block;
+    transition: transform 160ms cubic-bezier(0.4, 0, 0.1, 1);
+  }
+  .na-ambgrid__card:hover .na-ambgrid__cta-arrow { transform: translateX(3px); }
+
+  /* ── Tom tilstand (admin-hint) ── */
+  .na-ambgrid__empty {
+    padding: 48px;
+    text-align: center;
+    color: #a8b8ae;
+    background: #131c15;
+    border: 1.5px solid #3a3a3a;
+    border-radius: 8px;
+  }
+
+  /* ── "Med på holdet?"-CTA ── */
+  .na-ambgrid__join {
+    margin-top: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: 28px 32px;
+    background: #131c15;
+    border: 1.5px solid #3a3a3a;
+    border-radius: 8px;
+  }
+  .na-ambgrid__join-text { display: flex; flex-direction: column; gap: 6px; }
+  .na-ambgrid__join-heading {
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  .na-ambgrid__join-sub { margin: 0; font-size: 13px; line-height: 1.6; color: #a8b8ae; max-width: 560px; }
+  .na-ambgrid__join-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 26px;
+    border-radius: 6px;
+    background: #3d7a52;
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 140ms cubic-bezier(0.4, 0, 0.1, 1);
+    flex-shrink: 0;
+  }
+  .na-ambgrid__join-btn:hover { background: #4a9364; color: #ffffff; }
+
+  @media (max-width: 989px) {
+    .na-ambgrid__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  }
+  @media (max-width: 649px) {
+    .na-ambgrid { padding: 40px 16px 56px; }
+    .na-ambgrid__grid { grid-template-columns: 1fr; }
+    .na-ambgrid__join { padding: 22px 20px; }
+    .na-ambgrid__join-btn { width: 100%; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "NA Ambassadør-oversigt",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Viser alle ambassador-metaobjekter, hvor feltet 'Ambassadørside (link)' er udfyldt. Ny atlet: opret metaobjekt + side og udfyld feltet — ingen kodeændring."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Fra atleter, til atleter"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift linje 1",
+      "default": "Mød vores"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Overskrift linje 2 (grøn)",
+      "default": "Ambassadører"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Introtekst",
+      "default": "Håndbold, basketball, volleyball og BMX — vores ambassadører bruger udstyret i kamp, uge efter uge. Mød atleterne, læs deres historier, og se præcis hvad de spiller med."
+    },
+    {
+      "type": "text",
+      "id": "trust_line",
+      "label": "Trust-linje",
+      "default": "4,9/5 · Verificerede anmeldelser · Fri fragt over 600 kr"
+    },
+    {
+      "type": "header",
+      "content": "CTA-boks nederst"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Vis CTA-boks",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "CTA-overskrift",
+      "default": "Vil du med på holdet?"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_text",
+      "label": "CTA-tekst",
+      "default": "Spiller du på højt niveau og bruger du beskyttelse eller genoptræningsudstyr i din sport? Så hører vi gerne fra dig."
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "CTA-knaptekst",
+      "default": "Kontakt os"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA-link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Ambassadør-oversigt",
+      "category": "Page"
+    }
+  ]
+}
+{% endschema %}

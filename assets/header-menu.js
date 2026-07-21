@@ -32,6 +32,7 @@ class HeaderMenu extends Component {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    clearTimeout(this.#closeTimer);
     window.removeEventListener('resize', this.#resizeListener);
     document.body.removeEventListener('pointermove', this.#onPointerMove);
     if (this.#state.activeItem) {
@@ -49,7 +50,7 @@ class HeaderMenu extends Component {
   }, 100);
 
   #overflowSubmenuListener = () => {
-    this.#deactivate();
+    this.#scheduleDeactivate();
   };
 
   /**
@@ -63,6 +64,13 @@ class HeaderMenu extends Component {
    * @type {ReturnType<typeof setTimeout> | undefined}
    */
   #pointerIdleTimer;
+
+  /**
+   * Grace-period timer so the submenu doesn't close while the pointer
+   * travels from the menu item down into the submenu.
+   * @type {ReturnType<typeof setTimeout> | undefined}
+   */
+  #closeTimer;
 
   /**
    * Last known pointer position for Safari hit-test reconciliation.
@@ -81,17 +89,20 @@ class HeaderMenu extends Component {
     this.#lastPointer.x = event.clientX;
     this.#lastPointer.y = event.clientY;
 
-    const moving = Math.abs(event.movementX) >= 1 || event.movementY >= 1;
-    activeLink.dataset.safetyBox = `${moving}`;
+    const moving = Math.abs(event.movementX) >= 1 || Math.abs(event.movementY) >= 1;
 
-    clearTimeout(this.#pointerIdleTimer);
     if (moving) {
+      /* Slow pointer movement produces interleaved zero-delta events; only the
+       * idle timer may hide the safety box, otherwise it flickers off mid-travel
+       * and the submenu closes before the pointer reaches it. */
+      activeLink.dataset.safetyBox = 'true';
+      clearTimeout(this.#pointerIdleTimer);
       this.#pointerIdleTimer = setTimeout(() => {
         if (this.#state.activeItem) {
           this.#state.activeItem.dataset.safetyBox = 'false';
           this.#reconcilePointerTarget();
         }
-      }, 50);
+      }, 100);
     } else {
       this.#reconcilePointerTarget();
     }
@@ -167,6 +178,9 @@ class HeaderMenu extends Component {
    */
   activate = (event) => {
     this.dispatchEvent(new MegaMenuHoverEvent());
+
+    // The pointer is back over a menu item (or its submenu) — abort any pending close.
+    clearTimeout(this.#closeTimer);
 
     if (!(event.target instanceof Element) || !this.headerComponent) return;
 
@@ -269,7 +283,24 @@ class HeaderMenu extends Component {
       return;
     }
 
-    this.#deactivate();
+    this.#scheduleDeactivate();
+  }
+
+  /**
+   * Close the active submenu after a short grace period, so the pointer can
+   * cross the gap between the menu item and the submenu without the menu
+   * collapsing. Re-entering the item or submenu cancels the pending close.
+   */
+  #scheduleDeactivate() {
+    const item = this.#state.activeItem;
+    if (!item) return;
+
+    clearTimeout(this.#closeTimer);
+    this.#closeTimer = setTimeout(() => {
+      const listItem = item.closest('.menu-list__list-item');
+      if (listItem?.matches(':hover')) return;
+      this.#deactivate(item);
+    }, 300);
   }
 
   /**
@@ -278,6 +309,8 @@ class HeaderMenu extends Component {
    */
   #deactivate = (item = this.#state.activeItem) => {
     if (!item || item != this.#state.activeItem) return;
+
+    clearTimeout(this.#closeTimer);
 
     // Don't deactivate if the overflow menu or overflow list is still being hovered
     if (this.overflowListHovered || this.overflowMenu?.matches(':hover')) return;

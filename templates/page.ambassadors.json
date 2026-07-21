@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "grid": {
+      "type": "na-ambassador-grid",
+      "settings": {
+        "eyebrow": "Fra atleter, til atleter",
+        "heading": "Mød vores",
+        "heading_accent": "Ambassadører",
+        "intro": "Håndbold, basketball, volleyball og BMX — vores ambassadører bruger udstyret i kamp, uge efter uge. Mød atleterne, læs deres historier, og se præcis hvad de spiller med.",
+        "trust_line": "4,9/5 · Verificerede anmeldelser · Fri fragt over 600 kr",
+        "show_cta": true,
+        "cta_heading": "Vil du med på holdet?",
+        "cta_text": "Spiller du på højt niveau og bruger du beskyttelse eller genoptræningsudstyr i din sport? Så hører vi gerne fra dig.",
+        "cta_button_label": "Kontakt os",
+        "cta_link": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "grid"
+  ]
+}
