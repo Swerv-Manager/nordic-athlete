@@ -135,9 +135,14 @@ ordrette tekst og beslutningen om at prisen IKKE nævnes endnu.
 ## Løsning: ingen ny kode
 
 Banneret er en ny instans af den EKSISTERENDE sektion
-`sections/na-image-with-text.liquid` (uændret, md5 verificeret identisk med
-temaet). Eneste ændrede fil er `templates/index.json`, hvor sektionen
-`na_hummel` er indsat som nr. 3, lige efter `na_trust`.
+`sections/na-image-with-text.liquid`. Eneste ændrede fil er
+`templates/index.json`, hvor sektionen `na_hummel` er indsat som nr. 3, lige
+efter `na_trust`.
+
+> RETTELSE (fase 5d): sektionsfilen var uændret i første leverance, men blev
+> efterfølgende rettet for en reel CSS-specificitetsbug, der gjorde CTA-knappen
+> blank. Se § 5d nedenfor. Læs derfor ikke dette afsnit som "sektionsfilen er
+> urørt".
 
 Alt indhold er settings, så Frederik og Jonas kan rette tekst, billede, knap og
 trust-punkter direkte i theme editor uden kode.
