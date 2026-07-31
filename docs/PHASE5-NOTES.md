@@ -236,8 +236,33 @@ kort-grønne) i stedet for pure black, som stod som hårde huller mod
 sektionens `#2a2a2a`.
 
 **5. Overskriften brækkede i tre linjer** ("Vi har valgt / Hummels /
-topmodeller") ved 52px på en 564px kolonne. Nu 44px på desktop og 30px under
-900px, så den holder to linjer og "Hummels topmodeller" står samlet.
+topmodeller") ved 52px på en 564px kolonne. Nu
+`font-size: clamp(30px, 3.4vw, 52px)`, som giver ca. 44px ved 1280px og 30px på
+telefon. De to faste heading-media-overrides (36px/30px) er fjernet, da clamp
+dækker begge.
 
-Alle fem punkter ligger i sektionens `custom_css` eller i indstillingerne
-(punkt 1 og 2 i sektionsfilen), så teksten fortsat kan rettes uden kode.
+## VIGTIG GRÆNSE: sektions-`custom_css` må højst være 500 tegn
+
+Første forsøg på at lægge alle fem rettelser i instansens `custom_css` blev
+**afvist af Shopify** med `userErrors`:
+"Den tilpassede CSS indeholder mere end 500 tegn" (jeg havde 590).
+Skabelonen blev altså IKKE gemt, mens sektionsfilen gik igennem. Fejlen er
+deterministisk server-side validering, ikke et transient upload-problem.
+
+**Konsekvens for arkitekturen (og læringen):** `custom_css` skal reserveres til
+det der er ægte instans-specifikt. Generelle forbedringer hører i
+sektionsfilen. Fordelingen nu:
+
+- **I sektionsfilen** (gælder alle fremtidige instanser): knap-fix, grøn CTA,
+  `#131c15`-billedflise, `#253020`-stat-kort, clamp-overskrift, og stat-værdier
+  ned til 17px under 900px (22px klemte "Dag til dag").
+- **Ny indstilling `image_focus`** (Top/Midte, default Top): styrer
+  `object-position`. Portrætter vil have Top (ansigt i toppen), produktbilleder
+  vil have Midte. Hummel-banneret bruger Midte. Dermed er billedfokus nu
+  redigerbart uden kode i stedet for et CSS-hack.
+- **I instansens `custom_css`** (224 tegn): kun mobil-cap på billedet
+  (260px, centreret) og mobil-padding, som afhænger af netop dette
+  billedmotivs transparente marginer.
+
+Tjek altid tegnantallet før upload:
+`sum(len(x) for x in custom_css) <= 500`.
