@@ -106,3 +106,93 @@ atleten dukker selv op på oversigten. Ingen kode. (Atleter uden udfyldt
   - Oversigt: `https://www.nordic-athlete.dk/pages/ambassadoerer?preview_theme_id=193546781005`
 - Tekster på oversigten (intro, CTA-boks, trust-linje) er defaults — kan
   redigeres i theme editor på siden.
+
+---
+
+# Fase 5c — Hummel-forsidebanner (31/7)
+
+## TEMA-LANDSKABET ER SKIFTET IGEN (læs før alt andet)
+
+Verificeret via Admin API 31/7. Navnene er roteret, så gå ALDRIG efter navnet
+"Swerv // LIVE" mere:
+
+| Tema | ID | Rolle |
+|---|---|---|
+| Swerv // Collection Page Optimisation | `193560707405` | **MAIN/LIVE — rør aldrig** |
+| Kopi af Swerv // Collection Page Optimisation | `193966408013` | UNPUBLISHED — arbejdstema for denne opgave |
+| Swerv // LIVE (misvisende navn) | `193546781005` | UNPUBLISHED (ikke længere live) |
+| Swerv // Development | `193504706893` | UNPUBLISHED |
+| Swerv // FAQ Sections | `193849819469` | UNPUBLISHED |
+
+Slå altid `role` op frem for at stole på temanavnet.
+
+## Opgaven
+
+Forsidebanner om Hummel-samarbejdet. Grundlag: den godkendte Nexus-plan
+`nordic-athlete-hummel-forside` (intelligence_documents), som indeholder Jonas'
+ordrette tekst og beslutningen om at prisen IKKE nævnes endnu.
+
+## Løsning: ingen ny kode
+
+Banneret er en ny instans af den EKSISTERENDE sektion
+`sections/na-image-with-text.liquid` (uændret, md5 verificeret identisk med
+temaet). Eneste ændrede fil er `templates/index.json`, hvor sektionen
+`na_hummel` er indsat som nr. 3, lige efter `na_trust`.
+
+Alt indhold er settings, så Frederik og Jonas kan rette tekst, billede, knap og
+trust-punkter direkte i theme editor uden kode.
+
+**Tekst (Jonas' egne ord, splittet som kunden selv foreslog):**
+- Eyebrow: "Nyt samarbejde"
+- Overskrift: "Vi har valgt" + grøn "Hummels topmodeller"
+- Brødtekst: "fordi de er udviklet til brug og ikke kun fordi de ser fede ud.
+  Find din model her, pas på din krop, den skal holde i mange år."
+- Knap: "Find din model" → `/collections/sko`
+- Trust-punkter (stats): 4,9 af 5 stjerner · Dag til dag levering · 30 dage retur
+
+Rekonstrueret overskrift+brødtekst er ordret identisk med Jonas' Slack-tekst
+(kun afsluttende punktum tilføjet, som kunden selv foreslog).
+
+**Billede:** `shopify://shop_images/230728-9001.webp` (primærbilledet på
+hummel-topflight-pro, skoen i profil). Filen er 514×685 = **præcis 3:4**, så
+`image_ratio: 3/4` + `image_fit: cover` giver pixelpræcis udfyldning uden
+beskæring og uden letterboxing. Intet genereret billede, intet stockfoto.
+
+**Mobil:** sektionen skifter selv til én kolonne under 900px (billede først).
+Derudover er der lagt `custom_css` på sektionen (redigerbar i editoren under
+sektionens Custom CSS), fordi tre ting ellers klemmer på telefon:
+- billedet cappes til 210px bredde og centreres (ellers 466px højt på 390px skærm)
+- sektionens top/bund-padding sænkes 64px → 40px
+- stat-værdierne sænkes 22px → 17px, så "Dag til dag" ikke ombrydes i den smalle boks
+
+## Verifikation
+
+- md5 remote == lokal (`1fabbc6182a0e2a7db5b3844ccecd86f`), og semantisk
+  kontrolleret: `custom_css`, `image`, `cta_url`, overskrifter og alle tre stats
+  overlevede Shopifys skabelon-validering (den stripper ellers ugyldige nøgler tyst).
+- `shopify theme check`: 0 offenses i `templates/index.json` og
+  `na-image-with-text.liquid`. Øvrige offenses i temaet er pre-existing.
+- Copy-kontrol programmatisk: ingen tankestreger (Unicode-kategori Pd), ingen
+  procent, ingen valuta som selvstændigt ord, ingen rabatkoder, ingen lagerpres,
+  nul udråbstegn.
+
+## Uafklarede punkter
+
+1. **Shopify CLI kunne IKKE bruges.** `shopify theme list/pull/push` og
+   `shopify auth login` fejler alle med HTTP 403 fra Shopifys authorization
+   service i dette cloud-miljø, og OAuth kan ikke gennemføres non-interaktivt.
+   Der er derfor arbejdet via Admin API `themeFilesUpsert` (husets metode siden
+   fase 2). `shopify theme check` virker lokalt og er brugt.
+2. **Billedet er ikke visuelt inspiceret.** `cdn.shopify.com` er blokeret af
+   netværkspolitikken (proxy 403), så baggrunden i 230728-9001.webp er ikke set.
+   Valget hviler på alt-teksten ("i hvid ... set fra siden") og på at 3:4-fit
+   fjerner risikoen for letterboxing. Frederik bør kigge på det i preview.
+3. **"4,9 af 5 stjerner"** er kundens eget trust-punkt fra deres bedst
+   performende annonce og vises allerede i hero og trust-strip på det
+   publicerede tema. Bemærk dog at fase 4 § 5c stadig har ratingen som et
+   punkt merchant selv bør verificere.
+4. SKO-kollektionen indeholder nu **alle 5 Hummel-sko** (verificeret 31/7), så
+   bekymringen i Nexus-planen om at tre modeller ville være skjult er bortfaldet.
+5. Prisvejen er fortsat ikke besluttet, og banneret er bygget uden pris. Vælges
+   permanent nedsættelse eller rabatkode senere, kan en sekundær linje tilføjes
+   i editoren uden kode.

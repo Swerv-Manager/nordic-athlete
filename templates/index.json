@@ -41,6 +41,41 @@
         "stat4_label": "Fri retur"
       }
     },
+    "na_hummel": {
+      "type": "na-image-with-text",
+      "name": "NA Hummel-banner",
+      "custom_css": [
+        "@media (max-width: 900px) { #na-iwt-na_hummel { padding-top: 40px !important; padding-bottom: 40px !important; } .na-iwt-img-wrap-na_hummel { max-width: 210px; margin-left: auto !important; margin-right: auto !important; } .na-iwt-stat-value-na_hummel { font-size: 17px !important; } }"
+      ],
+      "settings": {
+        "bg_style": "dark",
+        "image_position": "right",
+        "image_ratio": "3/4",
+        "image_fit": "cover",
+        "section_padding_top": 64,
+        "section_padding_bottom": 64,
+        "show_top_border": true,
+        "show_chip": false,
+        "chip_text": "Nyt samarbejde",
+        "eyebrow": "Nyt samarbejde",
+        "heading_line1": "Vi har valgt",
+        "heading_line2": "Hummels topmodeller",
+        "text_1": "fordi de er udviklet til brug og ikke kun fordi de ser fede ud. Find din model her, pas på din krop, den skal holde i mange år.",
+        "text_2": "",
+        "show_stats": true,
+        "stat1_value": "4,9 af 5",
+        "stat1_label": "stjerner",
+        "stat2_value": "Dag til dag",
+        "stat2_label": "levering",
+        "stat3_value": "30 dage",
+        "stat3_label": "retur",
+        "cta_text": "Find din model",
+        "cta_url": "/collections/sko",
+        "cta_style": "primary",
+        "image": "shopify://shop_images/230728-9001.webp",
+        "image_alt": "Hummel Topflight Pro håndboldsko i hvid, set fra siden"
+      }
+    },
     "na_sport_collection_4G77n8": {
       "type": "na-sport-collection",
       "name": "NA Sport Collections",
@@ -327,6 +362,7 @@
   "order": [
     "na_hero",
     "na_trust",
+    "na_hummel",
     "na_sport_collection_4G77n8",
     "na_featured_collection_pAe6if",
     "na_ambassadors",
