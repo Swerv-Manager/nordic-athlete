@@ -196,3 +196,43 @@ sektionens Custom CSS), fordi tre ting ellers klemmer på telefon:
 5. Prisvejen er fortsat ikke besluttet, og banneret er bygget uden pris. Vælges
    permanent nedsættelse eller rabatkode senere, kan en sekundær linje tilføjes
    i editoren uden kode.
+
+## Fase 5d — designrettelser efter merchant-review af banneret (31/7)
+
+Merchant: "sektionen ser ikke god ud, gør den mere clean og passende i temaet."
+
+**1. KNAPPEN VAR HELT BLANK (reel bug i sektionen, ikke i indstillingerne).**
+`sections/na-image-with-text.liquid` havde reglen
+`#na-iwt-{{ sid }} a { text-decoration: none; color: inherit; }`.
+Specificiteten er 1 id + 1 type (1-0-1), hvilket slår knappens egen
+`.na-iwt-btn-primary-{{ sid }} { color: #000 }` (0-1-0). Knappen arvede derfor
+temaets hvide tekstfarve og stod som hvid tekst på hvid baggrund, altså en tom
+hvid kasse. Rettet ved at undtage knapperne:
+`#na-iwt-{{ sid }} a:not([class*='na-iwt-btn'])`.
+**REGEL fremover:** styr aldrig `color` på et bredt `#id a`-selektor i disse
+sektioner; knapklasser taber altid den kamp.
+
+**2. Primær-knap bragt i tråd med temaet.** Var hvid boks med sort tekst, hvilket
+ikke matcher NA's CTA-konvention fra fase 4 § 5c (grøn CTA, HVID tekst). Nu
+Atletgrøn `#3d7a52` med hvid tekst og hover `#4a9364`, som resten af sitet.
+Sektionen bruges kun af `na_hummel`, så ændringen påvirker intet andet.
+
+**3. Billedrammen var 752px høj og næsten tom.** Produktbilledet er en
+transparent pakshot med store tomme marginer, så 3:4 på en 564px kolonne gav en
+kæmpe sort flade med en lille sko i midten. Rettet i indstillingerne:
+`image_ratio: 3/4 → 1/1` (rammen 752px → 564px), og i `custom_css`
+`object-position: center` så den kvadratiske beskæring skærer de transparente
+marginer symmetrisk væk i stedet for `center top`, der ville klippe sålen.
+Skoen fylder nu markant mere af rammen.
+
+**4. Rå #000 udskiftet med temaets egne tokens.** Billedflisen bruger nu
+`#131c15` (temaets dybeste) og stat-kortene `#253020` (den dokumenterede
+kort-grønne) i stedet for pure black, som stod som hårde huller mod
+sektionens `#2a2a2a`.
+
+**5. Overskriften brækkede i tre linjer** ("Vi har valgt / Hummels /
+topmodeller") ved 52px på en 564px kolonne. Nu 44px på desktop og 30px under
+900px, så den holder to linjer og "Hummels topmodeller" står samlet.
+
+Alle fem punkter ligger i sektionens `custom_css` eller i indstillingerne
+(punkt 1 og 2 i sektionsfilen), så teksten fortsat kan rettes uden kode.

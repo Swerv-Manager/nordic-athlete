@@ -323,7 +323,10 @@
   #na-iwt-{{ sid }} * { box-sizing: border-box; }
   #na-iwt-{{ sid }} *:not(.na-iwt-inner-{{ sid }}) { margin: 0; padding: 0; }
   #na-iwt-{{ sid }} a[class], #na-iwt-{{ sid }} button[class] { padding: revert; margin: revert; }
-  #na-iwt-{{ sid }} a { text-decoration: none; color: inherit; }
+  /* Undtag CTA-knapperne: denne regel er 1 id + 1 type og slog ellers
+     knappernes egen color (1 klasse), så primær-knappen arvede hvid tekst
+     på hvid baggrund og stod helt blank. */
+  #na-iwt-{{ sid }} a:not([class*='na-iwt-btn']) { text-decoration: none; color: inherit; }
 
   .na-iwt-inner-{{ sid }} {
     max-width: 1200px;
@@ -464,8 +467,8 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #ffffff;
-    color: #000000;
+    background: #3d7a52;
+    color: #ffffff;
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 0.1em;
@@ -482,7 +485,7 @@
     align-self: flex-start;
   }
   .na-iwt-btn-primary-{{ sid }}:hover {
-    background: #ffffff;
+    background: #4a9364;
     transform: translateY(-1px);
   }
   .na-iwt-btn-outline-{{ sid }} {

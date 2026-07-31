@@ -45,15 +45,19 @@
       "type": "na-image-with-text",
       "name": "NA Hummel-banner",
       "custom_css": [
-        "@media (max-width: 900px) { #na-iwt-na_hummel { padding-top: 40px !important; padding-bottom: 40px !important; } .na-iwt-img-wrap-na_hummel { max-width: 210px; margin-left: auto !important; margin-right: auto !important; } .na-iwt-stat-value-na_hummel { font-size: 17px !important; } }"
+        ".na-iwt-img-wrap-na_hummel { background: #131c15 !important; }",
+        ".na-iwt-img-wrap-na_hummel img { object-position: center !important; }",
+        ".na-iwt-heading-na_hummel { font-size: 44px !important; }",
+        ".na-iwt-stat-na_hummel { background: #253020 !important; }",
+        "@media (max-width: 900px) { #na-iwt-na_hummel { padding-top: 40px !important; padding-bottom: 40px !important; } .na-iwt-img-wrap-na_hummel { max-width: 260px; margin-left: auto !important; margin-right: auto !important; } .na-iwt-heading-na_hummel { font-size: 30px !important; } .na-iwt-stat-value-na_hummel { font-size: 17px !important; } }"
       ],
       "settings": {
         "bg_style": "dark",
         "image_position": "right",
-        "image_ratio": "3/4",
+        "image_ratio": "1/1",
         "image_fit": "cover",
-        "section_padding_top": 64,
-        "section_padding_bottom": 64,
+        "section_padding_top": 72,
+        "section_padding_bottom": 72,
         "show_top_border": true,
         "show_chip": false,
         "chip_text": "Nyt samarbejde",
