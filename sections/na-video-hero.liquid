@@ -18,6 +18,8 @@
       {%- assign poster_url = poster | image_url: width: 1920 -%}
     {%- elsif vid != blank and vid.preview_image != blank -%}
       {%- assign poster_url = vid.preview_image | image_url: width: 1920 -%}
+    {%- elsif section.settings.poster_url != blank -%}
+      {%- assign poster_url = section.settings.poster_url -%}
     {%- endif -%}
 
     {%- if poster_url -%}
@@ -260,6 +262,11 @@
       "type": "image_picker",
       "id": "poster_image",
       "label": "Posterbillede (vises før videoen og ved reduceret bevægelse)"
+    },
+    {
+      "type": "text",
+      "id": "poster_url",
+      "label": "Poster-URL (reserve)"
     },
     {
       "type": "text",

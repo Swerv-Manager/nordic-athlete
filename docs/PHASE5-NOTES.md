@@ -361,3 +361,38 @@ bredeste relevante kollektion, og boernene gentager den ikke.
   /opt/node22/bin var vaek, selv om den virkede tidligere samme session).
   `npm install -g @shopify/cli@latest` bragte den tilbage. Theme check: 0 nye
   offenses (232/186 uaendret, kun filantallet steg med den nye sektion).
+
+## 4. Video-reference: to fund vaerd at kende
+
+**1. Videovaelgerens JSON-format kunne IKKE gaettes.**
+`"video": "shopify://videos/63371784257869"` blev afvist server-side med
+userErrors: *"Vaerdien i indstillingen \"video\" skal vaere en gyldig
+Shopify-webadresse til en video."* Skabelonen blev derfor slet ikke gemt, mens
+sektionsfilen gik igennem, saa temaet stod kortvarigt med en orphan sektion.
+Bemaerk at `shopify://shop_images/<filnavn>` VIRKER for image_picker (brugt i
+Hummel-banneret), saa den analogi holder ikke for video. Loesningen blev at
+droppe noeglen helt og bruge `video_url`, som Liquid'en alligevel falder
+tilbage til. Vil man bruge vaelgeren, skal den saettes i theme editor, hvor
+Shopify selv skriver det korrekte format.
+
+**2. Originalfilen er 72 MB.** Den URL vi fik udleveret
+(`/videos/c/o/v/<hash>.mp4`) er ORIGINALEN: 72.338.238 bytes, 33 sekunder.
+Den ville vaere en tung forside-hero. Shopify har faerdige renditions paa
+samme hash under `/videos/c/vp/<hash>/`:
+
+| Rendition | Oploesning | Bitrate |
+|---|---|---|
+| SD-480p | 852x480 | 1.5 Mbps |
+| HD-720p | 1280x720 | 4.5 Mbps |
+| HD-1080p | 1920x1080 | 7.2 Mbps |
+| m3u8 (HLS) | 1920x1080 | adaptiv |
+
+**Valgt: HD-720p**, som er et fornuftigt kompromis mellem skarphed paa en
+fuldbredde-hero og vaegt. Posterbilledet tages fra videoens eget
+auto-genererede preview (`preview.image`), sat via det nye `poster_url`-felt,
+saa der staar et billede med det samme frem for en sort boks.
+
+**Anbefaling til merchant:** 33 sekunder er langt til en hero der looper. En
+klipning til 8 til 12 sekunder vil skaere vaegten med omkring to tredjedele og
+gøre loopet strammere. Alternativt kan der skiftes til SD-480p i
+`video_url`-feltet i editoren uden kode.

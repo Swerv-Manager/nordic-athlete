@@ -4,8 +4,7 @@
       "type": "na-video-hero",
       "name": "NA Video Hero — Holger Rune x Eace",
       "settings": {
-        "video": "shopify://videos/63371784257869",
-        "video_url": "https://cdn.shopify.com/videos/c/o/v/c10ffaeec95c4c84bf96a3fdc4b7348f.mp4",
+        "video_url": "https://cdn.shopify.com/videos/c/vp/c10ffaeec95c4c84bf96a3fdc4b7348f/c10ffaeec95c4c84bf96a3fdc4b7348f.HD-720p-4.5Mbps-88511950.mp4",
         "video_alt": "Holger Rune i Eace-kollektionen",
         "height_desktop": 76,
         "overlay_opacity": 70,
@@ -13,7 +12,8 @@
         "title": "<p>Holger Rune <em>x Eace</em></p>",
         "subtitle": "",
         "cta_label": "Se kollektionen",
-        "cta_url": "/collections/holger-rune-x-eace"
+        "cta_url": "/collections/holger-rune-x-eace",
+        "poster_url": "https://cdn.shopify.com/s/files/1/0943/1138/3373/files/preview_images/c10ffaeec95c4c84bf96a3fdc4b7348f.thumbnail.0000000000.jpg?v=1783595654"
       }
     },
     "na_hero": {
