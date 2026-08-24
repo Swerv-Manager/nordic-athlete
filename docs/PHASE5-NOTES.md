@@ -396,3 +396,43 @@ saa der staar et billede med det samme frem for en sort boks.
 klipning til 8 til 12 sekunder vil skaere vaegten med omkring to tredjedele og
 gøre loopet strammere. Alternativt kan der skiftes til SD-480p i
 `video_url`-feltet i editoren uden kode.
+
+## 5. Fase 6c — merchant-feedback: faerre overkategorier + logoets placering (24/8)
+
+**1. Menuen samlet fra 6 til 4 hovedpunkter.** Merchant ville have Sport,
+Beskyttelse, Sko og Udstyr samlet i en eller to overkategorier. Loest med to
+indkoebsakser, som er de to maader kunder faktisk shopper i denne butik: "jeg
+spiller haandbold" eller "jeg mangler knaebeskyttelse eller sko".
+
+| # | Hovedpunkt | Niveau 2 | Niveau 3 |
+|---|---|---|---|
+| 1 | Sport | Haandbold, Basketball, Fodbold, Volleyball, Cykling | |
+| 2 | Udstyr | Beskyttelse | Knae, Albue, Ankel, Ben, Haand, Skulder |
+| | | Gamepatch, Sko, Traeningsudstyr, Energi & tilskud, Holger Rune x Eace | |
+| 3 | Klubber | 7 klubber | |
+| 4 | Om os | Ambassadoerer, Kontakt os, Ofte stillede spoergsmaal | |
+
+**TRE NIVEAUER ER VERIFICERET FOER BRUG.** `snippets/mega-menu-list.liquid`
+linje 138 til 145 har `{% if link.links != blank %}` med et indre
+`{% for childLink in link.links %}`, og `na-header-custom.css` styler
+`.mega-menu__link--parent` og holder sublister i én kolonne. Kropszonerne
+ligger derfor som tredje niveau under Udstyr → Beskyttelse i stedet for at
+ligge fladt sammen med produktkategorierne.
+
+**2. Logoet: venstre side af headeren var tom.**
+Aarsag: `logo_position` stod paa `center`, hvilket grupperer logo OG menu
+midt i headeren. Med handlingerne (Soeg, Konto, Kurv) i hoejre side blev hele
+venstre fjerdedel tom, og logo plus menu blev klemt sammen i midten.
+
+Rettet til `logo_position: left` i `sections/header-group.json`.
+`menu_position` er bevidst ladt paa `center`, saa layoutet bliver
+logo helt til venstre, menu centreret, handlinger helt til hoejre. Med kun
+fire menupunkter giver det luft i stedet for komprimering.
+
+Gyldige vaerdier for begge (fra header.liquid schema): `left`, `center`, `right`.
+
+**Metode-note:** header-group.json blev IKKE transkriberet i haanden. Filen
+blev hentet, banneret strippet, md5 verificeret mod temaets checksum FOER
+aendringen, derefter én enkelt streng-erstatning og md5-verifikation efter
+upload. Den disciplin er noedvendig, fordi manuel gengivelse af 6 KB med
+danske tegn og emoji har fejlet tidligere i projektet.
