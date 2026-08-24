@@ -502,3 +502,53 @@ data:** menustilen gaelder HELE menuen, og alle 7 klub-kollektioner har
 Kortvisning ville derfor give en raekke tomme pladsholderbokse under Klubber og
 Om os, altsaa ringere end i dag. Alle 15 produktkollektioner HAR billeder, saa
 hvis klubberne faar billeder, er kortvisning en reel mulighed senere.
+
+## 7. Fase 6e — mega-menuen igen: RIGTIG rodaarsag fundet (24/8)
+
+Fase 6d virkede ikke. Merchant-screenshot viste gruppen i venstre kolonne med
+skillelinje, men de fem loese links laa i en raekke UNDER den, og hele hoejre
+side var tom.
+
+**Hvorfor 6d fejlede: jeg antog at alle links laa i ÉN kolonne-container.**
+Det gør de ikke. Verificeret mod temaets EGEN `snippets/mega-menu-list.liquid`
+(md5 `9b60f091f726318fc37debafb29c2f0f`, som IKKE er identisk med repoets
+kopi, saa lokal laesning var ikke nok):
+
+`<ul class="mega-menu__list">` indeholder FLERE `<li class="mega-menu__column">`.
+Lukkelogikken er: en kolonne lukkes naar (a) det er sidste link, (b)
+collection_images-tilstand, (c) NAESTE link har boern, eller (d) dette link har
+boern og det naeste ikke har. **Et punkt med boern faar altsaa altid sin egen
+`<li>`, og loese links samles i én faelles `<li>`.**
+
+"Udstyr" giver derfor praecis to `<li>`:
+1. Beskyttelse: `li > div > a.mega-menu__link--parent` + `li > div > ul > li > a`
+2. De fem loese: fem soeskende-`div`'er i én `li`
+
+Da `.mega-menu__list` stod paa `display: block`, stablede de to `li` lodret.
+Mine 6d-regler stylede hver `li` for sig, saa gruppen fik 4 grid-kolonner med
+kun ét element (deraf det tomme felt til hoejre), og `grid-row: span 20`
+gjorde ingen forskel paa tvaers af `li`-graensen.
+
+**RIGTIG loesning: `.mega-menu__list` er raekke-containeren.**
+- `.mega-menu__list` → `display: flex`, `align-items: stretch`
+- `> .mega-menu__column:has(> div > ul)` → `flex: 0 0 220px` + hoejre skillelinje
+- `> .mega-menu__column:not(:has(> div > ul))` → `flex: 0 1 740px` + eget
+  `auto-fill`-grid
+
+**Plus en fejl mere, som screenshottet ogsaa afsloerede:** panelets indhold
+begyndte helt ude i venstre kant, mens menupunktet "UDSTYR" staar centreret i
+headeren (logo_position er left, menu_position center). Den forskydning saa
+forkert ud i sig selv. Derfor `justify-content: center` paa listen, og
+`flex: 0 1 740px` UDEN grow paa link-kolonnen, saa indholdet har en naturlig
+bredde der kan centreres i stedet for at blive strakt ud i hele vinduet.
+
+### Laering til fremtidige menu-rettelser
+1. `.mega-menu__list` kan indeholde FLERE `.mega-menu__column`. Styl paa
+   list-niveau, ikke kolonne-niveau, naar kolonner skal ligge side om side.
+2. Div'en mellem `li` og `a` har INGEN klasse. Brug `.mega-menu__column > div`.
+   Boerne-`ul` har kun `.list-unstyled`, ingen `mega-menu__*`-klasse.
+3. Diskriminatorer: gruppe = `div:has(> ul)`, loest link = `div:not(:has(> ul))`.
+4. `class="mega-menu__link "` har et efterhaengende mellemrum naar linket ikke
+   har boern. Brug aldrig `[class="mega-menu__link"]`.
+5. Repoets kopi af `mega-menu-list.liquid` er IKKE i sync med temaet. Laes
+   temaets version foer du skriver selektorer mod den.

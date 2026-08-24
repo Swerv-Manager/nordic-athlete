@@ -127,8 +127,24 @@ header-component .header,
     max-width: var(--page-width, 1200px);
     margin-inline: auto;
   }
+  /* STRUKTUR (vigtigt at forstaa foer man retter her):
+     Horizon laver IKKE én kolonne-container. Snippet'en mega-menu-list.liquid
+     aabner et nyt <li class="mega-menu__column"> hver gang et punkt HAR boern,
+     og samler efterfoelgende punkter UDEN boern i én faelles <li>. "Udstyr"
+     giver derfor praecis to: én til Beskyttelse med sine kropszoner, og én til
+     Gamepatch/Sko/Traeningsudstyr/Energi/Holger Rune.
+     Stod .mega-menu__list paa display:block, stablede de to lodret, saa de
+     loese links landede i en raekke UNDER gruppen med et stort tomt felt til
+     hoejre. Derfor er listen nu selve raekke-containeren. */
   .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__list {
-    display: block !important;
+    display: flex !important;
+    align-items: stretch;
+    /* Indholdet centreres, fordi menuen selv staar centreret i headeren.
+       Venstrestillet indhold under et centreret menupunkt gav en tydelig
+       forskydning: "UDSTYR" stod midt paa skaermen, mens panelets foerste
+       kolonne begyndte helt ude i venstre kant. */
+    justify-content: center;
+    gap: 0;
     margin: 0;
   }
   /* ── KOLONNELAYOUT ────────────────────────────────────────────────
@@ -144,26 +160,39 @@ header-component .header,
      Rækkespændet holder gruppen alene i kolonne 1, så intet lander under
      den. Rækkegab er 0 (marginer styrer afstanden), fordi et spænd over
      tomme rækker ellers ville lægge gab oven i hinanden. */
-  .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__column {
+  /* En kolonne MED gruppe (rubrik + underpunkter): fast smal spalte med
+     lodret skillelinje, som kategorikolonnen i referencen. */
+  .header-menu .mega-menu__list > .mega-menu__column:has(> div > ul) {
+    display: block !important;
+    flex: 0 0 220px;
+    min-width: 0;
+    border-right: 1px solid #2e3d32;
+    padding-right: 28px;
+    margin-right: 28px;
+  }
+  /* Kolonnen med de loese links. Bredden er BEGRAENSET (flex-basis uden grow),
+     saa panelets indhold har en naturlig bredde der kan centreres, i stedet
+     for at blive strakt ud i hele vinduets bredde med et stort tomt felt. */
+  .header-menu .mega-menu__list > .mega-menu__column:not(:has(> div > ul)) {
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 0 40px;
+    flex: 0 1 740px;
+    min-width: 0;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0 28px;
     align-content: start;
     grid-auto-rows: min-content;
   }
-  /* Findes der en gruppe, får den en fast venstrekolonne */
-  .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__column:has(> div > ul) {
-    grid-template-columns: 240px repeat(3, minmax(0, 1fr));
-  }
-  .header-menu .mega-menu__column:has(> div > ul) > div:has(> ul) {
-    grid-column: 1;
-    grid-row: span 20;
-    border-right: 1px solid #2e3d32;
-    padding-right: 32px;
+  /* Sidste gruppe-kolonne skal ikke have en skillelinje ud mod ingenting */
+  .header-menu .mega-menu__list > .mega-menu__column:has(> div > ul):last-child {
+    border-right: none;
+    margin-right: 0;
+    padding-right: 0;
   }
   @media screen and (max-width: 1199px) {
-    .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__column:has(> div > ul) {
-      grid-template-columns: 220px repeat(2, minmax(0, 1fr));
+    .header-menu .mega-menu__list > .mega-menu__column:has(> div > ul) {
+      flex-basis: 210px;
+      padding-right: 24px;
+      margin-right: 24px;
     }
   }
   .header-menu .mega-menu__column > div {
