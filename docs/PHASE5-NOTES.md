@@ -460,3 +460,45 @@ skriver det med. Praktisk konsekvens:
   indhold, praecis som hidtil.
 - **Verificér altid ved at sammenligne md5 FOER du aendrer noget.** Det afgoer
   entydigt om banneret hoerer til filen eller ikke, i stedet for at gaette.
+
+## 6. Fase 6d — mega-menuens layout (24/8)
+
+Merchant: dropdownen saa maerkelig ud paa punkter med mange emner, og oenskede
+et mere lækkert og overskueligt look a la jonsmadklub.dk.
+
+**Rodaarsagen var layoutet, ikke menustrukturen.** `.mega-menu__column` var
+sat til `grid-template-columns: repeat(3, 1fr)`, hvor HVER CELLE er ét link
+(markup: `li.mega-menu__column > div > a` plus `ul` med boernene). Et punkt MED
+boern blev derfor én HOEJ celle i kolonne 1, mens soeskende uden boern floed
+videre i celle 2 og 3 og saa ned paa naeste raekke. Visuelt kom Knae og Albue
+til at staa som sidestillede med Gamepatch og Sko, altsaa hierarkiet forsvandt.
+
+**Loesning: to layouts i stedet for ét.**
+- Flade lister (Sport, Klubber, Om os) faar jaevne kolonner
+  (`repeat(auto-fill, minmax(190px, 1fr))`).
+- Har et punkt boern (`:has(> div > ul)`), bliver gruppen sin EGEN
+  venstrekolonne paa 240px i fuld hoejde med lodret skillelinje, og de oevrige
+  links flyder i kolonnerne til hoejre.
+
+To detaljer der er noedvendige for at det holder:
+- `grid-row: span 20` paa gruppen holder kolonne 1 optaget, saa korte links
+  aldrig lander under den.
+- **Raekkegab skal vaere 0** (`gap: 0 40px`), og afstanden styres af marginer.
+  Et raekkespaend over tomme raekker ville ellers laegge gab oven i hinanden og
+  give et stort tomt hul.
+
+**Typografi der goer hierarkiet synligt:** et punkt med boern er ikke et
+sidestillet link men en rubrik. Det har nu hvid tekst, 900, 0.14em spacing og
+en fin underlinje (`border-bottom: 1px solid #2e3d32`), som kategorikolonnen i
+referencen, og ingen hover-flade. Boernene er en tone lettere (`#93a49a`) og
+lyser op til hvid ved hover.
+
+### Hvorfor IKKE billedkort som referencen
+
+Referencens midterste sektion er kollektionskort med billeder. Horizon kan det
+via `menu_style: collection_images`, og det blev undersoegt. **Fravalgt paa
+data:** menustilen gaelder HELE menuen, og alle 7 klub-kollektioner har
+`image: null`, mens "Om os"-punkterne er SIDER uden kollektionsbillede.
+Kortvisning ville derfor give en raekke tomme pladsholderbokse under Klubber og
+Om os, altsaa ringere end i dag. Alle 15 produktkollektioner HAR billeder, saa
+hvis klubberne faar billeder, er kortvisning en reel mulighed senere.

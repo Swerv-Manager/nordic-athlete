@@ -131,27 +131,56 @@ header-component .header,
     display: block !important;
     margin: 0;
   }
-  /* Link-gruppen i 3 faste kolonner (2 på tablet) */
+  /* ── KOLONNELAYOUT ────────────────────────────────────────────────
+     FØR: .mega-menu__column var et 3-kolonne grid hvor HVER CELLE var ét
+     link. Et punkt MED børn (fx Beskyttelse) blev derfor én høj celle i
+     kolonne 1, mens søskende uden børn flød videre i celle 2, 3 og ned på
+     næste række. Resultat: Knæ og Albue stod visuelt som sidestillede med
+     Gamepatch og Sko, altså hierarkiet var usynligt.
+
+     NU: to layouts. Flade lister får jævne kolonner. Har et punkt børn,
+     bliver gruppen sin EGEN venstrekolonne i fuld højde med lodret
+     skillelinje, og de øvrige links flyder i kolonnerne til højre.
+     Rækkespændet holder gruppen alene i kolonne 1, så intet lander under
+     den. Rækkegab er 0 (marginer styrer afstanden), fordi et spænd over
+     tomme rækker ellers ville lægge gab oven i hinanden. */
   .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__column {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px 28px;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 0 40px;
     align-content: start;
+    grid-auto-rows: min-content;
   }
-  @media screen and (max-width: 989px) {
-    .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__column {
-      grid-template-columns: repeat(2, 1fr);
+  /* Findes der en gruppe, får den en fast venstrekolonne */
+  .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__column:has(> div > ul) {
+    grid-template-columns: 240px repeat(3, minmax(0, 1fr));
+  }
+  .header-menu .mega-menu__column:has(> div > ul) > div:has(> ul) {
+    grid-column: 1;
+    grid-row: span 20;
+    border-right: 1px solid #2e3d32;
+    padding-right: 32px;
+  }
+  @media screen and (max-width: 1199px) {
+    .header-menu .mega-menu__grid:not(:has(.mega-menu__content)) .mega-menu__column:has(> div > ul) {
+      grid-template-columns: 220px repeat(2, minmax(0, 1fr));
     }
   }
-  .header-menu .mega-menu__column > div { min-width: 0; }
-  /* Sublister (hvis et punkt HAR børn) beholder én kolonne */
-  .header-menu .mega-menu__column ul { column-count: 1 !important; }
+  .header-menu .mega-menu__column > div {
+    min-width: 0;
+    margin-bottom: 6px;
+  }
+  /* Sublister: én kolonne, med luft ind under gruppeoverskriften */
+  .header-menu .mega-menu__column ul {
+    column-count: 1 !important;
+    margin: 8px 0 0 !important;
+  }
 
   /* Links som rene NA-rækker med venstre grøn accent på hover */
   .header-menu .mega-menu__link {
     display: flex !important;
     align-items: center;
-    padding: 9px 12px !important;
+    padding: 8px 12px !important;
     border-radius: 6px;
     border-left: 2px solid transparent;
     font-size: 12px !important;
@@ -167,10 +196,34 @@ header-component .header,
     border-left-color: var(--na-green) !important;
     color: var(--na-white) !important;
   }
+
+  /* GRUPPEOVERSKRIFT: et punkt med børn er ikke et sidestillet link, men en
+     rubrik over sin egen liste. Derfor hvid, tungere og med en fin underlinje
+     som kategorikolonnen i referencen, og uden hover-flade. */
   .header-menu .mega-menu__link--parent {
     color: var(--na-white) !important;
     font-weight: 900 !important;
-    letter-spacing: 0.1em !important;
+    font-size: 10.5px !important;
+    letter-spacing: 0.14em !important;
+    padding: 0 0 9px 0 !important;
+    border-left: none !important;
+    border-bottom: 1px solid #2e3d32;
+    border-radius: 0;
+  }
+  .header-menu .mega-menu__link--parent:hover,
+  .header-menu .mega-menu__link--parent:focus-visible {
+    background: transparent !important;
+    border-left-color: transparent !important;
+    color: var(--na-green-energy) !important;
+  }
+  /* Børnene under en gruppe: en tone lettere, så hierarkiet er tydeligt */
+  .header-menu .mega-menu__column ul .mega-menu__link {
+    letter-spacing: 0.05em !important;
+    color: #93a49a !important;
+  }
+  .header-menu .mega-menu__column ul .mega-menu__link:hover,
+  .header-menu .mega-menu__column ul .mega-menu__link:focus-visible {
+    color: var(--na-white) !important;
   }
 
   /* ── Valgfrit promo-panel (settings: NA Mega-menu promo, default fra) ──
