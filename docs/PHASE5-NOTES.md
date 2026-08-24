@@ -266,3 +266,98 @@ sektionsfilen. Fordelingen nu:
 
 Tjek altid tegnantallet før upload:
 `sum(len(x) for x in custom_css) <= 500`.
+
+---
+
+# Fase 6 — Video-hero + ny menustruktur (24/8)
+
+Arbejdstema: **"Swerv // Klubber (Aug 20)" `gid://shopify/OnlineStoreTheme/194732720461`** (UNPUBLISHED).
+
+## TEMA- OG MENU-LANDSKAB (verificeret 24/8, stol ikke paa navne)
+
+| Tema | ID | Rolle |
+|---|---|---|
+| Swerv // Mobile Quick-Add Fix (Aug 18) | `194653061453` | **MAIN/LIVE — roer aldrig** |
+| Swerv // Klubber (Aug 20) | `194732720461` | UNPUBLISHED, arbejdstema |
+| Swerv // Bauerfeind Size Guides (Aug 18) | `194378498381` | UNPUBLISHED |
+| Swerv // FAQ Merge (Aug 3) | `194067005773` | UNPUBLISHED |
+
+**KRITISK om menuer:** Shopify-menuer er BUTIKS-niveau, ikke tema-niveau. En
+menuaendring rammer derfor normalt live med det samme. Reddet af at temaerne
+peger paa forskellige menuer, verificeret paa begge:
+- LIVE-temaet bruger `ny-header-menu-horizon-tema`
+- Klubber-temaet bruger `header-menu-klubber` ("Header menu + Klubber (draft)")
+
+Derfor kunne menuen omlaegges uden at roere live. **Tjek ALTID
+`header-menu`-blokkens `menu`-setting i begge temaers header-group.json foer
+en menu redigeres.**
+
+## 1. Video-hero med Holger Rune
+
+Ny sektion `sections/na-video-hero.liquid`. `na-hero` kunne ikke video (kun
+image_picker), og i stedet for at ombygge den delte hero er der bygget en
+dedikeret video-hero. Den gamle `na_hero` er sat til `"disabled": true` i
+index.json, altsaa bevaret med alle indstillinger og kan slaas til igen med et
+klik i editoren.
+
+Mønstret for video foelger `snippets/background-media.liquid`: loop over
+`video.sources` og brug `preview_image` som poster. Som i `na-hero`
+(`image` + `image_url_fallback`) er der to veje ind:
+- `video` (video-vaelger) → giver Shopifys adaptive renditions + poster
+- `video_url` (tekst) → reserve, direkte .mp4
+
+Liquid falder selv tilbage til `video_url`, hvis vaelgeren er tom eller ikke
+kan resolves, saa heroen spiller uanset hvad Shopify gemmer i vaelgerfeltet.
+
+Video: "EACE X HOLGER RUNE - HERO FILM HORIZONTAL 1920x1080.mp4"
+(`gid://shopify/Video/63371784257869`). CTA → `/collections/holger-rune-x-eace`.
+
+**Responsivt valg (vigtigt):** desktop viser videoen fuld bredde med teksten
+oven paa og en gradient-scrim. **Mobil stakker i stedet:** videoen i fuldt
+16:9 og teksten UNDER paa maerkefarven. Cover-beskaering af en 16:9-film paa en
+portraetskaerm ville skaere motivet vaek i siderne, og tekst oven paa en lav
+video bliver klemt. Der er ogsaa `prefers-reduced-motion`-respekt: videoen
+skjules og posteren staar i stedet.
+
+## 2. Ny menustruktur (`header-menu-klubber`)
+
+Fra 8 til **6** hovedpunkter. Tre problemer blev loest:
+1. Fire af otte punkter var infosider (Ambassadoerer, Om os, Kontakt, FAQ) der
+   fyldte i en shoppingmenu. Nu samlet under **Om os**.
+2. "Sport" blandede sportsgrene med produktkategorier (Traening, Tilbehoer,
+   Energi/Kosttilskud) og et brand (Gamepatch). Akserne er nu adskilt.
+3. **SKO (9 produkter) var slet ikke i menuen** trods Hummel-lanceringen og
+   forsidebanneret der sender trafik derhen. Nu eget hovedpunkt.
+
+| # | Hovedpunkt | Peger paa | Underpunkter |
+|---|---|---|---|
+| 1 | Sport | /collections | Haandbold, Basketball, Fodbold, Volleyball, Cykling |
+| 2 | Beskyttelse | kroppen | Gamepatch, Knae, Albue, Ankel, Ben, Haand, Skulder |
+| 3 | Sko | sko | (ingen) |
+| 4 | Udstyr & tilskud | tilbehor | Traeningsudstyr, Energi & kosttilskud, Holger Rune x Eace |
+| 5 | Klubber | /pages/klubber | 7 klubber |
+| 6 | Om os | /pages/hvem-er-vi | Ambassadoerer, Kontakt os, Ofte stillede spoergsmaal |
+
+**Holger Rune x Eace er flyttet fra hovedmenuen ned under "Udstyr & tilskud".**
+Grunden er verificeret i data: kollektionens 5 produkter er KOSTTILSKUD fra
+vendor "Eace" (kreatin, elektrolytter, collagen shot, energy gum), ikke toej
+eller sko. Den mister ikke synlighed, da forsidens nye video-hero sender
+direkte til den.
+
+Ingen dubletter mellem foraeldre og boern: hvert foraeldrepunkt linker til den
+bredeste relevante kollektion, og boernene gentager den ikke.
+
+## 3. Fund vaerd at kende
+
+- **Klub-kollektionerne har 0 produkter.** Alle 7 er smart-kollektioner med
+  reglen TAG = `klub-<handle>`, skabelon `klub`, og beskrivelsen siger aerligt
+  "Kollektionen til klubbens spillere og medlemmer er paa vej". De er altsaa
+  bevidste landingssider, ikke fejl, men kunder der klikker moeder en
+  "paa vej"-besked indtil produkterne tagges.
+- **Legacy-handles er misvisende:** "Haandbold" har handle `gamepatch`, og
+  "Basketball" har handle `frontpage`. Rettes IKKE (SEO og eksisterende links),
+  men det forvirrer ved menuarbejde.
+- **Shopify CLI forsvandt fra containeren midt i sessionen** (binaeren under
+  /opt/node22/bin var vaek, selv om den virkede tidligere samme session).
+  `npm install -g @shopify/cli@latest` bragte den tilbage. Theme check: 0 nye
+  offenses (232/186 uaendret, kun filantallet steg med den nye sektion).

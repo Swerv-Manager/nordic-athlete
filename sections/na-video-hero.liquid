@@ -1,0 +1,338 @@
+{%- liquid
+  assign sid = section.id
+  assign vid = section.settings.video
+  assign vurl = section.settings.video_url
+  assign poster = section.settings.poster_image
+  assign h_desktop = section.settings.height_desktop
+  assign scrim = section.settings.overlay_opacity | divided_by: 100.0
+-%}
+
+<section id="na-vhero-{{ sid }}" class="na-vhero">
+  <div class="na-vhero__media">
+    {%- comment -%}
+      Poster: eksplicit valg → videoens eget preview → intet.
+      Poster vises altid som første frame, og er ENESTE visning når
+      brugeren har prefers-reduced-motion slået til (se CSS).
+    {%- endcomment -%}
+    {%- if poster != blank -%}
+      {%- assign poster_url = poster | image_url: width: 1920 -%}
+    {%- elsif vid != blank and vid.preview_image != blank -%}
+      {%- assign poster_url = vid.preview_image | image_url: width: 1920 -%}
+    {%- endif -%}
+
+    {%- if poster_url -%}
+      <img
+        class="na-vhero__poster"
+        src="{{ poster_url }}"
+        alt="{{ section.settings.video_alt | escape }}"
+        width="1920"
+        height="1080"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {%- endif -%}
+
+    {%- if vid != blank or vurl != blank -%}
+      <video
+        class="na-vhero__video"
+        playsinline
+        muted
+        autoplay
+        loop
+        preload="metadata"
+        {% if poster_url %}poster="{{ poster_url }}"{% endif %}
+        aria-label="{{ section.settings.video_alt | escape }}"
+      >
+        {%- if vid != blank -%}
+          {%- for s in vid.sources -%}
+            {%- if s.format == 'mp4' -%}
+              <source src="{{ s.url }}" type="{{ s.mime_type }}">
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          <source src="{{ vurl }}" type="video/mp4">
+        {%- endif -%}
+      </video>
+    {%- endif -%}
+
+    <div class="na-vhero__scrim" aria-hidden="true"></div>
+  </div>
+
+  <div class="na-vhero__content">
+    <div class="na-vhero__inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="na-vhero__eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <div class="na-vhero__title">{{ section.settings.title }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="na-vhero__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <a class="na-vhero__cta" href="{{ section.settings.cta_url | default: '/collections/all' }}">
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  body { background-color: #2a2a2a; }
+
+  #na-vhero-{{ sid }} {
+    position: relative;
+    background: #131c15;
+    border-bottom: 1px solid #3a3a3a;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #na-vhero-{{ sid }} * { box-sizing: border-box; }
+
+  .na-vhero__media {
+    position: relative;
+    background: #0d130f;
+    overflow: hidden;
+  }
+  .na-vhero__poster,
+  .na-vhero__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  /* Posteren ligger under videoen og dækker det tomme øjeblik
+     før videoen har data nok til at vise sin første frame. */
+  .na-vhero__poster {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .na-vhero__video {
+    position: relative;
+    z-index: 1;
+  }
+  .na-vhero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .na-vhero__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .na-vhero__eyebrow {
+    font-size: 10.5px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #69E281;
+  }
+  .na-vhero__title {
+    font-size: clamp(30px, 4.4vw, 60px);
+    font-weight: 900;
+    line-height: 1.03;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+  .na-vhero__title p { margin: 0; }
+  .na-vhero__title em {
+    font-style: normal;
+    color: #69E281;
+  }
+  .na-vhero__subtitle {
+    margin: 0;
+    max-width: 46ch;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #a8b8ae;
+  }
+  .na-vhero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 30px;
+    border-radius: 6px;
+    background: #3d7a52;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 140ms cubic-bezier(0.4, 0, 0.1, 1), transform 140ms cubic-bezier(0.4, 0, 0.1, 1);
+  }
+  .na-vhero__cta:hover {
+    background: #4a9364;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+  .na-vhero__cta:active { transform: translateY(0); }
+
+  /* ── DESKTOP: teksten ligger OVEN PÅ videoen med gradient-scrim ── */
+  @media screen and (min-width: 750px) {
+    .na-vhero__media {
+      height: {{ h_desktop }}vh;
+      min-height: 460px;
+    }
+    .na-vhero__scrim {
+      background: linear-gradient(
+        to top,
+        rgba(13, 19, 15, {{ scrim }}) 0%,
+        rgba(13, 19, 15, {{ scrim | times: 0.55 }}) 45%,
+        rgba(13, 19, 15, 0) 80%
+      );
+    }
+    .na-vhero__content {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 40px 56px;
+      pointer-events: none;
+    }
+    .na-vhero__inner { width: 100%; pointer-events: auto; }
+  }
+
+  /* ── MOBIL: videoen vises i fuldt 16:9 og teksten ligger UNDER ──
+     Cover-beskæring af en 16:9-film på en portræt-skærm ville skære
+     motivet i siderne væk, og tekst oven på en lav video bliver klemt.
+     Derfor stakket layout: intet beskæres, og teksten står frit. */
+  @media screen and (max-width: 749px) {
+    .na-vhero__media {
+      aspect-ratio: 16 / 9;
+      height: auto;
+    }
+    .na-vhero__scrim { display: none; }
+    .na-vhero__content {
+      position: static;
+      padding: 26px 20px 34px;
+      background: #131c15;
+    }
+    .na-vhero__inner { gap: 14px; }
+    .na-vhero__cta { width: 100%; }
+  }
+
+  /* ── Tilgængelighed: ingen automatisk bevægelse hvis brugeren
+     har bedt om det. Posteren bliver da det synlige billede. ── */
+  @media (prefers-reduced-motion: reduce) {
+    .na-vhero__video { display: none; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "NA Video Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "paragraph",
+      "content": "Vælg videofilen under Video. Er feltet tomt, bruges URL-feltet nedenfor som reserve. Videoen afspilles lydløst i loop."
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video-URL (reserve, .mp4)"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "Posterbillede (vises før videoen og ved reduceret bevægelse)"
+    },
+    {
+      "type": "text",
+      "id": "video_alt",
+      "label": "Beskrivelse af videoen (tilgængelighed)",
+      "default": "Holger Rune i Eace-kollektionen"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "label": "Højde på desktop",
+      "min": 50,
+      "max": 90,
+      "step": 2,
+      "unit": "vh",
+      "default": 76
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Mørkt slør bag teksten (desktop)",
+      "info": "Højere værdi giver mere læsbar tekst oven på lyse videoer.",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 70
+    },
+    {
+      "type": "header",
+      "content": "Tekst"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Overskrift",
+      "info": "Kursiv tekst vises i Energigrøn."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Undertekst"
+    },
+    {
+      "type": "header",
+      "content": "Knap"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Knaptekst",
+      "default": "Se kollektionen"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Knap-link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "NA Video Hero",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

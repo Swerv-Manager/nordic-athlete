@@ -1,5 +1,21 @@
 {
   "sections": {
+    "na_video_hero": {
+      "type": "na-video-hero",
+      "name": "NA Video Hero — Holger Rune x Eace",
+      "settings": {
+        "video": "shopify://videos/63371784257869",
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/c10ffaeec95c4c84bf96a3fdc4b7348f.mp4",
+        "video_alt": "Holger Rune i Eace-kollektionen",
+        "height_desktop": 76,
+        "overlay_opacity": 70,
+        "eyebrow": "Nyt samarbejde",
+        "title": "<p>Holger Rune <em>x Eace</em></p>",
+        "subtitle": "",
+        "cta_label": "Se kollektionen",
+        "cta_url": "/collections/holger-rune-x-eace"
+      }
+    },
     "na_hero": {
       "type": "na-hero",
       "name": "NA Hero",
@@ -23,7 +39,8 @@
         "badge_name": "Dainis Kristopans",
         "badge_sub1": "Professionel håndboldspiller",
         "badge_sub2": "MT Melsungen, Tyskland"
-      }
+      },
+      "disabled": true
     },
     "na_trust": {
       "type": "na-trust-strip",
@@ -358,9 +375,28 @@
         "title": "<p>Menneskerne bag <em>brandet</em></p>",
         "subtitle": "Vi har nøje udvalgt et sortiment af produkter fra førende mærker og producenter, der deler vores vision om kvalitet og ydeevne — sæson efter sæson."
       }
+    },
+    "na_faq_home": {
+      "type": "na-collection-faq",
+      "name": "NA FAQ — Forside",
+      "settings": {
+        "eyebrow": "Ofte stillede spørgsmål",
+        "heading": "FAQ — Nordic Athlete",
+        "faq_items": [
+          "hjem-hvad-er-gamepatch",
+          "hjem-levering",
+          "hjem-returret",
+          "hjem-stoerrelse",
+          "hjem-konto",
+          "hjem-sportsgrene",
+          "hjem-beskadiget-produkt",
+          "hjem-kundeservice"
+        ]
+      }
     }
   },
   "order": [
+    "na_video_hero",
     "na_hero",
     "na_trust",
     "na_hummel",
@@ -370,6 +406,7 @@
     "multicolumn_why_FYPrxk",
     "featured_collection_ArCLqj",
     "multicolumn_reviews_qYfLdD",
-    "na_team"
+    "na_team",
+    "na_faq_home"
   ]
 }
