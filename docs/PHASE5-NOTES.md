@@ -432,7 +432,31 @@ fire menupunkter giver det luft i stedet for komprimering.
 Gyldige vaerdier for begge (fra header.liquid schema): `left`, `center`, `right`.
 
 **Metode-note:** header-group.json blev IKKE transkriberet i haanden. Filen
-blev hentet, banneret strippet, md5 verificeret mod temaets checksum FOER
-aendringen, derefter én enkelt streng-erstatning og md5-verifikation efter
-upload. Den disciplin er noedvendig, fordi manuel gengivelse af 6 KB med
-danske tegn og emoji har fejlet tidligere i projektet.
+blev hentet, md5 verificeret mod temaets checksum FOER aendringen, derefter én
+enkelt streng-erstatning og md5-verifikation efter upload (foer
+`4c254475cf539f1e9eab5601363fbe0d`, efter `48bf406058c16ee0582d738334a7545a`,
+5477 bytes, én linje aendret). Den disciplin er noedvendig, fordi manuel
+gengivelse af 5 KB med danske tegn og emoji har fejlet tidligere i projektet.
+
+## RETTELSE: `/* auto-generated */`-banneret er RIGTIGT indhold, ikke annotation
+
+Tidligere noter i dette dokument (fase 5c og 6b) siger at Shopifys
+`/* ... auto-generated ... */`-banner "kun tilfoejes i API-svaret". **Det er
+forkert.** Verificeret paa Klubber-temaet 24/8:
+
+| Fil | Skrevet af | Banner i de gemte bytes? | Bevis |
+|---|---|---|---|
+| `sections/header-group.json` | theme editor | **JA** | md5 matcher KUN med banner (5479 bytes) |
+| `templates/index.json` | os, via themeFilesUpsert | **NEJ** | vores banner-frie fil matcher 1:1 (14411 bytes) |
+
+Banneret er altsaa almindeligt filindhold. Filer som theme editoren har
+skrevet indeholder det, og filer vi selv uploader gør ikke, fordi vi ikke
+skriver det med. Praktisk konsekvens:
+
+- **Redigerer du en editor-skrevet fil** (header-group.json, footer-group.json,
+  skabeloner der er roert i editoren): behold banneret. Stripper du det,
+  sletter du rigtige bytes.
+- **Uploader du en fil vi selv ejer:** md5 skal matche vores banner-frie
+  indhold, praecis som hidtil.
+- **Verificér altid ved at sammenligne md5 FOER du aendrer noget.** Det afgoer
+  entydigt om banneret hoerer til filen eller ikke, i stedet for at gaette.
